@@ -14,5 +14,8 @@
     "game"
   ],
   "author": "Kristin Swanson",
-  "license": "UNLICENSED"
+  "license": "UNLICENSED",
+  "dependencies": {
+    "jquery": "^3.2.1"
+  }
 }
