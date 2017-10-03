@@ -1,0 +1,6 @@
+table, td {
+	border: solid black 5px;
+	border-collapse: collapse;
+	padding: 40px;
+	background: orange;
+}

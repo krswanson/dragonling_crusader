@@ -1,9 +1,42 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<script type="text/javascript" src="node_modules/jquery/jquery.js"></script>
-</head>
-<body>
-<h1>Dragon Slayer</h1>
-</body>
+	<head>
+		<link rel="stylesheet" href="index.css">
+	</head>
+	<body>
+		<script src="node_modules/jquery/dist/jquery.js"></script>
+		<script src="node_modules/arrowkeys/arrowkeys.js"></script>
+		<script src="index.js"></script>
+		<h1>Dragon Slayer</h1>
+
+		<button type="button" onclick="myFunction()">Try it</button>
+
+		<script type="text/javascript">
+			let rows = 3;
+			let cols = 3;
+			let table = document.createElement("TABLE");
+			let tr = null
+			let td = null
+			for (let i = 0; i < rows; i++) {
+				tr = document.createElement("TR");
+				for (let j = 0; j < cols; j++) {
+					td = document.createElement("TD");
+					td.id = i + '_' + j
+					if (i == 0 && j == 0) addDragon(td);
+					tr.appendChild(td);
+				}
+				tr.appendChild(td);
+				table.appendChild(tr);
+			}
+			document.body.appendChild(table);
+		</script>
+
+	
+		<script>
+			function myFunction() {
+	   	console.log('in function');
+		}
+		</script>
+		<div>Icons made by <a href="https://www.flaticon.com/authors/nikita-golubev" title="Nikita Golubev">Nikita Golubev</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
+	</body>
 </html>
