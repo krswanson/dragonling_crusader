@@ -1,9 +1,20 @@
+function Board (baseColor, rows, cols) {
+    this.baseColor = 'white';
+}
+
+let board = new Board('white', 3, 3);
+
+function transformColor(color) {
+    if (color === 'orange') return board.baseColor;
+    else return 'orange';
+}
 
 function addDragon (id) {
     let td = $(id)[0];
     if (!td) return false;
     td.innerHTML = '<img src="dragon 64px.png">';
     td.style.padding ='6px 6px 6px 6px';
+    td.style.background = transformColor(td.style.background);
     $(id).addClass('dragon current');
     return true;
 }
