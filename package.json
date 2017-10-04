@@ -4,6 +4,7 @@
   "description": "Browser game",
   "main": "index.js",
   "scripts": {
+    "start": "bash bin/start.sh",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -17,6 +18,17 @@
   "license": "UNLICENSED",
   "dependencies": {
     "arrowkeys": "^0.2.1",
+    "browserify": "^14.4.0",
+    "express": "^4.16.1",
     "jquery": "^3.2.1"
+  },
+  "devDependencies": {
+    "babel-preset-latest": "^6.24.1",
+    "babel-register": "^6.26.0",
+    "glob": "^7.1.2",
+    "gulp": "github:gulpjs/gulp#4.0",
+    "require-dir": "^0.3.2",
+    "stripify": "^6.0.0",
+    "through2": "^2.0.3"
   }
 }

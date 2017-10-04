@@ -1,3 +1,4 @@
+const arrowkeys = require('arrowkeys');
 function Board (baseColor, rows, cols) {
     this.baseColor = 'white';
 }
@@ -52,6 +53,26 @@ function moveCurrent (direction) {
     console.log('newId', newId);
     if (newId && addDragon(newId)) removeDragon('#' + currentId);
 }
+
+let rows = 3;
+            let cols = 3;
+            let table = document.createElement("TABLE");
+            let tr = null
+            let td = null
+            console.log('working...');
+            for (let i = 0; i < rows; i++) {
+                tr = document.createElement("TR");
+                for (let j = 0; j < cols; j++) {
+                    td = document.createElement("TD");
+                    td.id = i + '_' + j
+                    if (i == 0 && j == 0) addDragon(td);
+                    tr.appendChild(td);
+                }
+                tr.appendChild(td);
+                table.appendChild(tr);
+            }
+            document.body.appendChild(table);
+
 $(document).ready(function() {
 
 $(document).arrowkeys();

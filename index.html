@@ -5,31 +5,10 @@
 	</head>
 	<body>
 		<script src="node_modules/jquery/dist/jquery.js"></script>
-		<script src="node_modules/arrowkeys/arrowkeys.js"></script>
-		<script src="index.js"></script>
 		<h1>Dragon Slayer</h1>
-
+		<script src="build/index.js"></script>
+		
 		<button type="button" onclick="myFunction()">Try it</button>
-
-		<script type="text/javascript">
-			let rows = 3;
-			let cols = 3;
-			let table = document.createElement("TABLE");
-			let tr = null
-			let td = null
-			for (let i = 0; i < rows; i++) {
-				tr = document.createElement("TR");
-				for (let j = 0; j < cols; j++) {
-					td = document.createElement("TD");
-					td.id = i + '_' + j
-					if (i == 0 && j == 0) addDragon(td);
-					tr.appendChild(td);
-				}
-				tr.appendChild(td);
-				table.appendChild(tr);
-			}
-			document.body.appendChild(table);
-		</script>
 
 	
 		<script>
