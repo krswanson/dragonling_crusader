@@ -1,34 +1,11 @@
 const arrowkeys = require('arrowkeys');
-function Board (baseColor, rows, cols) {
-    this.baseColor = 'white';
-}
+let Board = require('./board.js');
+let Dragon = require('./dragon.js');
 
-let board = new Board('white', 3, 3);
+let baseColor = 'green';
+let dragon = new Dragon(['orange', baseColor]);
+let board = new Board(baseColor, 5, 4, dragon);
 
-function transformColor(color) {
-    if (color === 'orange') return board.baseColor;
-    else return 'orange';
-}
-
-function addDragon (id) {
-    let td = $(id)[0];
-    if (!td) return false;
-    td.innerHTML = '<img src="dragon 64px.png">';
-    td.style.padding ='6px 6px 6px 6px';
-    td.style.background = transformColor(td.style.background);
-    $(id).addClass('dragon current');
-    return true;
-}
-function removeDragon (id) {
-    console.log('id', id);
-    let td = $(id)[0];
-    console.log('td', td);
-    if (!td) return false;
-    td.innerHTML = '';
-    td.style.padding ='40px 40px 40px 40px';
-    $(id).removeClass('dragon current');
-    return true;
-}
 function moveCurrent (direction) {
     let currentId = $('.current')[0].id;
     let rowCol = currentId.split('_');
@@ -51,27 +28,9 @@ function moveCurrent (direction) {
             throw new Error('Dad direction keyword:', direction);
     }
     console.log('newId', newId);
-    if (newId && addDragon(newId)) removeDragon('#' + currentId);
+    if (newId && board.addDragon(newId)) board.removeDragon('#' + currentId);
 }
 
-let rows = 3;
-            let cols = 3;
-            let table = document.createElement("TABLE");
-            let tr = null
-            let td = null
-            console.log('working...');
-            for (let i = 0; i < rows; i++) {
-                tr = document.createElement("TR");
-                for (let j = 0; j < cols; j++) {
-                    td = document.createElement("TD");
-                    td.id = i + '_' + j
-                    if (i == 0 && j == 0) addDragon(td);
-                    tr.appendChild(td);
-                }
-                tr.appendChild(td);
-                table.appendChild(tr);
-            }
-            document.body.appendChild(table);
 
 $(document).ready(function() {
 

@@ -4,7 +4,7 @@
   "description": "Browser game",
   "main": "index.js",
   "scripts": {
-    "start": "bash bin/start.sh",
+    "start": "node app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

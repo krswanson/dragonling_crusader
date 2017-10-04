@@ -13,9 +13,9 @@ function build () {
                     next(null, file);
                 });
         }))
-    .pipe(gulp.dest('./build/'))
+    .pipe(gulp.dest('./dist/'))
 }
 gulp.task('build', build);
 
-gulp.watch(['src/**/*.js'], build);
+gulp.watch(['index.html', 'index.css', 'app.js', 'src/**/*.js', 'images/**/*.png'], build);
 // gulp.task('watch', gulp.parallel(['watch', 'build']));
