@@ -2,8 +2,10 @@
 
 A browser game written in JavaScript
 
-## Usage
+## Development
 
 ```sh
+npm install
+gulp build
 npm start
 ```
