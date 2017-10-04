@@ -1,7 +1,20 @@
-function Board (baseColor, rows, cols, dragon) {
+function Board (baseColor, rows, cols, dragon, goal=null) {
 
     this.baseColor = baseColor;
+    this.rows = rows;
+    this.cols = cols;
     this.dragon = dragon;
+    this.goal = goal || dragon.color;
+
+    this.hasWon = function () {
+    	for (let i = 0; i < this.rows; i++) {
+        	for (let j = 0; j < this.cols; j++) {
+            	let color = $('#' + i + '_' + j)[0].style.background;
+            	if (color !== this.goal) return false;
+    		}
+    	}
+    	return true;
+    }
 
     this.addDragon = function (id) {
         let td = $(id)[0];
@@ -25,17 +38,23 @@ function Board (baseColor, rows, cols, dragon) {
         return true;
     }
 
+    let goalDiv = $('#objective-color')[0];
+    goalDiv.innerHTML = this.goal;
+    goalDiv.style.color = this.goal;
     console.log('Creating game board...');
     let table = document.createElement("TABLE");
     let tr = null
     let td = null
-    for (let i = 0; i < rows; i++) {
+    for (let i = 0; i < this.rows; i++) {
         tr = document.createElement("TR");
-        for (let j = 0; j < cols; j++) {
+        for (let j = 0; j < this.cols; j++) {
             td = document.createElement("TD");
             td.style.background = baseColor;
             td.id = i + '_' + j
-            if (i == 0 && j == 0) this.addDragon(td);
+            if (i == 0 && j == 0) {
+            	this.addDragon(td);
+            	td.style.background = this.dragon.startSquare;
+            }
             tr.appendChild(td);
         }
         tr.appendChild(td);

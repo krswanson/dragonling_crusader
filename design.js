@@ -38,6 +38,25 @@ Piece
 Dragon
 	Its color
 	Color transforms (table to self, self to table; this color to that color)
+		grass -> dirt -> coals -> fire -> dirt -> coals -> fire
+		fire hits
+			case grase -> dirt
+			case dirt -> coals
+			case coals -> fire
+			case fire -> dirt
+		dirt <-> fire / dirt <-> ice / fire -> dirt -> water <-> ice
+			fire hits
+				case dirt -> fire
+				case fire -> dirt
+				case ice -> water
+				case water -> dirt
+				case fire -> dirt
+			ice hits
+				case dirt -> ice
+				case fire -> water
+				case ice -> dirt
+				case water -> ice
+				case fire -> water 
 
 createTable
 	for each in array

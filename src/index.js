@@ -3,7 +3,14 @@ let Board = require('./board.js');
 let Dragon = require('./dragon.js');
 
 let baseColor = 'green';
-let dragon = new Dragon(['orange', baseColor]);
+let mapping = {}
+//mapping['orange'] = baseColor;
+//mapping[baseColor] = 'orange';
+mapping[baseColor] = 'brown';
+mapping['brown'] = 'red';
+mapping['red'] = 'orange';
+mapping['orange'] = 'brown';
+let dragon = new Dragon(mapping, 'orange');
 let board = new Board(baseColor, 5, 4, dragon);
 
 function moveCurrent (direction) {
@@ -28,7 +35,10 @@ function moveCurrent (direction) {
             throw new Error('Dad direction keyword:', direction);
     }
     console.log('newId', newId);
-    if (newId && board.addDragon(newId)) board.removeDragon('#' + currentId);
+    if (newId && board.addDragon(newId)) {
+        board.removeDragon('#' + currentId);
+        if (board.hasWon()) console.log('YOU WIN!!!!!');
+    }
 }
 
 

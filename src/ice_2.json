@@ -1,0 +1,9 @@
+{
+	"color": "white",
+	"type": "ice",
+	"mapping": {
+		"brown": "blue",
+		"blue": "white",
+		"white": "brown"
+	}
+}

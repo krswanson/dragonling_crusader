@@ -1,9 +1,12 @@
-function Dragon (colors) {
-    this.colors = colors;
+// A dragon of a certain color with color mappings
+
+function Dragon (mapping, color, startSquare=null) {
+    this.mapping = mapping;
+    this.startSquare = startSquare || color;
+    this.color = color;
 
     this.transformColor = function (color) {
-        if (color === this.colors[0]) return this.colors[1];
-        else return this.colors[0];
+        return this.mapping[color];
     }
 }
 

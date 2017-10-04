@@ -1,0 +1,10 @@
+{
+	"color": "orange",
+	"type": "fire",
+	"mapping": {
+		"green": "brown",
+		"brown": "red",
+		"red": "orange",
+		"orange": "brown"
+	}
+}
