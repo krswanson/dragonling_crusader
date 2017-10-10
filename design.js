@@ -86,4 +86,12 @@ gameLost
 AI
 	Pause (max, rand formula)
 	Random direction
+
+// Better "you win" message, modify board style?
+// Be able to select levels, game file includes fire/ice files
+// Dragon image with filled color?
+// Mark game files as won or never won
+// With two dragons, buttons to change, mark dragon using transparancy change?
+// Be able to create levels
+// Holes in board...
 */

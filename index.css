@@ -8,7 +8,11 @@ h3 {
 	padding-right: 20px;
 	margin-bottom: 20px;
 	border: solid black 2px;
-	width: ;
+}
+
+#you-won {
+	display: none;
+	text-align: center;
 }
 
 table, td {
@@ -16,4 +20,15 @@ table, td {
 	border-collapse: collapse;
 	padding: 40px;
 	background: white;
+}
+
+.flash {
+	animation: blink 2s infinite;
+}
+
+@keyframes blink {
+    50% {
+        border: 5px solid white;
+        background: gray;
+    }
 }
