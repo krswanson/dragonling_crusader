@@ -2,8 +2,11 @@ const gulp = require('gulp');
 const browserify = require('browserify');
 const glob = require('glob');
 const through2 = require('through2');
+const fs = require('fs');
+const path = require('path');
 
 function build () {
+    fs.unlink(path.resolve('dist/index.js'), function (err) {});
     return gulp.src(['./src/index.js'])
         .pipe(through2.obj(function (file, enc, next){
             browserify(file.path)
