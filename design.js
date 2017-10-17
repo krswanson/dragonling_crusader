@@ -87,7 +87,7 @@ AI
 	Pause (max, rand formula)
 	Random direction
 
-// Better "you win" message, modify board style?
+// X Better "you win" message, modify board style?
 // Be able to select levels, game file includes fire/ice files
 // Dragon image with filled color?
 // Mark game files as won or never won

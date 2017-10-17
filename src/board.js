@@ -79,6 +79,7 @@ function Board (baseColor, rows, cols, dragon, goal=null) {
 	    goalDiv.style.color = this.goal;
 	    console.log('Creating game board...');
 	    let table = document.createElement("TABLE");
+	    table.id = 'dragon_board'
 	    let tr = null
 	    let td = null
 	    for (let i = 0; i < this.rows; i++) {
@@ -96,9 +97,13 @@ function Board (baseColor, rows, cols, dragon, goal=null) {
 	        tr.appendChild(td);
 	        table.appendChild(tr);
 	    }
-	    document.body.appendChild(table);
+	    document.getElementById('board').appendChild(table);
 	}
 	this.setup();
+
+	this.delete = function () {
+		$('#dragon_board').remove()
+	}
 }
 
 module.exports = Board;
