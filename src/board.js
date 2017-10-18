@@ -1,10 +1,12 @@
-function Board (baseColor, rows, cols, dragon, goal=null) {
+function Board () {
 
-    this.baseColor = baseColor;
-    this.rows = rows;
-    this.cols = cols;
-    this.dragon = dragon;
-    this.goal = goal || dragon.color;
+	self = this
+	self.baseColor = null
+	self.rows = null
+	self.cols = null
+	self.dragon = null
+	self.goal = null;
+
 
     this.hasWon = function () {
     	for (let i = 0; i < this.rows; i++) {
@@ -13,15 +15,12 @@ function Board (baseColor, rows, cols, dragon, goal=null) {
             	if (color !== this.goal) return false;
     		}
     	}
-    	console.log('Won...');
     	for (let i = 0; i < this.rows; i++) {
         	for (let j = 0; j < this.cols; j++) {
             	$('#' + i + '_' + j).addClass('flash');
             }
         }
-        console.log('about to');
         document.getElementById("you-won").style.display = 'block';
-        console.log('did it');
     	return true;
     }
 
@@ -31,15 +30,12 @@ function Board (baseColor, rows, cols, dragon, goal=null) {
         console.log('image...');
         td.innerHTML = '<img src="images/dragon_64px.png">';
         td.style.padding ='6px 6px 6px 6px';
-        console.log('dragon', dragon);
-		td.style.background = this.dragon.transformColor(td.style.background);
+        td.style.background = this.dragon.transformColor(td.style.background);
         $(id).addClass('dragon current');
         return true;
     }
     this.removeDragon = function (id) {
-        console.log('id', id);
         let td = $(id)[0];
-        console.log('td', td);
         if (!td) return false;
         td.innerHTML = '';
         td.style.padding ='40px 40px 40px 40px';
@@ -73,8 +69,17 @@ function Board (baseColor, rows, cols, dragon, goal=null) {
 	    }
 	}
 
-	this.setup = function () {
+	this.setup = function (baseColor, rows, cols, dragon, goal=null) {			
+		$(document).arrowkeys()
+		console.log('base', baseColor)
+		self.baseColor = baseColor;
+    	self.rows = rows;
+    	self.cols = cols;
+    	self.dragon = dragon;
+    	self.goal = goal || dragon.color;
+
 		let goalDiv = $('#objective-color')[0];
+		console.log(this.goal, '(goal)')
 	    goalDiv.innerHTML = this.goal;
 	    goalDiv.style.color = this.goal;
 	    console.log('Creating game board...');
@@ -99,11 +104,27 @@ function Board (baseColor, rows, cols, dragon, goal=null) {
 	    }
 	    document.getElementById('board').appendChild(table);
 	}
-	this.setup();
 
 	this.delete = function () {
 		$('#dragon_board').remove()
+		$(document).arrowkeysUnbind();
 	}
 }
 
-module.exports = Board;
+const board = new Board()
+
+$(document)
+	.on('upkey', function () {
+		board.moveDragon('up');
+	})
+	.on('downkey', function () {
+	    board.moveDragon('down');
+	})
+	.on('leftkey', function () {
+		board.moveDragon('left');
+	})
+	.on('rightkey', function () {
+		board.moveDragon('right');
+	});
+
+module.exports = board;

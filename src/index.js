@@ -1,17 +1,10 @@
 const arrowkeys = require('arrowkeys')
-let Board = require('./board.js')
+const board = require('./board.js')
 let Dragon = require('./dragon.js')
 
-let selectLevel = function () {
-    board.delete()
-    dragon = new Dragon(fire_2.mapping, fire_2.color);
-    board = new Board(fire_2.baseColor, 3, 4, dragon);
 
-}
-document.getElementById('level_button').addEventListener('click', selectLevel);
-// Have constants and set a variable to one given the form data on a button click
-
-const fire_1 = {
+const levels = {}
+levels['fire_1'] = {
     "baseColor": "green",
     "color": "orange",
     "type": "fire",
@@ -20,7 +13,7 @@ const fire_1 = {
         "orange": "green"
     }
 }
-const fire_2 = {
+levels['fire_2'] = {
     "baseColor": "green",
     "color": "orange",
     "type": "fire",
@@ -31,21 +24,21 @@ const fire_2 = {
     }
 }
 
-let dragon = new Dragon(fire_1.mapping, fire_1.color);
-let board = new Board(fire_1.baseColor, 1, 2, dragon);
 
-$(document).arrowkeys();
+$(document).on("change","select",function(){
+  $("option[value=" + this.value + "]", this)
+  .attr("selected", true).siblings()
+  .removeAttr("selected")
+});
 
-$(document)
-    .on('upkey', function () {
-    	board.moveDragon('up');
-    })
-    .on('downkey', function () {
-        board.moveDragon('down');
-    })
-    .on('leftkey', function () {
-    	board.moveDragon('left');
-    })
-    .on('rightkey', function () {
-    	board.moveDragon('right');
-    });
+let selectLevel = function () {
+    board.delete()
+    let level = levels[$('#level_select')[0].value]
+    dragon = new Dragon(level.mapping, level.color);
+    board.setup(level.baseColor, 3, 4, dragon);
+
+}
+document.getElementById('level_button').addEventListener('click', selectLevel);
+
+let dragon = new Dragon(levels['fire_1'].mapping, levels['fire_1'].color);
+board.setup(levels['fire_1'].baseColor, 1, 2, dragon);
