@@ -11,17 +11,17 @@ function Board () {
     this.hasWon = function () {
     	for (let i = 0; i < this.rows; i++) {
         	for (let j = 0; j < this.cols; j++) {
-            	let color = $('#' + i + '_' + j)[0].style.background;
-            	if (color !== this.goal) return false;
+            	let color = $('#' + i + '_' + j)[0].style.background
+            	if (color !== this.goal) return false
     		}
     	}
     	for (let i = 0; i < this.rows; i++) {
         	for (let j = 0; j < this.cols; j++) {
-            	$('#' + i + '_' + j).addClass('flash');
+            	$('#' + i + '_' + j).addClass('flash')
             }
         }
-        document.getElementById("you-won").style.display = 'block';
-    	return true;
+        $("#you-won")[0].style.display = 'block'
+    	return true
     }
 
     this.addDragon = function (id) {
@@ -107,7 +107,8 @@ function Board () {
 
 	this.delete = function () {
 		$('#dragon_board').remove()
-		$(document).arrowkeysUnbind();
+		$("#you-won")[0].style.display = 'none'
+		$(document).arrowkeysUnbind()
 	}
 }
 
