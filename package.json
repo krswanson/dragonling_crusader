@@ -1,5 +1,5 @@
 {
-  "name": "dragon_slayer",
+  "name": "dragonling_crusader",
   "version": "1.0.0",
   "description": "Browser game",
   "main": "index.js",
@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "Dragon_Slayer"
+    "url": "dragonling_crusader"
   },
   "keywords": [
     "game"
