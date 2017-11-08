@@ -1,4 +1,4 @@
-# Dragon Slayer
+# Dragonling Crusader
 
 A browser game written in JavaScript
 
