@@ -1,29 +1,7 @@
 const arrowkeys = require('arrowkeys')
 const board = require('./board.js')
+const levels = require('./levels.js')
 let Dragon = require('./dragon.js')
-
-
-const levels = {}
-levels['fire_1'] = {
-    "baseColor": "green",
-    "color": "orange",
-    "type": "fire",
-    "mapping": {
-        "green": "orange",
-        "orange": "green"
-    }
-}
-levels['fire_2'] = {
-    "baseColor": "green",
-    "color": "orange",
-    "type": "fire",
-    "mapping": {
-        "green": "brown",
-        "brown": "orange",
-        "orange": "brown"
-    }
-}
-
 
 $(document).on("change","select",function(){
   $("option[value=" + this.value + "]", this)
@@ -34,11 +12,19 @@ $(document).on("change","select",function(){
 let selectLevel = function () {
     board.delete()
     let level = levels[$('#level_select')[0].value]
-    dragon = new Dragon(level.mapping, level.color);
-    board.setup(level.baseColor, 3, 4, dragon);
+    let dragon = new Dragon(level.mapping, level.goalColor);
+    board.setup(level.baseColor, level.rows, level.cols, dragon);
 
 }
-document.getElementById('level_button').addEventListener('click', selectLevel);
 
-let dragon = new Dragon(levels['fire_1'].mapping, levels['fire_1'].color);
-board.setup(levels['fire_1'].baseColor, 1, 2, dragon);
+Object.keys(levels).forEach(function (key, i) {
+    let option = document.createElement('OPTION')
+    option.value = key
+    option.innerHTML = 'Level ' + (i + 1)
+    let select = document.getElementById('level_select')
+    if (i === 0) select.value = key
+    select.appendChild(option)
+})
+
+document.getElementById('level_button').addEventListener('click', selectLevel);
+selectLevel()
