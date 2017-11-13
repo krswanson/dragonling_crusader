@@ -4,7 +4,8 @@
   "description": "Browser game",
   "main": "index.js",
   "scripts": {
-    "devStart": "forever start --id 'server' app.js && gulp build",
+    "build": "gulp build",
+    "devStart": "forever start --id 'server' app.js && gulp build && gulp watch",
     "devStop": "forever stop server",
     "start": "node app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -28,7 +29,6 @@
     "babel-preset-latest": "^6.24.1",
     "babel-register": "^6.26.0",
     "forever": "^0.15.3",
-    "glob": "^7.1.2",
     "gulp": "github:gulpjs/gulp#4.0",
     "require-dir": "^0.3.2",
     "stripify": "^6.0.0",

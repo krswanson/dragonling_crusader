@@ -5,9 +5,12 @@ A browser game written in JavaScript
 ## Install and run
 
 ```sh
+cd dragonling_crusader
 npm install
+npm run build
 npm start
 ```
+Then go to: http://localhost:4005/
 
 ## Development
 
@@ -15,6 +18,7 @@ npm start
 npm install
 npm run devStart
 ```
+
 To stop, in addition to doing ctrl-c on the process, run:
 ```sh
 npm run devStop

@@ -1,9 +1,8 @@
-const gulp = require('gulp');
-const browserify = require('browserify');
-const glob = require('glob');
-const through2 = require('through2');
-const fs = require('fs');
-const path = require('path');
+import gulp from 'gulp'
+import browserify from 'browserify'
+import through2 from 'through2'
+import fs from 'fs'
+import path from 'path'
 
 function build () {
     fs.unlink(path.resolve('dist/index.js'), function (err) {});
@@ -14,11 +13,10 @@ function build () {
                     // assumes file.contents is a Buffer
                     file.contents = res;
                     next(null, file);
-                });
+                })
         }))
     .pipe(gulp.dest('./dist/'))
 }
-gulp.task('build', build);
+gulp.task('build', build)
 
-gulp.watch(['index.html', 'index.css', 'app.js', 'src/**/*.js', 'images/**/*.png'], build);
-// gulp.task('watch', gulp.parallel(['watch', 'build']));
+module.exports = build
