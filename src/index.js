@@ -7,14 +7,13 @@ $(document).on("change","select",function(){
   $("option[value=" + this.value + "]", this)
   .attr("selected", true).siblings()
   .removeAttr("selected")
-});
+})
 
 let selectLevel = function () {
     board.delete()
     let level = levels[$('#level_select')[0].value]
-    let dragon = new Dragon(level.mapping, level.goalColor);
-    board.setup(level.baseColor, level.rows, level.cols, dragon);
-
+    let dragon = new Dragon(level.mapping, level.goalColor, level.type)
+    board.setup(level.baseColor, level.rows, level.cols, dragon)
 }
 
 Object.keys(levels).forEach(function (key, i) {

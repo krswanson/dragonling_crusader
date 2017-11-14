@@ -11,6 +11,18 @@ levels['fire_1'] = {
         "orange": "green"
     }
 }
+let ice = "#AACCFF"
+levels['ice_1'] = {
+    "rows": 3,
+    "cols": 3,
+    "baseColor": "green",
+    "goalColor": ice,
+    "type": "ice",
+    "mapping": {
+        "green": ice,
+        ice: "green"
+    }
+}
 levels['fire_2'] = {
     "rows": 4,
     "cols": 4,

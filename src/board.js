@@ -1,3 +1,5 @@
+const rgbHex = require('rgb-hex')
+
 function Board () {
 
 	self = this
@@ -5,18 +7,20 @@ function Board () {
 	self.rows = null
 	self.cols = null
 	self.dragon = null
-	self.goal = null;
+	self.goal = null
+	self.goalName = null
 
 
     this.hasWon = function () {
-    	for (let i = 0; i < this.rows; i++) {
-        	for (let j = 0; j < this.cols; j++) {
+    	for (let i = 0; i < self.rows; i++) {
+        	for (let j = 0; j < self.cols; j++) {
             	let color = $('#' + i + '_' + j)[0].style.background
-            	if (color !== this.goal) return false
+            	if (color.includes('rgb')) color = '#' + rgbHex(color)
+            	if (color !== self.goal) return false
     		}
     	}
-    	for (let i = 0; i < this.rows; i++) {
-        	for (let j = 0; j < this.cols; j++) {
+    	for (let i = 0; i < self.rows; i++) {
+        	for (let j = 0; j < self.cols; j++) {
             	$('#' + i + '_' + j).addClass('flash')
             }
         }
@@ -25,22 +29,21 @@ function Board () {
     }
 
     this.addDragon = function (id) {
-        let td = $(id)[0];
-        if (!td) return false;
-        console.log('image...');
-        td.innerHTML = '<img src="images/dragon_64px.png">';
-        td.style.padding ='6px 6px 6px 6px';
-        td.style.background = this.dragon.transformColor(td.style.background);
-        $(id).addClass('dragon current');
-        return true;
+        let td = $(id)[0]
+        if (!td) return false
+        td.innerHTML = '<img src="images/dragon_64px.png">'
+        td.style.padding ='6px 6px 6px 6px'
+        td.style.background = self.dragon.transformColor(td.style.background)
+        $(id).addClass('dragon current')
+        return true
     }
     this.removeDragon = function (id) {
-        let td = $(id)[0];
-        if (!td) return false;
-        td.innerHTML = '';
-        td.style.padding ='40px 40px 40px 40px';
-        $(id).removeClass('dragon current');
-        return true;
+        let td = $(id)[0]
+        if (!td) return false
+        td.innerHTML = ''
+        td.style.padding ='40px 40px 40px 40px'
+        $(id).removeClass('dragon current')
+        return true
     }
 
     this.moveDragon = function (direction) {
@@ -71,38 +74,35 @@ function Board () {
 
 	this.setup = function (baseColor, rows, cols, dragon, goal=null) {			
 		$(document).arrowkeys()
-		console.log('base', baseColor)
-		self.baseColor = baseColor;
-    	self.rows = rows;
-    	self.cols = cols;
-    	self.dragon = dragon;
-    	self.goal = goal || dragon.color;
+		self.baseColor = baseColor
+		self.rows = rows
+		self.cols = cols
+		self.dragon = dragon
+		self.goal = (goal || dragon.color).toLowerCase()
 
-		let goalDiv = $('#objective-color')[0];
-		console.log(this.goal, '(goal)')
-	    goalDiv.innerHTML = this.goal;
-	    goalDiv.style.color = this.goal;
-	    console.log('Creating game board...');
-	    let table = document.createElement("TABLE");
-	    table.id = 'dragon_board'
-	    let tr = null
-	    let td = null
-	    for (let i = 0; i < this.rows; i++) {
-	        tr = document.createElement("TR");
-	        for (let j = 0; j < this.cols; j++) {
-	            td = document.createElement("TD");
-	            td.style.background = baseColor;
+        let goalDiv = $('#objective-color')[0]
+        goalDiv.innerHTML = dragon.type
+	    goalDiv.style.color = self.goal
+        let table = document.createElement("TABLE")
+        table.id = 'dragon_board'
+        let tr = null
+        let td = null
+	    for (let i = 0; i < self.rows; i++) {
+	        tr = document.createElement("TR")
+	        for (let j = 0; j < self.cols; j++) {
+	            td = document.createElement("TD")
+	            td.style.background = self.baseColor
 	            td.id = i + '_' + j
 	            if (i == 0 && j == 0) {
-	            	this.addDragon(td);
-	            	td.style.background = this.dragon.startSquare;
+	            	this.addDragon(td)
+	            	td.style.background = self.dragon.startSquare
 	            }
-	            tr.appendChild(td);
+	            tr.appendChild(td)
 	        }
-	        tr.appendChild(td);
-	        table.appendChild(tr);
+	        tr.appendChild(td)
+	        table.appendChild(tr)
 	    }
-	    document.getElementById('board').appendChild(table);
+	    document.getElementById('board').appendChild(table)
 	}
 
 	this.delete = function () {
