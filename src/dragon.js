@@ -5,6 +5,7 @@ function Dragon (mapping, color, type, startSquare=null) {
     this.startSquare = startSquare || color
     this.color = color
     this.type = type
+    this.image = "images/dragon_64px.png"
 
     this.transformColor = function (color) {
         return this.mapping[color];

@@ -2,6 +2,10 @@ const arrowkeys = require('arrowkeys')
 const board = require('./board.js')
 const levels = require('./levels.js')
 let Dragon = require('./dragon.js')
+let Knight = require('./knight.js')
+
+let k = new Knight()
+k.moveNext()
 
 $(document).on("change","select",function(){
   $("option[value=" + this.value + "]", this)

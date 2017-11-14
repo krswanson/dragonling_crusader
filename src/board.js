@@ -31,7 +31,7 @@ function Board () {
     this.addDragon = function (id) {
         let td = $(id)[0]
         if (!td) return false
-        td.innerHTML = '<img src="images/dragon_64px.png">'
+        td.innerHTML = '<img src="' + self.dragon.image + '">'
         td.style.padding ='6px 6px 6px 6px'
         td.style.background = self.dragon.transformColor(td.style.background)
         $(id).addClass('dragon current')
