@@ -1,6 +1,7 @@
 function Knight (startSquare) {
     this.frequency = 5000 // Moves once per how many seconds
     this.image = "images/helmet_64px.png"
+    this.id = 'knight'
 	var myInterval = 0;
 
 let move = function ()

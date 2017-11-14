@@ -1,4 +1,4 @@
-
+// Any hex colors must be in lowercase, such as #aabbcc
 const levels = {}
 levels['fire_1'] = {
     "rows": 3,
@@ -11,7 +11,7 @@ levels['fire_1'] = {
         "orange": "green"
     }
 }
-let ice = "#AACCFF"
+let ice = "#aaccff"
 levels['ice_1'] = {
     "rows": 3,
     "cols": 3,
@@ -20,7 +20,7 @@ levels['ice_1'] = {
     "type": "ice",
     "mapping": {
         "green": ice,
-        ice: "green"
+        "#aaccff": "green"
     }
 }
 levels['fire_2'] = {

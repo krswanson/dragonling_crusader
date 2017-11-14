@@ -6,16 +6,18 @@ function Board () {
 	self.baseColor = null
 	self.rows = null
 	self.cols = null
-	self.dragon = null
+	self.characters = {}
 	self.goal = null
 	self.goalName = null
 
+	function hexColor (color) {
+		return color.includes('rgb') ? '#' + rgbHex(color) : color
+	}
 
     this.hasWon = function () {
     	for (let i = 0; i < self.rows; i++) {
         	for (let j = 0; j < self.cols; j++) {
-            	let color = $('#' + i + '_' + j)[0].style.background
-            	if (color.includes('rgb')) color = '#' + rgbHex(color)
+            	let color = hexColor($('#' + i + '_' + j)[0].style.background)
             	if (color !== self.goal) return false
     		}
     	}
@@ -28,26 +30,28 @@ function Board () {
     	return true
     }
 
-    this.addDragon = function (id) {
-        let td = $(id)[0]
+    this.add = function (character, element) {
+        let td = $(element)[0] // Get element by selector or responseds with element if it is an element
         if (!td) return false
-        td.innerHTML = '<img src="' + self.dragon.image + '">'
+        td.innerHTML = '<img src="' + character.image + '">'
         td.style.padding ='6px 6px 6px 6px'
-        td.style.background = self.dragon.transformColor(td.style.background)
-        $(id).addClass('dragon current')
+        td.style.background = character.transformColor(hexColor(td.style.background))
+        $(element).addClass(character.id)
         return true
     }
-    this.removeDragon = function (id) {
-        let td = $(id)[0]
+    this.remove = function (character, element) {
+        let td = $(element)[0]
         if (!td) return false
         td.innerHTML = ''
         td.style.padding ='40px 40px 40px 40px'
-        $(id).removeClass('dragon current')
+        $(element).removeClass(character.id)
         return true
     }
 
-    this.moveDragon = function (direction) {
-    	let currentId = $('.current')[0].id;
+    this.move = function (id, direction) {
+    	// Give characters locations?
+    	let character = this.characters[id]
+    	let currentId = $('.' + character.id)[0].id;
 	    let rowCol = currentId.split('_');
 	    let newId = null;
 	    switch (direction) {
@@ -66,18 +70,19 @@ function Board () {
 	        default:
 	            throw new Error('Dad direction keyword:', direction);
 	    }
-	    if (newId && this.addDragon(newId)) {
-	        this.removeDragon('#' + currentId);
-	        if (this.hasWon()) $(document).arrowkeysUnbind();
+	    if (newId && this.add(character, newId)) {
+	        this.remove(character, '#' + currentId)
+	        // this.hasLost()
+	        if (this.hasWon()) $(document).arrowkeysUnbind()
 	    }
-	}
+    }
 
 	this.setup = function (baseColor, rows, cols, dragon, goal=null) {			
 		$(document).arrowkeys()
 		self.baseColor = baseColor
 		self.rows = rows
 		self.cols = cols
-		self.dragon = dragon
+		self.characters[dragon.id] = dragon
 		self.goal = (goal || dragon.color).toLowerCase()
 
         let goalDiv = $('#objective-color')[0]
@@ -94,8 +99,8 @@ function Board () {
 	            td.style.background = self.baseColor
 	            td.id = i + '_' + j
 	            if (i == 0 && j == 0) {
-	            	this.addDragon(td)
-	            	td.style.background = self.dragon.startSquare
+	            	this.add(self.characters[dragon.id], td)
+	            	td.style.background = dragon.startSquare
 	            }
 	            tr.appendChild(td)
 	        }
@@ -116,16 +121,16 @@ const board = new Board()
 
 $(document)
 	.on('upkey', function () {
-		board.moveDragon('up');
+		board.move('dragon', 'up');
 	})
 	.on('downkey', function () {
-	    board.moveDragon('down');
+	    board.move('dragon', 'down');
 	})
 	.on('leftkey', function () {
-		board.moveDragon('left');
+		board.move('dragon', 'left');
 	})
 	.on('rightkey', function () {
-		board.moveDragon('right');
+		board.move('dragon', 'right');
 	});
 
 module.exports = board;
