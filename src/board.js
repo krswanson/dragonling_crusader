@@ -80,16 +80,18 @@ function Board () {
     }
   }
 
-  this.setup = function (baseColor, rows, cols, dragon, goal = null) {
+  this.setup = function (levelData, characters) {
     $(document).arrowkeys()
-    self.baseColor = baseColor
-    self.rows = rows
-    self.cols = cols
-    self.characters[dragon.id] = dragon
-    self.goal = (goal || dragon.color).toLowerCase()
+    self.baseColor = levelData.baseColor
+    self.rows = levelData.rows
+    self.cols = levelData.cols
+    self.characters = {}
+    characters.forEach(function (c) { self.characters[c.id] = c })
+    self.goal = levelData.goalColor
+    self.goalName = levelData.type
 
     let goalDiv = $('#objective-color')[0]
-    goalDiv.innerHTML = dragon.type
+    goalDiv.innerHTML = self.goalName
     goalDiv.style.color = self.goal
     let table = document.createElement('TABLE')
     table.id = 'dragon_board'
@@ -101,10 +103,13 @@ function Board () {
         td = document.createElement('TD')
         td.style.background = self.baseColor
         td.id = i + '_' + j
-        if (i === 0 && j === 0) {
-          this.add(self.characters[dragon.id], td)
-          td.style.background = dragon.startSquare
-        }
+        Object.keys(self.characters).forEach(function (key) {
+          let c = self.characters[key]
+          if (c.startIndex === td.id) {
+            self.add(c, td)
+            td.style.background = c.startSquare || self.baseColor
+          }
+        })
         tr.appendChild(td)
       }
       tr.appendChild(td)

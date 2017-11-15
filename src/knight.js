@@ -1,7 +1,7 @@
 const Character = require('./character.js')
 
 function Knight () {
-  Character.apply(this, ['knight', 'images/helmet_64px.png'])
+  Character.apply(this, ['knight', 'images/helmet_64px.png', '2_2'])
   this.frequency = 5000 // Moves once per number of miliseconds
   let myInterval = 0
 

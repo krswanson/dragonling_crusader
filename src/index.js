@@ -5,8 +5,8 @@ const levels = require('./levels.js')
 let Dragon = require('./dragon.js')
 let Knight = require('./knight.js')
 
-let k = new Knight()
-k.moveNext()
+let knight = new Knight()
+knight.moveNext()
 
 $(document).on('change', 'select', function () {
   $('option[value=' + this.value + ']', this)
@@ -18,7 +18,7 @@ let selectLevel = function () {
   board.delete()
   let level = levels[ $('#level_select')[0].value ]
   let dragon = new Dragon(level.mapping, level.goalColor, level.type)
-  board.setup(level.baseColor, level.rows, level.cols, dragon)
+  board.setup(level, [ dragon, knight ])
 }
 
 Object.keys(levels).forEach(function (key, i) {
