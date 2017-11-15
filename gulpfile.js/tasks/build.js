@@ -5,7 +5,7 @@ import fs from 'fs'
 import path from 'path'
 
 function build () {
-  fs.unlink(path.resolve('dist/index.js'), function (err) { if (err) throw err })
+  fs.unlink(path.resolve('dist/index.js'), function (err) { if (err) console.warn('No dist/index.js file found: creating it...') })
   return gulp.src(['./src/index.js'])
     .pipe(through2.obj(function (file, enc, next) {
       browserify(file.path)
