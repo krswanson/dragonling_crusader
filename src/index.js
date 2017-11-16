@@ -6,7 +6,6 @@ let Dragon = require('./dragon.js')
 let Knight = require('./knight.js')
 
 let knight = new Knight()
-knight.moveNext()
 
 $(document).on('change', 'select', function () {
   $('option[value=' + this.value + ']', this)

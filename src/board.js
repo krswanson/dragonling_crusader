@@ -16,6 +16,27 @@ function Board () {
     return color.includes('rgb') ? '#' + rgbHex(color) : color
   }
 
+  this.startKnights = function () {
+    Object.keys(self.characters).forEach(function (key) {
+      let c = self.characters[key]
+      if (c.id.includes('knight')) {
+        c.startMoving(function () {
+          console.log('moving!')
+          let dirs = ['up', 'down', 'left', 'right']
+          let direction = dirs[Math.floor(Math.random() * 4)]
+          self.move(c.id, direction)
+        })
+      }
+    })
+  }
+
+  this.stopKnights = function () {
+    Object.keys(self.characters).forEach(function (key) {
+      let c = self.characters[key]
+      if (c.id.includes('knight')) c.stopMoving()
+    })
+  }
+
   this.hasWon = function () {
     for (let i = 0; i < self.rows; i++) {
       for (let j = 0; j < self.cols; j++) {
@@ -29,6 +50,7 @@ function Board () {
       }
     }
     $('#you-won')[0].style.display = 'block'
+    self.stopKnights()
     return true
   }
 
@@ -116,12 +138,14 @@ function Board () {
       table.appendChild(tr)
     }
     document.getElementById('board').appendChild(table)
+    self.startKnights()
   }
 
   this.delete = function () {
     $('#dragon_board').remove()
     $('#you-won')[0].style.display = 'none'
     $(document).arrowkeysUnbind()
+    self.stopKnights()
   }
 }
 
