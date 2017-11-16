@@ -48,15 +48,15 @@ function Board () {
   }
 
   this.endGame = function (message) {
-  	self.stopKnights()
-  	$(document).arrowkeysUnbind()
-  	let wonDiv = $('#endgame-message')[0]
-  	wonDiv.innerHTML = message
-  	wonDiv.style.display = 'block'
+    self.stopKnights()
+    $(document).arrowkeysUnbind()
+    let wonDiv = $('#endgame-message')[0]
+    wonDiv.innerHTML = message
+    wonDiv.style.display = 'block'
   }
 
-  this.win = function() {
-  	this.endGame('You won!')
+  this.win = function () {
+    this.endGame('You won!')
     for (let i = 0; i < self.rows; i++) {
       for (let j = 0; j < self.cols; j++) {
         $('#' + i + '_' + j).addClass('flash')
@@ -113,7 +113,7 @@ function Board () {
           this.remove(character, '#' + currentId)
         } else if (dest.className.includes('dragon')) {
           let classId = dest.className.split().find(function (cl) {
-          	return self.characters[cl]
+            return self.characters[cl]
           })
           this.remove(self.characters[classId], dest)
           this.remove(character, '#' + currentId)
