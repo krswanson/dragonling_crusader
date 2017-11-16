@@ -1,4 +1,4 @@
-/^
+
 Table dimentions
 Player(s) start
 Table starting color
@@ -87,11 +87,30 @@ AI
 	Pause (max, rand formula)
 	Random direction
 
-// X Better "you win" message, modify board style?
-// Be able to select levels, game file includes fire/ice files
-// Dragon image with filled color?
-// Mark game files as won or never won
-// With two dragons, buttons to change, mark dragon using transparancy change?
-// Be able to create levels
-// Holes in board...
-*/
+Dragon types
+	fire
+	ice
+	lighting
+	shadow
+	stone
+	water (sea serpent?)
+	ghost?
+Enemies
+	knights
+	mounted knights?
+	wizards
+	other dragons
+	elves
+
+Pretty UI
+	Descriptions of levels
+	Dragonling decorations
+	"next level" vs "select level" buttons
+	Background, clear sections, centering
+
+Dragon image with filled color?
+Mark levels as won or never won?
+With two dragons, buttons to change, mark dragon using transparancy change?
+Other levels?--bad guys mirror you, rescue other dragons, fire color onto adjacent square?
+Be able to create levels?
+Holes in board...
