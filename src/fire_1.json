@@ -1,8 +1,0 @@
-{
-	"color": "orange",
-	"type": "fire",
-	"mapping": {
-		"green": "orange",
-		"orange": "green"
-	}
-}
