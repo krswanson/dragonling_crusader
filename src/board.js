@@ -44,14 +44,24 @@ function Board () {
         if (color !== self.goal) return false
       }
     }
+    return true
+  }
+
+  this.endGame = function (message) {
+  	self.stopKnights()
+  	$(document).arrowkeysUnbind()
+  	let wonDiv = $('#endgame-message')[0]
+  	wonDiv.innerHTML = message
+  	wonDiv.style.display = 'block'
+  }
+
+  this.win = function() {
+  	this.endGame('You won!')
     for (let i = 0; i < self.rows; i++) {
       for (let j = 0; j < self.cols; j++) {
         $('#' + i + '_' + j).addClass('flash')
       }
     }
-    $('#you-won')[0].style.display = 'block'
-    self.stopKnights()
-    return true
   }
 
   this.add = function (character, element) {
@@ -93,12 +103,26 @@ function Board () {
         newId = '#' + rowCol[0] + '_' + (parseInt(rowCol[1]) + 1)
         break
       default:
-        throw new Error('Dad direction keyword:', direction)
+        throw new Error('Bad direction keyword:', direction)
     }
-    if (newId && this.add(character, newId)) {
-      this.remove(character, '#' + currentId)
-      // this.hasLost()
-      if (this.hasWon()) $(document).arrowkeysUnbind()
+    let dest = $(newId)[0]
+    if (dest) {
+      if (dest.className) {
+        this.endGame('The knight killed you. You lost!')
+        if (dest.className.includes('knight')) {
+          this.remove(character, '#' + currentId)
+        } else if (dest.className.includes('dragon')) {
+          let classId = dest.className.split().find(function (cl) {
+          	return self.characters[cl]
+          })
+          this.remove(self.characters[classId], dest)
+          this.remove(character, '#' + currentId)
+          this.add(character, dest)
+        }
+      } else if (this.add(character, dest)) {
+        this.remove(character, '#' + currentId)
+        if (this.hasWon()) this.win()
+      }
     }
   }
 
@@ -143,7 +167,7 @@ function Board () {
 
   this.delete = function () {
     $('#dragon_board').remove()
-    $('#you-won')[0].style.display = 'none'
+    $('#endgame-message')[0].style.display = 'none'
     $(document).arrowkeysUnbind()
     self.stopKnights()
   }

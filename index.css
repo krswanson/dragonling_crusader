@@ -10,7 +10,7 @@ h3 {
 	border: solid black 2px;
 }
 
-#you-won {
+#endgame-message {
 	display: none;
 	text-align: center;
 }
