@@ -1,7 +1,6 @@
 import gulp from 'gulp'
 import standard from 'gulp-standard'
 import mocha from 'gulp-mocha'
-import util from 'gulp-util'
 
 function lint () {
   return gulp.src(['app.js', 'src/**/*.js', 'gulpfile.js/**/*.js'])
@@ -18,7 +17,7 @@ function unit () {
       reporter: 'nyan',
       require: ['babel-core/register']
     }))
-    .on('error', util.log)
+    .on('error', function () {})
 }
 
 const test = gulp.series([unit, lint])

@@ -9,7 +9,7 @@ function Dragon (mapping, color, type, startSquare = null) {
   this.type = type
 
   this.transformColor = function (color) {
-    return this.mapping[color]
+    return this.mapping[color] || null
   }
 }
 Dragon.prototype = new Character()

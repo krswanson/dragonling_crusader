@@ -29,11 +29,11 @@
   "devDependencies": {
     "babel-preset-latest": "^6.24.1",
     "babel-register": "^6.26.0",
+    "chai": "^4.1.2",
     "forever": "^0.15.3",
     "gulp": "github:gulpjs/gulp#4.0",
     "gulp-mocha": "^4.3.1",
     "gulp-standard": "^10.1.1",
-    "gulp-util": "^3.0.8",
     "require-dir": "^0.3.2",
     "stripify": "^6.0.0",
     "through2": "^2.0.3"
