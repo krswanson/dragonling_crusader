@@ -13,6 +13,12 @@ describe('Dragon', () => {
     expect(dragon.type).to.equal(type)
   })
 
+  it('creates a dragon with certain Character properties', () => {
+    expect(dragon).to.have.property('image')
+    expect(dragon).to.have.property('id')
+    expect(dragon).to.have.property('startIndex')
+  })
+
   it('sets the startSquare to the dragon\'s color by default', () => {
     expect(dragon.startSquare).to.equal(color)
   })
