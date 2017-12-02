@@ -10,14 +10,14 @@ function Knight () {
 
   this.startMoving = function (moveFunc) {
     self.move = moveFunc
-    self.setFreqency(self.frequency)
+    self.setFrequency(self.frequency)
   }
   this.stopMoving = function () {
     self.move = function () {}
     clearInterval(self.interval)
   }
 
-  this.setFreqency = function (frequency) {
+  this.setFrequency = function (frequency) {
     self.frequency = frequency
     if (self.interval > 0) clearInterval(self.interval)
     self.interval = setInterval(function () { self.move() }, self.frequency)
