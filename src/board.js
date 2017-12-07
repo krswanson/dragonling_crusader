@@ -56,7 +56,7 @@ function Board () {
   }
 
   this.win = function () {
-    this.endGame('You win!')
+    this.endGame('<p style="color: #11ff11">You win!</p>')
     for (let i = 0; i < self.rows; i++) {
       for (let j = 0; j < self.cols; j++) {
         $('#' + i + '_' + j).addClass('flash')
@@ -108,7 +108,7 @@ function Board () {
     let dest = $(newId)[0]
     if (dest) {
       if (dest.className) {
-        this.endGame('The knight killed you. You lose!')
+        this.endGame('<p style="color: #ff2222">The knight killed you. You lose!</p>')
         if (dest.className.includes('knight')) {
           this.remove(character, '#' + currentId)
         } else if (dest.className.includes('dragon')) {
@@ -139,6 +139,7 @@ function Board () {
     let goalDiv = $('#objective-color')[0]
     goalDiv.innerHTML = self.goalName
     goalDiv.style.color = self.goal
+    $('#level-description')[0].innerHTML = levelData.description
     let table = document.createElement('TABLE')
     table.id = 'dragon_board'
     let tr = null
