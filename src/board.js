@@ -56,7 +56,7 @@ function Board () {
   }
 
   this.win = function () {
-    this.endGame('You won!')
+    this.endGame('You win!')
     for (let i = 0; i < self.rows; i++) {
       for (let j = 0; j < self.cols; j++) {
         $('#' + i + '_' + j).addClass('flash')
@@ -108,7 +108,7 @@ function Board () {
     let dest = $(newId)[0]
     if (dest) {
       if (dest.className) {
-        this.endGame('The knight killed you. You lost!')
+        this.endGame('The knight killed you. You lose!')
         if (dest.className.includes('knight')) {
           this.remove(character, '#' + currentId)
         } else if (dest.className.includes('dragon')) {

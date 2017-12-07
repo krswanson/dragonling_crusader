@@ -1,26 +1,55 @@
-@background: #33aa11;
+@background: #335511;
+@words: #aaaaaa;
 
 body {
-	background: @background
+	background: @background;
+	font-family: Georgia, serif;
+}
+
+h1 {
+	color: @words;
+	text-shadow: 3px 3px #222222;
+	letter-spacing: 4px;
+	font-size: 450%;
+	text-align: center;
 }
 
 h3 {
 	display: inline-block;
+	color: @words
+}
+
+#game-title-div {
+	float: center;
 }
 
 #level-info {
-	display: inline-block;
+	float: center;
+	width: 100%;
+	letter-spacing: 2px;
+	text-align: center;
+}
+
+#level-objective {
+	display: block;
 	padding-left: 20px;
 	padding-right: 20px;
 	margin-bottom: 20px;
-	border: solid black 2px;
+	background: black;
+	border: solid @words 2px;
+	width: 40%;
+	margin: auto;
 }
 
 #endgame-message {
 	display: none;
-	text-align: center;
+	margin-top: 0px;
 }
 
+#board {
+	margin: auto;
+	width: fit-content;
+}
 table, td {
 	border: solid black 5px;
 	border-collapse: collapse;
@@ -35,7 +64,7 @@ table, td {
 @keyframes blink {
     50% {
         border: 5px solid white;
-        background: gray;
+        background: @words;
     }
 }
 
