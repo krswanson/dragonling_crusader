@@ -17,6 +17,7 @@ let selectLevel = function () {
   board.delete()
   let level = levels[ $('#level_select')[0].value ]
   let dragon = new Dragon(level.mapping, level.goalColor, level.type)
+  dragon.addInvalidColor('gray')
   board.setup(level, [ dragon, knight ])
 }
 

@@ -17,16 +17,17 @@ describe('Dragon', () => {
     expect(dragon).to.have.property('image')
     expect(dragon).to.have.property('id')
     expect(dragon).to.have.property('startIndex')
+    expect(dragon.isPlayer).to.be.true
   })
 
-  it('sets the startSquare to the dragon\'s color by default', () => {
-    expect(dragon.startSquare).to.equal(color)
+  it('sets a startColor to the dragon\'s color by default', () => {
+    expect(dragon.startColor).to.equal(color)
   })
 
-  it('can have a different color startSquare than the dragon\'s color', () => {
+  it('can have a different color startColor than the dragon\'s color', () => {
     let dragon = new Dragon(mapping, color, type, 'green')
     expect(dragon.color).to.equal(color)
-    expect(dragon.startSquare).to.equal('green')
+    expect(dragon.startColor).to.equal('green')
   })
 
   it('transforms colors using the given mapping', () => {
@@ -34,7 +35,7 @@ describe('Dragon', () => {
     expect(dragon.transformColor('orange')).to.equal('green')
   })
 
-  it('returns null if the given color is not defined in the mapping', () => {
-    expect(dragon.transformColor('purple')).to.equal(null)
+  it('returns the given color if the given color is not defined in the mapping', () => {
+    expect(dragon.transformColor('purple')).to.equal('purple')
   })
 })

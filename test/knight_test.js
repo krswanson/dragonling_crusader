@@ -13,6 +13,7 @@ describe('Knight', () => {
     expect(knight).to.have.property('id')
     expect(knight).to.have.property('startIndex')
     expect(knight.transformColor('my color')).to.equal('my color')
+    expect(knight.isPlayer).to.be.false
   })
 
   it('has a frequency', () => {

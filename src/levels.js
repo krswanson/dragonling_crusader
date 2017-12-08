@@ -13,6 +13,7 @@ let grass = '#44aa11'
 let fireLevel = Object.create(level)
 fireLevel.baseColor = grass
 fireLevel.goalColor = 'orange'
+fireLevel.goalColors = ['orange', 'gray']
 fireLevel.type = 'fire'
 fireLevel.mapping = {
   '#44aa11': 'orange',
@@ -43,7 +44,7 @@ levels['fire_3'] = fire3
 let ice = '#aaccff'
 let iceLevel = Object.create(level)
 iceLevel.baseColor = wetGrass
-iceLevel.goalColor = ice
+iceLevel.goalColor = [ice, 'gray']
 iceLevel.type = 'ice'
 iceLevel.mapping = {
   '#11aa55': ice,

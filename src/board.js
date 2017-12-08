@@ -41,7 +41,7 @@ function Board () {
     for (let i = 0; i < self.rows; i++) {
       for (let j = 0; j < self.cols; j++) {
         let color = hexColor($('#' + i + '_' + j)[0].style.background)
-        if (color !== self.goal) return false
+        if (!self.goal.includes(color)) return false
       }
     }
     return true
@@ -83,6 +83,13 @@ function Board () {
     return true
   }
 
+  this.getCharacter = function (td) {
+    let charId = td.className.split().find(function (cl) {
+      return self.characters[cl]
+    })
+    return self.characters[charId]
+  }
+
   this.move = function (id, direction) {
     // Give characters locations?
     let character = this.characters[id]
@@ -106,20 +113,23 @@ function Board () {
         throw new Error('Bad direction keyword:', direction)
     }
     let dest = $(newId)[0]
-    if (dest) {
-      if (dest.className) {
+    // Edge of board
+    // Another character
+    // Terrain this character can't cross
+    if (dest) { // Not off the board
+      let destChar = this.getCharacter(dest)
+      console.log('destChar', destChar)
+      if (destChar) { // If another character is on the space
         this.endGame('<p style="color: #ff2222">The knight killed you. You lose!</p>')
-        if (dest.className.includes('knight')) {
-          this.remove(character, '#' + currentId)
-        } else if (dest.className.includes('dragon')) {
-          let classId = dest.className.split().find(function (cl) {
-            return self.characters[cl]
-          })
-          this.remove(self.characters[classId], dest)
+        if (destChar.isPlayer) { // Bad guy lands on player
+          this.remove(destChar, dest)
           this.remove(character, '#' + currentId)
           this.add(character, dest)
+        } else { // Player landed on bad guy
+          this.remove(character, '#' + currentId)
         }
-      } else if (this.add(character, dest)) {
+      } else if (character.validSpace(dest)) {
+        this.add(character, dest)
         this.remove(character, '#' + currentId)
         if (this.hasWon()) this.win()
       }
@@ -133,7 +143,7 @@ function Board () {
     self.cols = levelData.cols
     self.characters = {}
     characters.forEach(function (c) { self.characters[c.id] = c })
-    self.goal = levelData.goalColor
+    self.goal = levelData.goalColors
     self.goalName = levelData.type
 
     let goalDiv = $('#objective-color')[0]
@@ -154,7 +164,10 @@ function Board () {
           let c = self.characters[key]
           if (c.startIndex === td.id) {
             self.add(c, td)
-            td.style.background = c.startSquare || self.baseColor
+            td.style.background = c.startColor || self.baseColor
+          }
+          if (td.id === '1_1') {
+            td.style.background = 'gray'
           }
         })
         tr.appendChild(td)
