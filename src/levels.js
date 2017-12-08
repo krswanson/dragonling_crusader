@@ -1,66 +1,109 @@
 // Any hex colors must be in lowercase, such as #aabbcc
+let Dragon = require('./dragon.js')
+let Knight = require('./knight.js')
+
 let levels = {}
-let level = {
-  rows: 4,
-  cols: 4,
-  baseColor: '',
-  goalColor: '',
-  type: '',
-  mapping: {},
-  description: ''
+function Level (lv = {}) {
+  let self = this
+  this.baseColors = lv.baseColors ? lv.baseColors.map(arr => { return arr.slice() }) : [['']]
+  this.goalColors = lv.goalColors ? lv.goalColors.map(arr => { return arr.slice() }) : [['']]
+  this.characters = {}
+  this.description = lv.description || ''
+
+  this.filledArray = function (color, rows, cols) {
+    let arr2d = []
+    for (let i = 0; i < rows; i++) {
+      let arr = new Array(cols)
+      arr.fill(color)
+      arr2d.push(arr)
+    }
+    return arr2d
+  }
+
+  this.setMapColors = function (rows, cols, baseColor, goalColor) {
+    self.baseColors = this.filledArray(baseColor, rows, cols)
+    self.goalColors = this.filledArray(goalColor, rows, cols)
+  }
+
+  this.addDragon = function (type, color, mapping, row = 0, col = 0) {
+    let dragon = new Dragon(mapping, color, type, row + '_' + col)
+    self.characters[dragon.id] = dragon
+    self.baseColors[row][col] = color
+  }
+
+  this.addKnight = function (row, col) {
+    let knight = new Knight(row + '_' + col)
+    self.characters[knight.id] = knight
+  }
 }
+
 let grass = '#44aa11'
-let fireLevel = Object.create(level)
-fireLevel.baseColor = grass
-fireLevel.goalColor = 'orange'
-fireLevel.goalColors = ['orange', 'gray']
-fireLevel.type = 'fire'
-fireLevel.mapping = {
-  '#44aa11': 'orange',
-  'orange': grass
-}
+let fireLevel = new Level()
+fireLevel.setMapColors(4, 4, grass, 'orange')
+fireLevel.addKnight(2, 2)
+fireLevel.addDragon('fire', 'orange',
+  {
+    '#44aa11': 'orange',
+    'orange': grass
+  }
+)
 fireLevel.description = 'Your dragonlings start their conquest on a grassy field.  This lands\' knights seem fond of it for some reason, so obviously you must take it away from them! Send this fire dragonling to take it over.'
-levels['fire_1'] = Object.create(fireLevel)
-let fire2 = Object.create(fireLevel)
-fire2.mapping = {
-  '#44aa11': 'brown',
-  'brown': 'orange',
-  'orange': 'brown'
-}
+levels['fire_1'] = fireLevel
+
+let fire2 = new Level(fireLevel)
+fire2.addKnight(2, 2)
+fire2.addDragon('fire', 'orange',
+  {
+    '#44aa11': 'brown',
+    'brown': 'orange',
+    'orange': 'brown'
+  }
+)
 fire2.description = 'That wasn\'t so hard! Have your dragonling set this even grassy-er field on fire. You may need to burn the grass to the ground before it will catch properly.'
 levels['fire_2'] = fire2
-let fire3 = Object.create(fireLevel)
+
+let fire3 = new Level()
 let wetGrass = '#11aa55'
-fire3.baseColor = wetGrass
-fire3.mapping = {
-  '#11aa55': 'brown',
-  'brown': 'red',
-  'red': 'orange',
-  'orange': 'brown'
-}
+fire3.setMapColors(4, 4, wetGrass, 'orange')
+fire3.addKnight(2, 1)
+fire3.addDragon('fire', 'orange',
+  {
+    '#11aa55': 'brown',
+    'brown': 'red',
+    'red': 'orange',
+    'orange': 'brown'
+  }
+)
 fire3.description = 'The enemy is getting smarter. Looks like they have thrown water on this field. You may need to heat the ground to get all the water out. But you must take it to get to the castle!'
 levels['fire_3'] = fire3
 
 let ice = '#aaccff'
-let iceLevel = Object.create(level)
-iceLevel.baseColor = wetGrass
-iceLevel.goalColor = [ice, 'gray']
-iceLevel.type = 'ice'
-iceLevel.mapping = {
-  '#11aa55': ice,
-  '#aaccff': wetGrass
-}
+let iceLevel = new Level()
+iceLevel.setMapColors(4, 4, wetGrass, ice)
+iceLevel.addKnight(1, 1)
+iceLevel.addDragon('ice', ice,
+  {
+    '#11aa55': ice,
+    '#aaccff': wetGrass
+  }
+)
 iceLevel.description = 'Aha, new plan! Your ice dragonling reinforcements have arrived. It will be easy to freeze even a water-laden field.'
 
-levels['ice_1'] = Object.create(iceLevel)
-let ice2 = Object.create(iceLevel)
-ice2.baseColor = '#ddcc11'
-ice2.mapping = {
-  '#ddcc11': 'brown',
-  'brown': ice,
-  '#aaccff': 'brown'
-}
-ice2.description = 'Hmm, this field\'s grass looks strange.  Did they do something to it?'
+levels['ice_1'] = iceLevel
+let ice2 = new Level()
+ice2.setMapColors(4, 4, '#ddcc11', ice)
+ice2.addKnight(1, 1)
+ice2.addDragon('ice', ice,
+  {
+    '#ddcc11': 'brown',
+    'brown': ice,
+    '#aaccff': 'brown'
+  }
+)
+ice2.goalColors[2][2] = 'gray'
+ice2.baseColors[2][2] = 'gray'
+Object.keys(ice2.characters).forEach(k => { ice2.characters[k].addInvalidColor('gray') })
+ice2.description = 'Hmm, this field\'s grass looks strange.  Did they do something to it?  And what\'s up with the rock?'
 
 levels['ice_2'] = ice2
 

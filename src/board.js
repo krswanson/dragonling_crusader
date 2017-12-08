@@ -5,12 +5,11 @@ const rgbHex = require('rgb-hex')
 
 function Board () {
   let self = this
-  self.baseColor = null
   self.rows = null
   self.cols = null
   self.characters = {}
-  self.goal = null
-  self.goalName = null
+  self.baseColors = null
+  self.goalColors = null
 
   function hexColor (color) {
     return color.includes('rgb') ? '#' + rgbHex(color) : color
@@ -41,7 +40,7 @@ function Board () {
     for (let i = 0; i < self.rows; i++) {
       for (let j = 0; j < self.cols; j++) {
         let color = hexColor($('#' + i + '_' + j)[0].style.background)
-        if (!self.goal.includes(color)) return false
+        if (color !== self.goalColors[i][j]) return false
       }
     }
     return true
@@ -138,17 +137,12 @@ function Board () {
 
   this.setup = function (levelData, characters) {
     $(document).arrowkeys()
-    self.baseColor = levelData.baseColor
-    self.rows = levelData.rows
-    self.cols = levelData.cols
-    self.characters = {}
-    characters.forEach(function (c) { self.characters[c.id] = c })
-    self.goal = levelData.goalColors
-    self.goalName = levelData.type
+    self.rows = levelData.baseColors.length
+    self.cols = levelData.baseColors[0].length
+    self.characters = levelData.characters
+    self.goalColors = levelData.goalColors
+    self.baseColors = levelData.baseColors
 
-    let goalDiv = $('#objective-color')[0]
-    goalDiv.innerHTML = self.goalName
-    goalDiv.style.color = self.goal
     $('#level-description')[0].innerHTML = levelData.description
     let table = document.createElement('TABLE')
     table.id = 'dragon_board'
@@ -158,18 +152,12 @@ function Board () {
       tr = document.createElement('TR')
       for (let j = 0; j < self.cols; j++) {
         td = document.createElement('TD')
-        td.style.background = self.baseColor
         td.id = i + '_' + j
         Object.keys(self.characters).forEach(function (key) {
           let c = self.characters[key]
-          if (c.startIndex === td.id) {
-            self.add(c, td)
-            td.style.background = c.startColor || self.baseColor
-          }
-          if (td.id === '1_1') {
-            td.style.background = 'gray'
-          }
+          if (c.startIndex === td.id) self.add(c, td)
         })
+        td.style.background = self.baseColors[i][j]
         tr.appendChild(td)
       }
       tr.appendChild(td)
