@@ -10,7 +10,10 @@ function lessToCss (callback) {
   fs.readFile(path.resolve('index.less'), 'utf8', function (err, data) {
     if (err) throw err
     less.render(data, function (err, output) {
-      if (err) throw err
+      if (err) {
+        console.error(err)
+        return callback()
+      }
       fs.writeFile('dist/index.css', output.css, function (err) {
         if (err) throw err
         return callback()
