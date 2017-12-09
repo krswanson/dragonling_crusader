@@ -1,7 +1,7 @@
 /* global $ */
 
 const board = require('./board.js')
-const levels = require('./levels.js')
+const levels = require('./levelSetup.js')
 
 $(document).on('change', 'select', function () {
   $('option[value=' + this.value + ']', this)
