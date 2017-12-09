@@ -20,7 +20,8 @@ function Board () {
       let c = self.characters[key]
       if (c.id.includes('knight')) {
         c.startMoving(function () {
-          console.log('moving!')
+          let freq = c.baseFreq
+          c.setFrequency(Math.random() * freq + freq / 2)
           let dirs = ['up', 'down', 'left', 'right']
           let direction = dirs[Math.floor(Math.random() * 4)]
           self.move(c.id, direction)
@@ -117,15 +118,18 @@ function Board () {
     // Terrain this character can't cross
     if (dest) { // Not off the board
       let destChar = this.getCharacter(dest)
-      console.log('destChar', destChar)
       if (destChar) { // If another character is on the space
-        this.endGame('<p style="color: #ff2222">The knight killed you. You lose!</p>')
-        if (destChar.isPlayer) { // Bad guy lands on player
-          this.remove(destChar, dest)
-          this.remove(character, '#' + currentId)
-          this.add(character, dest)
-        } else { // Player landed on bad guy
-          this.remove(character, '#' + currentId)
+        if (destChar.isPlayer === character.isPlayer) {
+          // Do nothing if both bad guys or both player-characters
+        } else {
+          this.endGame('<p style="color: #ff2222">The knight killed you. You lose!</p>')
+          if (destChar.isPlayer) { // Bad guy lands on player
+            this.remove(destChar, dest)
+            this.remove(character, '#' + currentId)
+            this.add(character, dest)
+          } else { // Player landed on bad guy
+            this.remove(character, '#' + currentId)
+          }
         }
       } else if (character.validSpace(dest)) {
         this.add(character, dest)
@@ -179,16 +183,16 @@ const board = new Board()
 
 $(document)
   .on('upkey', function () {
-    board.move('dragon', 'up')
+    board.move('dragon_1', 'up')
   })
   .on('downkey', function () {
-    board.move('dragon', 'down')
+    board.move('dragon_1', 'down')
   })
   .on('leftkey', function () {
-    board.move('dragon', 'left')
+    board.move('dragon_1', 'left')
   })
   .on('rightkey', function () {
-    board.move('dragon', 'right')
+    board.move('dragon_1', 'right')
   })
 
 module.exports = board

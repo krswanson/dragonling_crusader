@@ -23,15 +23,21 @@ function Level (lv = {}) {
     self.goalColors = this.filledArray(goalColor, rows, cols)
   }
 
+  this.addCharacter = function (character) {
+    let ids = Object.keys(self.characters).filter(id => { return id.includes(character.id) })
+    character.id += '_' + (ids.length + 1)
+    self.characters[character.id] = character
+  }
+
   this.addDragon = function (type, color, mapping, row = 0, col = 0) {
     let dragon = new Dragon(mapping, color, type, row + '_' + col)
-    self.characters[dragon.id] = dragon
+    self.addCharacter(dragon)
     self.baseColors[row][col] = color
   }
 
   this.addKnight = function (row, col) {
     let knight = new Knight(row + '_' + col)
-    self.characters[knight.id] = knight
+    self.addCharacter(knight)
   }
 }
 

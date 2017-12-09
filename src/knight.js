@@ -3,7 +3,8 @@ const Character = require('./character.js')
 function Knight (startIndex) {
   Character.apply(this, ['knight', 'images/helmet_64px.png', startIndex, false])
   let self = this
-  this.frequency = 2500 // Moves once per number of miliseconds
+  this.frequency = 2200 // Moves once per number of miliseconds
+  this.baseFreq = 2200 // So that you can change the frequency based on a stable number
   this.interval = 0
 
   this.move = function () {}
