@@ -1,5 +1,6 @@
 let Dragon = require('./dragon.js')
 let Knight = require('./knight.js')
+let Wizard = require('./wizard.js')
 
 function Level (lv = {}) {
   let self = this
@@ -38,6 +39,12 @@ function Level (lv = {}) {
   this.addKnight = function (row, col) {
     let knight = new Knight(row + '_' + col)
     self.addCharacter(knight)
+  }
+
+  this.addWizard = function (color, row, col) {
+    let wizard = new Wizard(color, row + '_' + col)
+    self.addCharacter(wizard)
+    self.baseColors[row][col] = color
   }
 }
 

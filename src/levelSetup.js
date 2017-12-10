@@ -89,4 +89,20 @@ lv.addDragon('ice', ice,
 lv.description = 'Two knights now! What are they defending? The castle is still a ways off.'
 levels['ice_3'] = lv
 
+lv = new Level()
+lv.setMapColors(5, 5, grass, ice)
+lv.addWizard(wizardry, 2, 2)
+lv.addDragon('ice', ice,
+  {
+    '#44aa11': dirt,
+    '#995533': ice,
+    '#aaccff': dirt,
+    '#eeee33': dirt
+  }
+)
+lv.baseColors[0][2] = wizardry
+lv.baseColors[1][2] = wizardry
+lv.description = 'Aha! This strangely-colored grass is a wizard\'s work!'
+levels['ice_4'] = lv
+
 module.exports = levels

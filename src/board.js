@@ -15,10 +15,10 @@ function Board () {
     return color.includes('rgb') ? '#' + rgbHex(color) : color
   }
 
-  this.startKnights = function () {
+  this.startBadGuys = function () {
     Object.keys(self.characters).forEach(function (key) {
       let c = self.characters[key]
-      if (c.id.includes('knight')) {
+      if (!c.id.includes('dragon')) {
         c.startMoving(function () {
           let freq = c.baseFreq
           c.setFrequency(Math.random() * freq + freq / 2)
@@ -30,10 +30,10 @@ function Board () {
     })
   }
 
-  this.stopKnights = function () {
+  this.stopBadGuys = function () {
     Object.keys(self.characters).forEach(function (key) {
       let c = self.characters[key]
-      if (c.id.includes('knight')) c.stopMoving()
+      if (!c.id.includes('dragon')) c.stopMoving()
     })
   }
 
@@ -48,7 +48,7 @@ function Board () {
   }
 
   this.endGame = function (message) {
-    self.stopKnights()
+    self.stopBadGuys()
     $(document).arrowkeysUnbind()
     let wonDiv = $('#endgame-message')[0]
     wonDiv.innerHTML = message
@@ -62,6 +62,11 @@ function Board () {
         $('#' + i + '_' + j).addClass('flash')
       }
     }
+  }
+
+  this.lose = function (byChar) {
+    let name = byChar.id.split('_')[0]
+    this.endGame('<p style="color: #ff2222">The ' + name + ' killed you. You lose!</p>')
   }
 
   this.add = function (character, element) {
@@ -122,12 +127,13 @@ function Board () {
         if (destChar.isPlayer === character.isPlayer) {
           // Do nothing if both bad guys or both player-characters
         } else {
-          this.endGame('<p style="color: #ff2222">The knight killed you. You lose!</p>')
           if (destChar.isPlayer) { // Bad guy lands on player
+            this.lose(character)
             this.remove(destChar, dest)
             this.remove(character, '#' + currentId)
             this.add(character, dest)
           } else { // Player landed on bad guy
+            this.lose(destChar)
             this.remove(character, '#' + currentId)
           }
         }
@@ -168,14 +174,14 @@ function Board () {
       table.appendChild(tr)
     }
     document.getElementById('board').appendChild(table)
-    self.startKnights()
+    self.startBadGuys()
   }
 
   this.delete = function () {
     $('#dragon_board').remove()
     $('#endgame-message')[0].style.display = 'none'
     $(document).arrowkeysUnbind()
-    self.stopKnights()
+    self.stopBadGuys()
   }
 }
 
