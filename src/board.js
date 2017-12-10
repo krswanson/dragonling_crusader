@@ -50,6 +50,7 @@ function Board () {
   this.endGame = function (message) {
     self.stopBadGuys()
     $(document).arrowkeysUnbind()
+    $('.animate').removeClass('animate')
     let wonDiv = $('#endgame-message')[0]
     wonDiv.innerHTML = message
     wonDiv.style.display = 'block'
@@ -72,10 +73,10 @@ function Board () {
   this.add = function (character, element) {
     let td = $(element)[0] // Get element by selector or responseds with element if it is an element
     if (!td) return false
-    td.innerHTML = '<img src="' + character.image + '">'
+    td.innerHTML = '<img src="' + character.image[1] + '"/><img src="' + character.image[0] + '"/>'
     td.style.padding = '6px 6px 6px 6px'
     td.style.background = character.transformColor(hexColor(td.style.background))
-    $(element).addClass(character.id)
+    $(element).addClass(character.id).addClass('animate')
     return true
   }
 
@@ -84,12 +85,12 @@ function Board () {
     if (!td) return false
     td.innerHTML = ''
     td.style.padding = '40px 40px 40px 40px'
-    $(element).removeClass(character.id)
+    $(element).removeClass(character.id).removeClass('animate')
     return true
   }
 
   this.getCharacter = function (td) {
-    let charId = td.className.split().find(function (cl) {
+    let charId = td.className.split(/\s+/).find(function (cl) {
       return self.characters[cl]
     })
     return self.characters[charId]

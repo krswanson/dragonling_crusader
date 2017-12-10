@@ -48,6 +48,26 @@ h3 {
 	margin-top: 0px;
 }
 
+.animate > img {
+	animation: fade 3s infinite;
+}
+
+@keyframes fade {
+    20% {
+        opacity: 0.5;
+    }
+}
+
+td > img {
+  position: absolute;
+  margin-top: -32px;
+  -webkit-transition: opacity 1s ease-in-out;
+  -moz-transition: opacity 1s ease-in-out;
+  -o-transition: opacity 1s ease-in-out;
+  transition: opacity 1s ease-in-out;
+}
+
+
 #board {
 	margin: auto;
 	width: fit-content;
