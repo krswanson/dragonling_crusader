@@ -63,6 +63,7 @@ function Board () {
         $('#' + i + '_' + j).addClass('flash')
       }
     }
+    $('#next-level')[0].style.display = 'block'
   }
 
   this.lose = function (byChar) {
@@ -146,7 +147,8 @@ function Board () {
     }
   }
 
-  this.setup = function (levelData, characters) {
+  this.setup = function (levelData) {
+    this.delete()
     $(document).arrowkeys()
     self.rows = levelData.baseColors.length
     self.cols = levelData.baseColors[0].length
@@ -180,6 +182,8 @@ function Board () {
 
   this.delete = function () {
     $('#dragon_board').remove()
+    $('#level-description')[0].innerHTML = ''
+    $('#next-level')[0].style.display = 'none'
     $('#endgame-message')[0].style.display = 'none'
     $(document).arrowkeysUnbind()
     self.stopBadGuys()

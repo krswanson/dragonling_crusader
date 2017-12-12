@@ -1,5 +1,6 @@
 @background: #335511;
 @words: #aaaaaa;
+@border: 3px;
 
 body {
 	background: @background;
@@ -29,9 +30,11 @@ h3 {
 	letter-spacing: 2px;
 	text-align: center;
 }
+
 #level-description {
 	color: @words;
 }
+
 #level-objective {
 	display: block;
 	padding-left: 20px;
@@ -46,6 +49,10 @@ h3 {
 #endgame-message {
 	display: none;
 	margin-top: 0px;
+}
+
+#next-level {
+	display: none;
 }
 
 .animate > img {
@@ -67,13 +74,13 @@ td > img {
   transition: opacity 1s ease-in-out;
 }
 
-
 #board {
 	margin: auto;
 	width: fit-content;
 }
+
 table, td {
-	border: solid black 5px;
+	border: solid black @border;
 	border-collapse: collapse;
 	padding: 40px;
 	background: white;
@@ -85,7 +92,7 @@ table, td {
 
 @keyframes blink {
     50% {
-        border: 5px solid white;
+        border: @border solid white;
         background: @words;
     }
 }
