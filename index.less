@@ -1,5 +1,7 @@
+@bright-green: #11ee11;
 @background: #335511;
 @words: #aaaaaa;
+@shadow: #111111;
 @border: 3px;
 
 body {
@@ -7,12 +9,19 @@ body {
 	font-family: Georgia, serif;
 }
 
-h1 {
-	color: @words;
-	text-shadow: 3px 3px #222222;
-	letter-spacing: 4px;
-	font-size: 450%;
-	text-align: center;
+header {
+	background: @words;
+	padding: 20px;
+	margin-bottom: 12px;
+	box-shadow: 6px 6px 10px 8px @shadow;
+	h1 {
+		color: @bright-green;
+		text-shadow: 5px 4px @shadow;
+		letter-spacing: 4px;
+		font-size: 450%;
+		text-align: center;
+		margin: 0 auto;
+	}
 }
 
 h3 {
@@ -20,15 +29,41 @@ h3 {
 	color: @words
 }
 
-#game-title-div {
-	float: center;
+#side-bar {
+	float: left;
+	width: 25%;
+	height: 500px;
+	background: @words;
+	box-shadow: 6px 6px 10px 8px @shadow;
+	div {
+		padding: 20px;
+		h2 {
+			margin-top: 0;
+		}
+	}
+}
+
+#level-content {
+	float: left;
+	width: 75%;
+	clear: right;
+	letter-spacing: 2px;
 }
 
 #level-info {
-	float: center;
-	width: 100%;
-	letter-spacing: 2px;
 	text-align: center;
+	margin-top: 25px;
+	margin-bottom: 25px;
+}
+
+#board {
+	margin: 0 auto;
+}
+
+footer {
+	display: block;
+	float: center;
+	clear: both;
 }
 
 #level-description {
@@ -36,19 +71,77 @@ h3 {
 }
 
 #level-objective {
-	display: block;
 	padding-left: 20px;
 	padding-right: 20px;
-	margin-bottom: 20px;
 	background: black;
 	border: solid @words 2px;
 	width: 50%;
-	margin: auto;
+	margin: 0 auto;
 }
 
 #endgame-message {
 	display: none;
 	margin-top: 0px;
+}
+
+.level-button {
+	height: 40px;
+	width: 160px;
+	text-align: center;
+	color: white;
+	font-size: 120%;
+	display: block;
+	margin: 20px auto;
+
+	text-shadow:-1px -1px 0 @background;
+	background: @bright-green;
+	border: 2px solid black;
+
+	background-image:-webkit-linear-gradient(top, @bright-green, @shadow);
+	background-image:-moz-linear-gradient(top, @bright-green, @shadow);
+	background-image:-ms-linear-gradient(top, @bright-green, @shadow);
+	background-image:-o-linear-gradient(top, @bright-green, @shadow);
+	background-image:linear-gradient(to bottom, @bright-green, @shadow);
+
+	-webkit-border-radius:5px;
+	-moz-border-radius:5px;
+	border-radius:5px;
+
+	-webkit-box-shadow:0 1px 2px rgba(0, 0, 0, .5) inset, 0 2px 0 black; 
+	-moz-box-shadow:0 1px 2px rgba(0, 0, 0, .5) inset, 0 2px 0 black; 
+	box-shadow:0 1px 2px rgba(0, 0, 0, .5) inset, 0 2px 0 black;
+
+	&:hover {
+		background: @background;
+	    background-image:-webkit-linear-gradient(top, @shadow, @bright-green);
+    	background-image:-moz-linear-gradient(top, @shadow, @bright-green);
+    	background-image:-ms-linear-gradient(top, @shadow, @bright-green);
+    	background-image:-o-linear-gradient(top, @shadow, @bright-green);
+    	background-image:linear-gradient(top, @shadow, @bright-green);
+	}
+}
+
+.level-button:before {
+	background: #f0f0f0;
+	background-image:-webkit-gradient(linear, 0% 0%, 0% 100%, from(#D0D0D0), to(#f0f0f0));
+
+	-webkit-border-radius:5px;
+	-moz-border-radius:5px;
+	border-radius:5px;
+
+	position: absolute;
+	left: -6px; right: -6px;
+	top: -6px; bottom: -10px;
+	z-index: -1;
+}
+
+.level-button:active {
+	-webkit-box-shadow:0 1px 0 rgba(255, 255, 255, .5) inset, 0 -1px 0 rgba(255, 255, 255, .1) inset;
+	top:5px;
+	&:before {
+		top: -11px;
+		bottom: -5px;
+	}
 }
 
 #next-level {
@@ -66,12 +159,12 @@ h3 {
 }
 
 td > img {
-  position: absolute;
-  margin-top: -32px;
-  -webkit-transition: opacity 1s ease-in-out;
-  -moz-transition: opacity 1s ease-in-out;
-  -o-transition: opacity 1s ease-in-out;
-  transition: opacity 1s ease-in-out;
+	position: absolute;
+	margin-top: -32px;
+	-webkit-transition: opacity 1s ease-in-out;
+	-moz-transition: opacity 1s ease-in-out;
+	-o-transition: opacity 1s ease-in-out;
+	transition: opacity 1s ease-in-out;
 }
 
 #board {

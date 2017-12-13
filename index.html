@@ -5,23 +5,33 @@
 		<script src="node_modules/jquery/dist/jquery.js"></script>
 	</head>
 	<body>
-		<div id='game-title-div'>
-			<h1>Dragonling Crusader</h1>
-		</div>
-		<div id="level-info">
-			<div id="level-objective">
-				<p id="level-description"></p>
-				<h3 id="endgame-message"></h3>
+		<header>
+			<div id='game-title'>
+				<h1>Dragonling Crusader</h1>
 			</div>
-		</div>
-		<select id="level-select"></select>
-		<button id='level-button' type="button">Select Level</button>
-		<button id='next-level' type="button">Next Level</button>
-		<div id='board'></div>
-		<script src="dist/index.js"></script>
-		
+		</header>
+		<main>
+			<div id="side-bar">
+				<div>
+					<h2 id="level-number">Level 1</h2>
+					<select id="level-select"></select>
+					<button id='level-select-button' class="level-button" type="button">Select Level</button>
+					<button id="next-level" class="level-button"  type="button">Next Level</button>
+				</div>
+			</div>
+			<div id="level-content">
+				<div id="level-info">
+					<div id="level-objective">
+						<p id="level-description"></p>
+						<h3 id="endgame-message"></h3>
+					</div>
+				</div>
+				<div id='board'></div>
+			</div>
+			<footer>
+				<div>Dragon and Knight icons made by <a href="https://www.flaticon.com/authors/nikita-golubev" title="Nikita Golubev">Nikita Golubev</a>. Wizard icons made by <a href="https://www.flaticon.com/authors/smashicons" title="Smashicons">Smashicons</a>. All from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
+			</footer>
+			<script src="dist/index.js"></script>
+		</main>
 	</body>
-	<footer>
-		<div>Dragon and Knight icons made by <a href="https://www.flaticon.com/authors/nikita-golubev" title="Nikita Golubev">Nikita Golubev</a>. Wizard icons made by <a href="https://www.flaticon.com/authors/smashicons" title="Smashicons">Smashicons</a>. All from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
-	</footer>
 </html>

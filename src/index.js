@@ -20,7 +20,7 @@ $(document).on('change', 'select', function () {
 function winGame () {
   let message = $('#level-description')[0]
   message.innerHTML = 'Your dragonlings have conquered!<br>You beat the game!'
-  message.style.color = '#11ff11'
+  message.style.color = '#11ee11'
   // TODO place with all colors declared
 }
 
@@ -50,7 +50,7 @@ levelKeys.forEach(function (key, i) {
   select.appendChild(option)
 })
 
-document.getElementById('level-button').addEventListener('click', function () {
+document.getElementById('level-select-button').addEventListener('click', function () {
   selectLevel($('#level-select')[0].value)
 })
 document.getElementById('next-level').addEventListener('click', function () {

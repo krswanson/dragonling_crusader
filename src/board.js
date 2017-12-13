@@ -57,7 +57,7 @@ function Board () {
   }
 
   this.win = function () {
-    this.endGame('<p style="color: #11ff11">You win!</p>')
+    this.endGame('<p style="color: #11ee11">You win!</p>')
     for (let i = 0; i < self.rows; i++) {
       for (let j = 0; j < self.cols; j++) {
         $('#' + i + '_' + j).addClass('flash')
