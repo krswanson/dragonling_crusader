@@ -7,15 +7,25 @@ let currentLevel = 0
 let levelKeys = Object.keys(levels)
 
 function setSelect (levelKey) {
+  console.log('levelKey', levelKey)
   $('option[value=' + levelKey + ']', document)
   .attr('selected', true).siblings()
   .removeAttr('selected')
+  $('')
 }
 
 $(document).on('change', 'select', function () {
-  console.log('this.value', this.value)
   setSelect(this.value)
 })
+
+function inputClick (input) {
+  $(input).closest('div').find('select').slideToggle(110)
+}
+
+function updateSelectText (element) {
+  console.log($(element))
+  $(element).hide().closest('div').find('input').val($(element).find('option:selected').text())
+}
 
 function winGame () {
   let message = $('#level-description')[0]
@@ -54,10 +64,18 @@ document.getElementById('restart-level').addEventListener('click', function () {
   selectLevel(currentLevel)
 })
 document.getElementById('next-level').addEventListener('click', function () {
+  setSelect(levelKeys[currentLevel])
+  updateSelectText('#level-select')
   selectLevel(currentLevel + 1)
+})
+document.getElementById('level-select').addEventListener('click', function () {
+  updateSelectText(this)
 })
 document.getElementById('level-select-button').addEventListener('click', function () {
   selectLevel($('#level-select')[0].value)
+})
+document.getElementById('previous-level-input').addEventListener('click', function () {
+  inputClick(this)
 })
 
 selectLevel(currentLevel)
