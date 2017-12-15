@@ -157,6 +157,12 @@ function Board () {
     self.baseColors = levelData.baseColors
 
     $('#level-description')[0].innerHTML = levelData.description
+    $('.player-button').each((i, b) => {
+      b.className = ''
+      let dragon = levelData.getDragons()[i]
+      b.className = 'player-button ' + dragon.type + '-player' + (i === 0 ? ' selected' : '')
+      b.innerHTML = dragon.name
+    })
     let table = document.createElement('TABLE')
     table.id = 'dragon_board'
     let tr = null

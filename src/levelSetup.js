@@ -12,7 +12,7 @@ let wizardry = '#eeee33'
 let fireLevel = new Level()
 fireLevel.setMapColors(4, 4, grass, 'orange')
 fireLevel.addKnight(2, 2)
-fireLevel.addDragon('fire', 'orange',
+fireLevel.addDragon('Fire Dragonling', 'fire', 'orange',
   {
     '#44aa11': 'orange',
     'orange': grass
@@ -23,7 +23,7 @@ levels['fire_1'] = fireLevel
 
 let fire2 = new Level(fireLevel)
 fire2.addKnight(2, 2)
-fire2.addDragon('fire', 'orange',
+fire2.addDragon('Fire Dragonling', 'fire', 'orange',
   {
     '#44aa11': dirt,
     '#995533': 'orange',
@@ -36,7 +36,7 @@ levels['fire_2'] = fire2
 let fire3 = new Level()
 fire3.setMapColors(4, 4, wetGrass, 'orange')
 fire3.addKnight(2, 1)
-fire3.addDragon('fire', 'orange',
+fire3.addDragon('Fire Dragonling', 'fire', 'orange',
   {
     '#11aa55': dirt,
     '#995533': 'red',
@@ -50,7 +50,7 @@ levels['fire_3'] = fire3
 let iceLevel = new Level()
 iceLevel.setMapColors(4, 4, wetGrass, ice)
 iceLevel.addKnight(1, 1)
-iceLevel.addDragon('ice', ice,
+iceLevel.addDragon('Ice Dragonling', 'ice', ice,
   {
     '#11aa55': ice,
     '#aaccff': wetGrass
@@ -62,7 +62,7 @@ levels['ice_1'] = iceLevel
 let lv = new Level()
 lv.setMapColors(4, 4, wizardry, ice)
 lv.addKnight(1, 1)
-lv.addDragon('ice', ice,
+lv.addDragon('Ice Dragonling', 'ice', ice,
   {
     '#eeee33': dirt,
     '#995533': ice,
@@ -79,7 +79,7 @@ lv = new Level()
 lv.setMapColors(5, 5, wizardry, ice)
 lv.addKnight(2, 4)
 lv.addKnight(4, 2)
-lv.addDragon('ice', ice,
+lv.addDragon('Ice Dragonling', 'ice', ice,
   {
     '#eeee33': dirt,
     '#995533': ice,
@@ -92,7 +92,7 @@ levels['ice_3'] = lv
 lv = new Level()
 lv.setMapColors(5, 5, grass, ice)
 lv.addWizard(wizardry, 2, 2)
-lv.addDragon('ice', ice,
+lv.addDragon('Ice Dragonling', 'ice', ice,
   {
     '#44aa11': dirt,
     '#995533': ice,

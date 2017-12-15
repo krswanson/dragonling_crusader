@@ -24,11 +24,6 @@ header {
 	}
 }
 
-h3 {
-	display: inline-block;
-	color: @words
-}
-
 #side-bar {
 	float: left;
 	width: 25%;
@@ -51,9 +46,14 @@ h3 {
 }
 
 #level-info {
+	color: @words;
 	text-align: center;
-	margin-top: 25px;
-	margin-bottom: 25px;
+	margin: 25px auto 25px auto;
+	padding-left: 20px;
+	padding-right: 20px;
+	background: black;
+	border: solid @words 2px;
+	width: 80%;
 }
 
 #board {
@@ -64,19 +64,6 @@ footer {
 	display: block;
 	float: center;
 	clear: both;
-}
-
-#level-description {
-	color: @words;
-}
-
-#level-objective {
-	padding-left: 20px;
-	padding-right: 20px;
-	background: black;
-	border: solid @words 2px;
-	width: 50%;
-	margin: 0 auto;
 }
 
 #endgame-message {
@@ -94,7 +81,6 @@ footer {
 	margin: 20px auto;
 
 	text-shadow:-1px -1px 0 @background;
-	background: @bright-green;
 	border: 2px solid black;
 
 	background-image:-webkit-linear-gradient(top, @bright-green, @shadow);
@@ -112,12 +98,7 @@ footer {
 	box-shadow:0 1px 2px rgba(0, 0, 0, .5) inset, 0 2px 0 black;
 
 	&:hover {
-		background: @background;
-	    background-image:-webkit-linear-gradient(top, @shadow, @bright-green);
-    	background-image:-moz-linear-gradient(top, @shadow, @bright-green);
-    	background-image:-ms-linear-gradient(top, @shadow, @bright-green);
-    	background-image:-o-linear-gradient(top, @shadow, @bright-green);
-    	background-image:linear-gradient(top, @shadow, @bright-green);
+		border: solid 2px gray;
 	}
 }
 
@@ -138,6 +119,12 @@ footer {
 .level-button:active {
 	-webkit-box-shadow:0 1px 0 rgba(255, 255, 255, .5) inset, 0 -1px 0 rgba(255, 255, 255, .1) inset;
 	top:5px;
+	background-image:-webkit-linear-gradient(top, @shadow, @bright-green);
+	background-image:-moz-linear-gradient(top, @shadow, @bright-green);
+	background-image:-ms-linear-gradient(top, @shadow, @bright-green);
+	background-image:-o-linear-gradient(top, @shadow, @bright-green);
+	background-image:linear-gradient(top, @shadow, @bright-green);
+
 	&:before {
 		top: -11px;
 		bottom: -5px;
@@ -146,6 +133,69 @@ footer {
 
 #next-level {
 	display: none;
+}
+
+@grayb: #333333;
+
+.player-button {
+	height: 60px;
+	width: 160px;
+	text-align: center;
+	color: @shadow;
+	font-size: 120%;
+	display: block;
+	margin: 20px auto;
+
+	text-shadow:-1px -1px 0 black;
+	border: 2px solid black;
+
+	-webkit-border-radius:5px;
+	-moz-border-radius:5px;
+	border-radius:5px;
+
+	-webkit-box-shadow:0 1px 2px rgba(0, 0, 0, .5) inset, 0 2px 0 black; 
+	-moz-box-shadow:0 1px 2px rgba(0, 0, 0, .5) inset, 0 2px 0 black; 
+
+	&:hover {
+		border: solid 2px gray;
+	}
+}
+
+.selected {
+	-webkit-box-shadow: 0; 
+	-moz-box-shadow: 0; 
+}
+
+.fire-player {
+	background-image:-webkit-linear-gradient(top, orange, #443300);
+	background-image:-moz-linear-gradient(top, orange, #443300);
+	background-image:-ms-linear-gradient(top, orange, #443300);
+	background-image:-o-linear-gradient(top, orange, #443300);
+	background-image:linear-gradient(to bottom, orange, #443300);
+
+	&.selected {
+		background-image:-webkit-linear-gradient(top, #443300, orange);
+		background-image:-moz-linear-gradient(top, #443300, orange);
+		background-image:-ms-linear-gradient(top, #443300, orange);
+		background-image:-o-linear-gradient(top, #443300, orange);
+		background-image:linear-gradient(top, #443300, orange);
+	}
+}
+
+.ice-player {
+	background-image:-webkit-linear-gradient(top, #AACCFF, #223344);
+	background-image:-moz-linear-gradient(top, #AACCFF, #223344);
+	background-image:-ms-linear-gradient(top, #AACCFF, #223344);
+	background-image:-o-linear-gradient(top, #AACCFF, #223344);
+	background-image:linear-gradient(to bottom, #AACCFF, #223344);
+
+	&.selected {
+		background-image:-webkit-linear-gradient(top, #223344, #AACCFF);
+		background-image:-moz-linear-gradient(top, #223344, #AACCFF);
+		background-image:-ms-linear-gradient(top, #223344, #AACCFF);
+		background-image:-o-linear-gradient(top, #223344, #AACCFF);
+		background-image:linear-gradient(top, #223344, #AACCFF);
+	}
 }
 
 .animate > img {

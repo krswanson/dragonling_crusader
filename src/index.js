@@ -50,10 +50,14 @@ levelKeys.forEach(function (key, i) {
   select.appendChild(option)
 })
 
-document.getElementById('level-select-button').addEventListener('click', function () {
-  selectLevel($('#level-select')[0].value)
+document.getElementById('restart-level').addEventListener('click', function () {
+  selectLevel(currentLevel)
 })
 document.getElementById('next-level').addEventListener('click', function () {
   selectLevel(currentLevel + 1)
 })
+document.getElementById('level-select-button').addEventListener('click', function () {
+  selectLevel($('#level-select')[0].value)
+})
+
 selectLevel(currentLevel)
