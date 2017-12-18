@@ -1,10 +1,10 @@
 /* global $ */
 
-function EventHandlers (levels) {
+function Game (levels, board) {
   let self = this
   this.levels = levels
   this.currentLevelIndex = 0
-  this.board = require('./board.js')
+  this.board = board
 
   this.levelKeys = function () { return Object.keys(self.levels) }
 
@@ -59,4 +59,4 @@ function EventHandlers (levels) {
   }
 }
 
-module.exports = EventHandlers
+module.exports = Game

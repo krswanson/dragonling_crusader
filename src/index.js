@@ -1,10 +1,12 @@
 /* global $ */
 
 const levels = require('./levelSetup.js')
+const Board = require('./board.js')
 const Game = require('./game.js')
 
 let closed = true
-let game = new Game(levels)
+let board = new Board()
+let game = new Game(levels, board)
 
 game.levelKeys().forEach(function (key, i) {
   let option = document.createElement('OPTION')
@@ -22,6 +24,17 @@ function inputClick (input) {
 
 function updateSelectText (element) {
   $(element).hide().closest('div').find('input').val($(element).find('option:selected').text())
+}
+
+function changeInputText (direction) {
+  let oldText = $('#level-select').find('option:selected').val()
+  let newIndex = game.levelIndex(oldText) + (direction === 'back' ? -1 : 1)
+  let key = oldText ? newIndex : 0
+  if (key < 0) key = 0
+  if (key >= game.numLevels()) key = game.numLevels() - 1
+  let newText = game.levelName(key)
+  setSelect(newText)
+  $('#previous-level-input').val(newText)
 }
 
 function setSelect (levelKey) {
@@ -47,8 +60,10 @@ document.getElementById('level-select').addEventListener('click', function () {
 })
 document.getElementById('level-select-button').addEventListener('click', function () {
   let input = $('#previous-level-input')[0].value || $('#level-select')[0].value
-  if (game.validLevel(input)) game.selectLevel(input)
-  else {
+  if (game.validLevel(input)) {
+    game.selectLevel(input)
+    if (!closed) inputClick('#previous-level-input')
+  } else {
     $('#previous-level-input').val('')
     // TOTDO error message
   }
@@ -59,36 +74,45 @@ prevLevelInput.addEventListener('click', function () {
   inputClick(this)
 })
 // TODO disable dragon moving while editing input field
-prevLevelInput.addEventListener('keyup', function (event) {
+document.addEventListener('keydown', function (event) {
   event.preventDefault()
-  let oldText = $('#level-select').find('option:selected').val()
-  let key = null
-  let newText = null
+  let inputBox = $('#previous-level-input')
+  let editing = inputBox.is(':focus')
   switch (event.which) {
     case 13:
-      if (!closed) inputClick(this)
-      let inputBox = $('#previous-level-input')
-      newText = inputBox.val()
+      if (!closed) inputClick(inputBox)
+      let newText = inputBox.val()
       if (game.levelIndex(newText) >= 0) setSelect(newText)
       document.getElementById('level-select-button').click()
       inputBox.blur()
       break
     case 37:
+      if (editing) {
+        changeInputText('back')
+      } else if (board.isPlaying()) {
+        board.moveCurrentPlayer('left')
+      }
+      break
     case 38:
-      key = oldText ? game.levelIndex(oldText) - 1 : 0
-      if (key < 0) key = 0
-      newText = game.levelName(key)
-      setSelect(newText)
-      $('#previous-level-input').val(newText)
+      if (editing) {
+        changeInputText('back')
+      } else if (board.isPlaying()) {
+        board.moveCurrentPlayer('up')
+      }
       break
     case 39:
+      if (editing) {
+        changeInputText('forward')
+      } else if (board.isPlaying()) {
+        board.moveCurrentPlayer('right')
+      }
+      break
     case 40:
-      oldText = $('#level-select').find('option:selected').val()
-      key = oldText ? game.levelIndex(oldText) + 1 : 0
-      if (key >= game.numLevels()) key = game.numLevels() - 1
-      newText = game.levelName(key)
-      setSelect(newText)
-      $('#previous-level-input').val(newText)
+      if (editing) {
+        changeInputText('forward')
+      } else if (board.isPlaying()) {
+        board.moveCurrentPlayer('down')
+      }
       break
     default:
       // Nothing

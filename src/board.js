@@ -1,6 +1,5 @@
 /* global $ */
 
-require('arrowkeys')
 const rgbHex = require('rgb-hex')
 
 function Board () {
@@ -10,9 +9,14 @@ function Board () {
   self.characters = {}
   self.baseColors = null
   self.goalColors = null
+  self.state = 'unset' // playing, won, lost, paused
 
   function hexColor (color) {
     return color.includes('rgb') ? '#' + rgbHex(color) : color
+  }
+
+  this.isPlaying = function () {
+    return self.state === 'playing'
   }
 
   this.startBadGuys = function () {
@@ -49,7 +53,6 @@ function Board () {
 
   this.endGame = function (message) {
     self.stopBadGuys()
-    $(document).arrowkeysUnbind()
     $('.animate').removeClass('animate')
     let wonDiv = $('#endgame-message')[0]
     wonDiv.innerHTML = message
@@ -57,6 +60,7 @@ function Board () {
   }
 
   this.win = function () {
+    self.state = 'won'
     this.endGame('<p style="color: #11ee11">You win!</p>')
     for (let i = 0; i < self.rows; i++) {
       for (let j = 0; j < self.cols; j++) {
@@ -65,8 +69,8 @@ function Board () {
     }
     $('#next-level')[0].style.display = 'block'
   }
-
   this.lose = function (byChar) {
+    self.state = 'lost'
     let name = byChar.id.split('_')[0]
     this.endGame('<p style="color: #ff2222">The ' + name + ' killed you. You lose!</p>')
   }
@@ -98,8 +102,7 @@ function Board () {
   }
 
   this.move = function (id, direction) {
-    // Give characters locations?
-    let character = this.characters[id]
+    let character = self.characters[id]
     let currentId = $('.' + character.id)[0].id
     let rowCol = currentId.split('_')
     let newId = null
@@ -147,9 +150,17 @@ function Board () {
     }
   }
 
+  this.getCurrentPlayer = function () {
+    return self.characters['dragon_1']
+  }
+
+  this.moveCurrentPlayer = function (direction) {
+    this.move(this.getCurrentPlayer().id, direction)
+  }
+
   this.setup = function (levelData) {
     this.delete()
-    $(document).arrowkeys()
+    self.state = 'playing'
     self.rows = levelData.baseColors.length
     self.cols = levelData.baseColors[0].length
     self.characters = levelData.characters
@@ -187,29 +198,13 @@ function Board () {
   }
 
   this.delete = function () {
+    self.state = 'unset'
     $('#dragon_board').remove()
     $('#level-description')[0].innerHTML = ''
     $('#next-level')[0].style.display = 'none'
     $('#endgame-message')[0].style.display = 'none'
-    $(document).arrowkeysUnbind()
     self.stopBadGuys()
   }
 }
 
-const board = new Board()
-
-$(document)
-  .on('upkey', function () {
-    board.move('dragon_1', 'up')
-  })
-  .on('downkey', function () {
-    board.move('dragon_1', 'down')
-  })
-  .on('leftkey', function () {
-    board.move('dragon_1', 'left')
-  })
-  .on('rightkey', function () {
-    board.move('dragon_1', 'right')
-  })
-
-module.exports = board
+module.exports = Board
