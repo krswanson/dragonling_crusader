@@ -44,15 +44,29 @@ function setSelect (levelKey) {
   .removeAttr('selected')
 }
 
+function arrowkeys (event, direction, editing) {
+  if (editing) {
+    event.preventDefault()
+    let d = (direction === 'up' || direction === 'left') ? 'back' : 'forward'
+    changeInputText(d)
+  } else if (board.isPlaying()) {
+    event.preventDefault()
+    board.moveCurrentPlayer(direction)
+  }
+}
+
 $(document).on('change', 'select', function () {
   setSelect(this.value)
+  closed = !closed
 })
 document.getElementById('restart-level').addEventListener('click', function () {
   game.selectLevel(game.currentLevel())
 })
 document.getElementById('next-level').addEventListener('click', function () {
-  setSelect(game.currentLevelName())
-  updateSelectText('#level-select')
+  if (!closed) {
+    setSelect(game.currentLevelName())
+    updateSelectText('#level-select')
+  }
   game.selectLevel(game.currentLevel() + 1)
 })
 document.getElementById('level-select').addEventListener('click', function () {
@@ -73,46 +87,32 @@ let prevLevelInput = document.getElementById('previous-level-input')
 prevLevelInput.addEventListener('click', function () {
   inputClick(this)
 })
-// TODO disable dragon moving while editing input field
+
 document.addEventListener('keydown', function (event) {
-  event.preventDefault()
   let inputBox = $('#previous-level-input')
   let editing = inputBox.is(':focus')
   switch (event.which) {
     case 13:
-      if (!closed) inputClick(inputBox)
-      let newText = inputBox.val()
-      if (game.levelIndex(newText) >= 0) setSelect(newText)
-      document.getElementById('level-select-button').click()
-      inputBox.blur()
+      if (editing) {
+        event.preventDefault()
+        if (!closed) inputClick(inputBox)
+        let newText = inputBox.val()
+        if (game.levelIndex(newText) >= 0) setSelect(newText)
+        document.getElementById('level-select-button').click()
+        inputBox.blur()
+      }
       break
     case 37:
-      if (editing) {
-        changeInputText('back')
-      } else if (board.isPlaying()) {
-        board.moveCurrentPlayer('left')
-      }
+      arrowkeys(event, 'left', editing)
       break
     case 38:
-      if (editing) {
-        changeInputText('back')
-      } else if (board.isPlaying()) {
-        board.moveCurrentPlayer('up')
-      }
+      arrowkeys(event, 'up', editing)
       break
     case 39:
-      if (editing) {
-        changeInputText('forward')
-      } else if (board.isPlaying()) {
-        board.moveCurrentPlayer('right')
-      }
+      arrowkeys(event, 'right', editing)
       break
     case 40:
-      if (editing) {
-        changeInputText('forward')
-      } else if (board.isPlaying()) {
-        board.moveCurrentPlayer('down')
-      }
+      arrowkeys(event, 'down', editing)
       break
     default:
       // Nothing

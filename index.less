@@ -32,7 +32,7 @@ header {
 	margin-bottom: 25px;
 	box-shadow: 6px 6px 10px 8px @shadow;
 	> div {
-		padding: 20px;
+		padding: 25px;
 		h2 {
 			margin-top: 0;
 		}
@@ -84,7 +84,7 @@ footer {
 
 .level-button {
 	height: 40px;
-	width: 160px;
+	width: 100%;
 	text-align: center;
 	color: white;
 	font-size: 120%;
@@ -148,7 +148,7 @@ footer {
 
 .player-button {
 	height: 60px;
-	width: 160px;
+	width: 100%;
 	text-align: center;
 	color: @shadow;
 	font-size: 120%;
@@ -233,7 +233,6 @@ td > img {
 	float: right;
 }
 
-
 #previous-level-div {
 	width: 100%;
 	padding: 0;
@@ -277,17 +276,33 @@ td > img {
 	padding: 8px;
     border: solid black 2px;
     box-shadow: 2px 2px;
-    background: white;
-    background: linear-gradient(white, gray);
+    background-image:-webkit-linear-gradient(top, white, gray);
+	background-image:-moz-linear-gradient(top, white, gray);
+	background-image:-ms-linear-gradient(top, white, gray);
+	background-image:-o-linear-gradient(top, white, gray);
+	background-image:linear-gradient(to bottom, white, gray);
     -webkit-appearance: none;
+    -moz-appearance: none;
 
-    &:checked, &:hover {
-		background: linear-gradient(@bright-green, @background);
+    &:checked {
+		background-image:-webkit-linear-gradient(top, @bright-green, @background);
+		background-image:-moz-linear-gradient(top, @bright-green, @background);
+		background-image:-ms-linear-gradient(top, @bright-green, @background);
+		background-image:-o-linear-gradient(top, @bright-green, @background);
+		background-image:linear-gradient(to bottom, @bright-green, @background);
 	}
 }
 
+.select-box option:hover {
+	background-image:-webkit-linear-gradient(top, white, @bright-green);
+	background-image:-moz-linear-gradient(top, white, @bright-green);
+	background-image:-ms-linear-gradient(top, white, @bright-green);
+	background-image:-o-linear-gradient(top, white, @bright-green);
+	background-image:linear-gradient(to bottom, white, @bright-green);
+}
+
 .select-box span {
-	position:relative;
+	position: relative;
 }
 
 #board {
