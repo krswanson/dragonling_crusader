@@ -69,10 +69,26 @@ function Board () {
     }
     $('#next-level')[0].style.display = 'block'
   }
+
   this.lose = function (byChar) {
     self.state = 'lost'
     let name = byChar.id.split('_')[0]
     this.endGame('<p style="color: #ff2222">The ' + name + ' killed you. You lose!</p>')
+  }
+
+  this.getTd = function (dirHor, dirVert, fromId) {
+    if (!(Number.isInteger(dirHor) && Number.isInteger(dirVert))) return console.error('Bad dirHor/dirVert integer:', dirHor + '/' + dirVert)
+    if (typeof fromId !== 'string') return console.error('Id is not a string:', fromId)
+    let rowCol = fromId.split('_')
+    return document.getElementById((parseInt(rowCol[0]) + dirVert) + '_' + (parseInt(rowCol[1]) + dirHor))
+  }
+
+  this.changeBackground = function (td, character) {
+    let transform = character.colorRelativeSquares(hexColor(td.style.background))
+    transform.squares.forEach(s => {
+      let newTd = this.getTd(s[0], s[1], td.id)
+      if (newTd) newTd.style.background = transform.transformColor(hexColor(newTd.style.background))
+    })
   }
 
   this.add = function (character, element) {
@@ -80,7 +96,7 @@ function Board () {
     if (!td) return false
     td.innerHTML = '<img src="' + character.image[1] + '"/><img src="' + character.image[0] + '"/>'
     td.style.padding = '6px 6px 6px 6px'
-    td.style.background = character.transformColor(hexColor(td.style.background))
+    this.changeBackground(td, character)
     $(element).addClass(character.id).addClass('animate')
     return true
   }
@@ -101,28 +117,29 @@ function Board () {
     return self.characters[charId]
   }
 
+  this.wordToNums = function (direction) {
+    if (typeof direction !== 'string') return direction
+
+    // Expected to return: [dirHor, dirVert]
+    switch (direction) {
+      case 'up':
+        return [0, -1]
+      case 'down':
+        return [0, 1]
+      case 'left':
+        return [-1, 0]
+      case 'right':
+        return [1, 0]
+      default:
+        console.error('Bad direction keyword:', direction)
+    }
+  }
+
   this.move = function (id, direction) {
     let character = self.characters[id]
     let currentId = $('.' + character.id)[0].id
-    let rowCol = currentId.split('_')
-    let newId = null
-    switch (direction) {
-      case 'up':
-        newId = '#' + (parseInt(rowCol[0]) - 1) + '_' + rowCol[1]
-        break
-      case 'down':
-        newId = '#' + (parseInt(rowCol[0]) + 1) + '_' + rowCol[1]
-        break
-      case 'left':
-        newId = '#' + rowCol[0] + '_' + (parseInt(rowCol[1]) - 1)
-        break
-      case 'right':
-        newId = '#' + rowCol[0] + '_' + (parseInt(rowCol[1]) + 1)
-        break
-      default:
-        throw new Error('Bad direction keyword:', direction)
-    }
-    let dest = $(newId)[0]
+    let dirs = this.wordToNums(direction)
+    let dest = this.getTd(dirs[0], dirs[1], currentId)
     // Edge of board
     // Another character
     // Terrain this character can't cross

@@ -27,13 +27,16 @@ function Level (lv = {}) {
   this.addCharacter = function (character) {
     let ids = Object.keys(self.characters).filter(id => { return id.includes(character.id) })
     character.id += '_' + (ids.length + 1)
+    if (character.startIndexColor) {
+      let rowCol = character.startIndex.split('_')
+      self.baseColors[rowCol[0]][rowCol[1]] = character.startIndexColor
+    }
     self.characters[character.id] = character
   }
 
   this.addDragon = function (name, type, color, mapping, row = 0, col = 0) {
     let dragon = new Dragon(mapping, color, type, row + '_' + col, name)
     self.addCharacter(dragon)
-    self.baseColors[row][col] = color
   }
 
   this.addKnight = function (row, col) {
@@ -44,11 +47,15 @@ function Level (lv = {}) {
   this.addWizard = function (color, row, col) {
     let wizard = new Wizard(color, row + '_' + col)
     self.addCharacter(wizard)
-    self.baseColors[row][col] = color
   }
 
   this.getDragons = function () {
     let ids = Object.keys(self.characters).filter(id => { return id.includes('dragon') })
+    return ids.map(id => { return self.characters[id] })
+  }
+
+  this.getWizards = function () {
+    let ids = Object.keys(self.characters).filter(id => { return id.includes('wizard') })
     return ids.map(id => { return self.characters[id] })
   }
 }

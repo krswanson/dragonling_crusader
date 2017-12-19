@@ -4,12 +4,14 @@ function Wizard (color, startIndex) {
   Character.apply(this, ['wizard', ['images/wizard_64px.png', 'images/wizard_64px.png'], startIndex, false])
   let self = this
   this.color = color
+  this.startIndexColor = color
   this.frequency = 2000 // Moves once per number of miliseconds
+  this.percent = 0.5
   this.baseFreq = 2000 // So that you can change the frequency based on a stable number
   this.interval = 0
 
   this.transformColor = function (color) {
-    return (Math.random() < 0.5) ? self.color : color
+    return (Math.random() < self.percent) ? self.color : color
   }
 
   this.move = function () {}
