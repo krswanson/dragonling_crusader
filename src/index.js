@@ -63,10 +63,8 @@ document.getElementById('restart-level').addEventListener('click', function () {
   game.selectLevel(game.currentLevel())
 })
 document.getElementById('next-level').addEventListener('click', function () {
-  if (!closed) {
-    setSelect(game.currentLevelName())
-    updateSelectText('#level-select')
-  }
+  setSelect(game.currentLevelName())
+  updateSelectText('#level-select')
   game.selectLevel(game.currentLevel() + 1)
 })
 document.getElementById('level-select').addEventListener('click', function () {
