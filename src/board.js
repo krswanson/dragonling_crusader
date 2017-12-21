@@ -94,7 +94,7 @@ function Board () {
   this.add = function (character, element) {
     let td = $(element)[0] // Get element by selector or responseds with element if it is an element
     if (!td) return false
-    td.innerHTML = '<img src="' + character.image[1] + '"/><img src="' + character.image[0] + '"/>'
+    td.innerHTML = '<img src="' + character.image[1] + '"/><img class="top" src="' + character.image[0] + '"/>'
     td.style.padding = '6px 6px 6px 6px'
     this.changeBackground(td, character)
     $(element).addClass(character.id).addClass('animate')

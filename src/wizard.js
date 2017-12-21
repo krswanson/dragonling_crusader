@@ -1,7 +1,7 @@
 const Character = require('./character.js')
 
 function Wizard (color, startIndex) {
-  Character.apply(this, ['wizard', ['images/wizard_64px.png', 'images/wizard_64px.png'], startIndex, false])
+  Character.apply(this, ['wizard', ['images/wizard_yellow_64px.png', 'images/wizard_yellow_64px.png'], startIndex, false])
   let self = this
   this.color = color
   this.startIndexColor = color
