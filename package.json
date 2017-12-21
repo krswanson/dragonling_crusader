@@ -5,8 +5,9 @@
   "main": "index.js",
   "scripts": {
     "build": "gulp build",
+    "devList": "forever list",
     "devStart": "forever start --id 'server' app.js && gulp watch",
-    "devStop": "forever stop server",
+    "devStop": "forever stop 'server' && npm run devList",
     "start": "node app.js",
     "test": "gulp test"
   },
