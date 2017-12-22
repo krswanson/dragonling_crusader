@@ -1,13 +1,15 @@
+
 // Any hex colors must be in lowercase, such as #aabbcc
 const Level = require('./level.js')
 const Dragon = require('./dragon.js')
-
+const Bow = require('./bow.js')
 let levels = {}
 
 let grass = '#44aa11'
 let wetGrass = '#11aa55'
 let dirt = '#995533'
 let ice = '#aaccff'
+let wall = 'gray'
 let wizardry = '#eeee33'
 let blackened = '#443322'
 
@@ -35,6 +37,10 @@ iceDirt['#aaccff'] = dirt
 // let fireGrassDragon = new Dragon(fireGrass, 'orange', 'fire', '0_0', 'Fire Dragonling')
 // let fireDirtDragon = new Dragon(fireDirt, 'orange', 'fire', '0_0', 'Fire Dragonling')
 
+function setInvalidColor (chars, color) {
+  Object.keys(chars).forEach(key => { chars[key].addInvalidColor(color) })
+}
+
 let lv = new Level()
 lv.setMapColors(4, 4, grass, 'orange')
 lv.addKnight(2, 2)
@@ -60,9 +66,9 @@ lv = new Level()
 lv.setMapColors(4, 4, wizardry, ice)
 lv.addKnight(1, 1)
 lv.addDragon('Ice Dragonling', 'ice', ice, iceDirt)
-lv.goalColors[2][2] = 'gray'
-lv.baseColors[2][2] = 'gray'
-Object.keys(lv.characters).forEach(k => { lv.characters[k].addInvalidColor('gray') })
+lv.goalColors[2][2] = wall
+lv.baseColors[2][2] = wall
+setInvalidColor(lv.characters, wall)
 lv.description = 'Hmm, this field\'s grass looks strange.  Did they do something to it?  And what\'s up with the rock?'
 levels['Level 4'] = lv
 
@@ -103,5 +109,23 @@ lv.baseColors[3][2] = wizardry
 lv.baseColors[4][2] = wizardry
 lv.description = 'Let\'s see if fire is any better against this wizard\'s magic...'
 levels['Level 7'] = lv
+
+lv = new Level()
+lv.setMapColors(5, 5, grass, 'orange')
+lv.baseColors[3][3] = wall
+lv.baseColors[3][4] = wall
+lv.baseColors[4][3] = wall
+lv.baseColors[4][4] = dirt
+lv.goalColors[3][3] = wall
+lv.goalColors[3][4] = wall
+lv.goalColors[4][3] = wall
+lv.goalColors[4][4] = dirt
+lv.addKnight(2, 2)
+lv.addCharacter(new Bow('3_3'))
+//lv.addCharacter(new Bow('3_4'))
+//lv.addCharacter(new Bow('4_3'))
+lv.addDragon('Fire Dragonling', 'fire', 'orange', fireGrass)
+lv.description = 'Hmm, if they have bowman on the walls like this we might need something other than dragonlings...'
+levels['Level 8'] = lv
 
 module.exports = levels

@@ -1,34 +1,21 @@
 const Character = require('./character.js')
 
 function Wizard (color, startIndex) {
-  Character.apply(this, ['wizard', ['images/wizard_yellow_64px.png', 'images/wizard_yellow_64px.png'], startIndex, false])
+  Character.apply(this, [
+    'wizard',
+    ['images/wizard_yellow_64px.png'],
+    startIndex,
+    false, // not player
+    2000 // move frequency
+  ])
+
   let self = this
   this.color = color
   this.startIndexColor = color
-  this.frequency = 2000 // Moves once per number of miliseconds
-  this.percent = 0.5
-  this.baseFreq = 2000 // So that you can change the frequency based on a stable number
-  this.interval = 0
+  this.percent = 0.5 // how often it changes the color of its space
 
   this.transformColor = function (color) {
     return (Math.random() < self.percent) ? self.color : color
-  }
-
-  this.move = function () {}
-
-  this.startMoving = function (moveFunc) {
-    self.move = moveFunc
-    self.setFrequency(self.frequency)
-  }
-  this.stopMoving = function () {
-    self.move = function () {}
-    clearInterval(self.interval)
-  }
-
-  this.setFrequency = function (frequency) {
-    self.frequency = frequency
-    if (self.interval > 0) clearInterval(self.interval)
-    self.interval = setInterval(function () { self.move() }, self.frequency)
   }
 }
 Wizard.prototype = new Character()

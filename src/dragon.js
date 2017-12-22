@@ -2,7 +2,13 @@
 const Character = require('./character.js')
 
 function Dragon (mapping, color, type, startIndex, name) {
-  Character.apply(this, ['dragon', ['images/dragon_' + type + '_64px.png', 'images/dragon_' + type + '2_64px.png'], startIndex, true])
+  Character.apply(this, [
+    'dragon',
+    ['images/dragon_' + type + '_64px.png', 'images/dragon_' + type + '2_64px.png'],
+    startIndex,
+    true, // is player
+    null // no move frequency
+  ])
   let self = this
   this.mapping = mapping
   this.color = color

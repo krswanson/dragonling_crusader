@@ -19,17 +19,45 @@ function Board () {
     return self.state === 'playing'
   }
 
+  function typicalMove (character) {
+    let freq = character.baseFreq
+    character.setFrequency(Math.random() * freq + freq / 2)
+    let dirs = ['up', 'down', 'left', 'right']
+    return dirs[Math.floor(Math.random() * 4)]
+  }
+
   this.startBadGuys = function () {
     Object.keys(self.characters).forEach(function (key) {
       let c = self.characters[key]
-      if (!c.id.includes('dragon')) {
+      if (c.id.includes('knight') || c.id.includes('wizard')) {
         c.startMoving(function () {
-          let freq = c.baseFreq
-          c.setFrequency(Math.random() * freq + freq / 2)
-          let dirs = ['up', 'down', 'left', 'right']
-          let direction = dirs[Math.floor(Math.random() * 4)]
+          let direction = typicalMove(c)
           self.move(c.id, direction)
         })
+      } else if (c.id.includes('bow')) {
+        c.startMoving(function () {
+          let direction = typicalMove(c)
+          let shoot = Math.random() > 0.5
+          if (!shoot) {
+            self.move(c.id, direction)  
+          } else {
+            c.arrow.moving = [0, -1]
+            c.arrow.startMoving(function () {
+              self.characters[c.arrow.id] = c.arrow
+              if (!$('.' + c.arrow.id)[0]) {
+                self.add(c.arrow, '#4_4')
+              } else {
+                self.move(c.arrow.id, c.arrow.moving)
+              }
+              // c.arrow
+              // check not currently in use
+              // add to board
+              // add to characters
+              // make it's move separate
+              // when done, remove from board and chracters
+            })
+          }
+       })
       }
     })
   }
@@ -140,12 +168,15 @@ function Board () {
     let currentId = $('.' + character.id)[0].id
     let dirs = this.wordToNums(direction)
     let dest = this.getTd(dirs[0], dirs[1], currentId)
+    console.log(id, direction, dest)
     // Edge of board
-    // Another character
     // Terrain this character can't cross
+    // Another character
     if (dest) { // Not off the board
       let destChar = this.getCharacter(dest)
-      if (destChar) { // If another character is on the space
+      if (!character.validSpace(dest)) {
+        // Nothing: don't move onto invalid terrain
+      } else if (destChar) { // If another character is on the space
         if (destChar.isPlayer === character.isPlayer) {
           // Do nothing if both bad guys or both player-characters
         } else {
@@ -159,10 +190,17 @@ function Board () {
             this.remove(character, '#' + currentId)
           }
         }
-      } else if (character.validSpace(dest)) {
+      } else {
         this.add(character, dest)
         this.remove(character, '#' + currentId)
         if (this.hasWon()) this.win()
+      }
+    } else { // Off the board
+      if (id.includes('arrow')) {
+        console.log(currentId, id, character)
+        character.stopMoving()
+        character.moving = null
+        self.remove(character, '#' + currentId)
       }
     }
   }

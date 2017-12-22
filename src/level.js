@@ -26,7 +26,7 @@ function Level (lv = {}) {
 
   this.addCharacter = function (character) {
     let ids = Object.keys(self.characters).filter(id => { return id.includes(character.id) })
-    character.id += '_' + (ids.length + 1)
+    character.setId(character.id += '_' + (ids.length + 1))
     if (character.startIndexColor) {
       let rowCol = character.startIndex.split('_')
       self.baseColors[rowCol[0]][rowCol[1]] = character.startIndexColor
