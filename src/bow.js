@@ -1,5 +1,5 @@
 const Character = require('./character.js')
-const Arrow = require('./arrow2.js')
+const Arrow = require('./arrow.js')
 
 function Bow (startIndex, wallColor = 'gray') {
   Character.apply(this, [

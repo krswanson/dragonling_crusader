@@ -101,7 +101,7 @@ function Board () {
   this.lose = function (byChar) {
     self.state = 'lost'
     let name = byChar.id.split('_')[0]
-    this.endGame('<p style="color: #ff2222">The ' + name + ' killed you. You lose!</p>')
+    this.endGame('<p style="color: #ff2222">The ' + name + ' has killed you. You lose!</p>')
   }
 
   this.getTd = function (dirHor, dirVert, fromId) {
