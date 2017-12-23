@@ -119,9 +119,9 @@ lv.goalColors[3][4] = wall
 lv.goalColors[4][3] = wall
 lv.goalColors[4][4] = dirt
 lv.addKnight(2, 2)
-lv.addCharacter(new Bow('3_3'))
-//lv.addCharacter(new Bow('3_4'))
-//lv.addCharacter(new Bow('4_3'))
+lv.addCharacter(new Bow('3_3', [[-1, -1], [-1, 1], [1, -1]]))
+lv.addCharacter(new Bow('3_4', [[-1, -1]]))
+lv.addCharacter(new Bow('4_3', [[-1, -1]]))
 lv.addCharacter(new FireDragon(fireGrass))
 lv.description = 'Hmm, if they have bowman on the walls like this we might need something other than dragonlings...'
 levels['Level 8'] = lv

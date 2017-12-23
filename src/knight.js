@@ -7,7 +7,8 @@ function Knight (startIndex) {
     startIndex,
     false, // not player
     2200 // move frequency
-    ])
+  ])
+  this.setStartFacing('left')
 }
 Knight.prototype = new Character()
 

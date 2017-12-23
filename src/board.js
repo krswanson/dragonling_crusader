@@ -36,28 +36,30 @@ function Board () {
         })
       } else if (c.id.includes('bow')) {
         c.startMoving(function () {
-          let direction = typicalMove(c)
+          typicalMove(c)
           let shoot = Math.random() > 0.5
           if (!shoot) {
-            self.move(c.id, direction)  
-          } else {
-            c.arrow.moving = [0, -1]
+            let options = c.canFace
+            let direction = options[Math.floor(Math.random() * options.length)]
+            c.aim(direction)
+            let td = $('.' + c.id)[0]
+            self.remove(c, td)
+            self.add(c, td)
+          } else if (!c.arrow.moving) {
+            c.arrow.aim(c.facing.word)
             c.arrow.startMoving(function () {
-              self.characters[c.arrow.id] = c.arrow
-              if (!$('.' + c.arrow.id)[0]) {
-                self.add(c.arrow, '#4_4')
+              let arrow = c.arrow
+              arrow.moving = true
+              if (!$('.' + arrow.id)[0]) {
+                let bowId = $('.' + c.id)[0].id
+                let dest = self.getTd(arrow.facing.y, arrow.facing.x, bowId)
+                self.add(arrow, dest)
               } else {
-                self.move(c.arrow.id, c.arrow.moving)
+                self.move(arrow.id, arrow.facing.vector())
               }
-              // c.arrow
-              // check not currently in use
-              // add to board
-              // add to characters
-              // make it's move separate
-              // when done, remove from board and chracters
             })
           }
-       })
+        })
       }
     })
   }
@@ -119,12 +121,48 @@ function Board () {
     })
   }
 
+  this.destroyArrow = function (character) {
+    if (character.id.includes('arrow')) {
+      character.stopMoving()
+      let arrowTd = $('.' + character.id)[0]
+      if (arrowTd) self.remove(character, arrowTd)
+    }
+  }
+
   this.add = function (character, element) {
-    let td = $(element)[0] // Get element by selector or responseds with element if it is an element
-    if (!td) return false
-    td.innerHTML = '<img src="' + character.image[1] + '"/><img class="top" src="' + character.image[0] + '"/>'
-    td.style.padding = '6px 6px 6px 6px'
-    this.changeBackground(td, character)
+    let dest = $(element)[0] // Get element by selector or responseds with element if it is an element
+    if (!dest) { // Off edge of board
+      self.destroyArrow(character)
+      return false
+    }
+
+    let destChar = self.getCharacter(dest)
+    if (!character.validSpace(dest)) {
+      return false
+    } else if (destChar) { // Already a character on the space
+      if (destChar.isPlayer === character.isPlayer) {
+        // if both bad guys or both player-characters
+        // if it's an arrow moving onto a bad guy, destroy arrow
+        // otherwise do nothing (nobody moves)
+        self.destroyArrow(character)
+        return false
+      } else {
+        if (destChar.isPlayer) { // Bad guy lands on player
+          this.lose(character)
+          this.remove(destChar, dest)
+          this.add(character, dest)
+          return true
+        } else { // Player landed on bad guy
+          this.lose(destChar)
+          return true // Let calling function know to remove from current space
+        }
+      }
+    }
+
+    // Empty space, add normally
+    dest.innerHTML = '<img src="' + character.image[1] + '"/><img class="top" src="' + character.image[0] + '"/>'
+    dest.style.padding = '6px 6px 6px 6px'
+    this.changeBackground(dest, character)
     $(element).addClass(character.id).addClass('animate')
     return true
   }
@@ -168,40 +206,11 @@ function Board () {
     let currentId = $('.' + character.id)[0].id
     let dirs = this.wordToNums(direction)
     let dest = this.getTd(dirs[0], dirs[1], currentId)
-    console.log(id, direction, dest)
-    // Edge of board
-    // Terrain this character can't cross
-    // Another character
-    if (dest) { // Not off the board
-      let destChar = this.getCharacter(dest)
-      if (!character.validSpace(dest)) {
-        // Nothing: don't move onto invalid terrain
-      } else if (destChar) { // If another character is on the space
-        if (destChar.isPlayer === character.isPlayer) {
-          // Do nothing if both bad guys or both player-characters
-        } else {
-          if (destChar.isPlayer) { // Bad guy lands on player
-            this.lose(character)
-            this.remove(destChar, dest)
-            this.remove(character, '#' + currentId)
-            this.add(character, dest)
-          } else { // Player landed on bad guy
-            this.lose(destChar)
-            this.remove(character, '#' + currentId)
-          }
-        }
-      } else {
-        this.add(character, dest)
-        this.remove(character, '#' + currentId)
-        if (this.hasWon()) this.win()
-      }
-    } else { // Off the board
-      if (id.includes('arrow')) {
-        console.log(currentId, id, character)
-        character.stopMoving()
-        character.moving = null
-        self.remove(character, '#' + currentId)
-      }
+
+    let added = this.add(character, dest)
+    if (added) {
+      this.remove(character, '#' + currentId)
+      if (this.hasWon()) this.win()
     }
   }
 
@@ -259,6 +268,10 @@ function Board () {
     $('#next-level')[0].style.display = 'none'
     $('#endgame-message')[0].style.display = 'none'
     self.stopBadGuys()
+    Object.keys(self.characters).forEach(key => {
+      let c = self.characters[key]
+      c.setStartFacing(c.startFacing.word)
+    })
   }
 }
 

@@ -10,6 +10,7 @@ function Wizard (color, startIndex) {
   ])
 
   let self = this
+  this.setStartFacing('left')
   this.color = color
   this.startIndexColor = color
   this.percent = 0.5 // how often it changes the color of its space

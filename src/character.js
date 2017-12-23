@@ -1,7 +1,19 @@
+let Direction = require('./direction.js')
+
 function Character (id, image, startIndex, isPlayer, frequency) {
   let self = this
   this.id = id
-  this.image = (image && image.length === 1 ? [image[0], image[0]] : image)
+  this.image = null
+  this.setImage = function (image) {
+    this.image = (image && image.length === 1 ? [image[0], image[0]] : image)
+  }
+  this.setImage(image)
+  this.startFacing = new Direction('right')
+  this.facing = new Direction('right')
+  this.setStartFacing = function (dir) {
+    this.startFacing.set(dir)
+    this.facing.set(dir)
+  }
   this.startIndex = startIndex
   this.isPlayer = isPlayer
   this.invalidColors = []
@@ -32,18 +44,18 @@ function Character (id, image, startIndex, isPlayer, frequency) {
   this.move = function () {}
 
   this.startMoving = function (moveFunc) {
-    self.move = moveFunc
-    self.setFrequency(self.frequency)
+    this.move = moveFunc
+    this.setFrequency(this.frequency)
   }
   this.stopMoving = function () {
-    self.move = function () {}
-    clearInterval(self.interval)
+    this.move = function () {}
+    clearInterval(this.interval)
   }
 
   this.setFrequency = function (frequency) {
-    self.frequency = frequency
-    if (self.interval > 0) clearInterval(self.interval)
-    self.interval = setInterval(function () { self.move() }, self.frequency)
+    this.frequency = frequency
+    if (this.interval > 0) clearInterval(self.interval)
+    this.interval = setInterval(function () { self.move() }, self.frequency)
   }
 }
 
