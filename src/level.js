@@ -63,6 +63,11 @@ function Level (lv = {}) {
     self.addCharacter(wizard)
   }
 
+  this.getCharacters = function () {
+    let ids = Object.keys(self.characters)
+    return ids.map(id => { return self.characters[id] })
+  }
+
   this.getDragons = function () {
     let ids = Object.keys(self.characters).filter(id => { return id.includes('dragon') })
     return ids.map(id => { return self.characters[id] })
