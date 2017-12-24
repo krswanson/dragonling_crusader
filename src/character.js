@@ -1,4 +1,5 @@
-let Direction = require('./direction.js')
+const Direction = require('./direction.js')
+const hexColor = require('./hexColor.js')
 
 function Character (id, image, startIndex, isPlayer, frequency) {
   let self = this
@@ -38,7 +39,7 @@ function Character (id, image, startIndex, isPlayer, frequency) {
   }
 
   this.validSpace = function (element) {
-    return !this.invalidColors.includes(element.style.background)
+    return !this.invalidColors.includes(hexColor(element.style.background))
   }
 
   this.move = function () {}

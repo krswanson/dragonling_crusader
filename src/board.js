@@ -1,6 +1,6 @@
 /* global $ */
 
-const rgbHex = require('rgb-hex')
+const hexColor = require('./hexColor.js')
 
 function Board () {
   let self = this
@@ -11,9 +11,6 @@ function Board () {
   self.goalColors = null
   self.state = 'unset' // playing, won, lost, paused
 
-  function hexColor (color) {
-    return color.includes('rgb') ? '#' + rgbHex(color) : color
-  }
 
   this.isPlaying = function () {
     return self.state === 'playing'
@@ -34,7 +31,7 @@ function Board () {
           let direction = typicalMove(c)
           self.move(c.id, direction)
         })
-      } else if (c.id.includes('bow')) {
+      } else if (c.id.includes('bow') && !c.id.includes('arrow')) {
         c.startMoving(function () {
           typicalMove(c)
           let shoot = Math.random() > 0.5
@@ -75,7 +72,8 @@ function Board () {
     for (let i = 0; i < self.rows; i++) {
       for (let j = 0; j < self.cols; j++) {
         let color = hexColor($('#' + i + '_' + j)[0].style.background)
-        if (color !== self.goalColors[i][j]) return false
+        let goal = self.goalColors[i][j]
+        if (goal && color !== goal) return false
       }
     }
     return true

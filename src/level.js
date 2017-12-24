@@ -24,9 +24,22 @@ function Level (lv = {}) {
     self.goalColors = this.filledArray(goalColor, rows, cols)
   }
 
+  this.getIdAndNum = function (id) {
+    let underscore = id.lastIndexOf('_')
+    let num = Number.parseInt(id.substr(underscore + 1, id.length))
+    if (Number.isInteger(num)) {
+      return [id.substr(0, underscore + 1), num]
+    } else {
+      return [id + '_', 0]
+    }
+  }
+
   this.addCharacter = function (character) {
-    let ids = Object.keys(self.characters).filter(id => { return id.includes(character.id) })
-    character.setId(character.id += '_' + (ids.length + 1))
+    let ids = Object.keys(self.characters).filter(id => {
+      return this.getIdAndNum(id)[0] === this.getIdAndNum(character.id)[0]
+    })
+    character.setId(this.getIdAndNum(character.id)[0] + (ids.length + 1))
+
     if (character.arrow) self.addCharacter(character.arrow)
     if (character.startIndexColor) {
       let rowCol = character.startIndex.split('_')
@@ -52,6 +65,11 @@ function Level (lv = {}) {
 
   this.getDragons = function () {
     let ids = Object.keys(self.characters).filter(id => { return id.includes('dragon') })
+    return ids.map(id => { return self.characters[id] })
+  }
+
+  this.getKnights = function () {
+    let ids = Object.keys(self.characters).filter(id => { return id.includes('knight') })
     return ids.map(id => { return self.characters[id] })
   }
 
