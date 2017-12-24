@@ -1,5 +1,6 @@
 
 // Any hex colors must be in lowercase, such as #aabbcc
+const Direction = require('./direction.js')
 const Level = require('./level.js')
 const FireDragon = require('./fireDragon.js')
 const IceDragon = require('./iceDragon.js')
@@ -118,7 +119,7 @@ let oldFunc = dragon.colorRelativeSquares
 dragon.colorRelativeSquares = function (landingOnColor) {
   function blacken (color) { return blackened }
   if (landingOnColor === wizardry) {
-    return { squares: [[0, 0], [1, 0], [0, 1], [-1, 0], [0, -1]], transformColor: blacken }
+    return { squares: [new Direction([0, 0]), new Direction('up'), new Direction('right'), new Direction('down'), new Direction('left')], transformColor: blacken }
   } else {
     return oldFunc(landingOnColor)
   }
@@ -141,7 +142,7 @@ setToColor(indexes, lv.baseColors, water, lv.goalColors, null)
 lv.addKnight(1, 3)
 lv.getKnights()[0].addInvalidColor(water)
 lv.addCharacter(new Bow('3_3', [[-1, -1], [-1, 1], [1, -1]]))
-lv.addCharacter(new Bow('3_4', ['upLeft',  'upRight']))
+lv.addCharacter(new Bow('3_4', ['upLeft', 'upRight']))
 lv.addCharacter(new Bow('3_5', [[-1, -1]]))
 lv.addCharacter(new Bow('4_3', [[-1, -1]]))
 lv.addCharacter(new FireDragon(fireGrass))

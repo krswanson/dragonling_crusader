@@ -1,6 +1,7 @@
 /* global $ */
 
 const hexColor = require('./hexColor.js')
+const Direction = require('./direction.js')
 
 function Board () {
   let self = this
@@ -10,7 +11,6 @@ function Board () {
   self.baseColors = null
   self.goalColors = null
   self.state = 'unset' // playing, won, lost, paused
-
 
   this.isPlaying = function () {
     return self.state === 'playing'
@@ -32,27 +32,27 @@ function Board () {
           self.move(c.id, direction)
         })
       } else if (c.id.includes('bow') && !c.id.includes('arrow')) {
-        c.startMoving(function () {
-          typicalMove(c)
+        let bow = c
+        bow.startMoving(function () {
+          typicalMove(bow)
           let shoot = Math.random() > 0.5
           if (!shoot) {
-            let options = c.canFace
+            let options = bow.canFace
             let direction = options[Math.floor(Math.random() * options.length)]
-            c.aim(direction)
-            let td = $('.' + c.id)[0]
-            self.remove(c, td)
-            self.add(c, td)
-          } else if (!c.arrow.moving) {
-            c.arrow.aim(c.facing.word)
-            c.arrow.startMoving(function () {
-              let arrow = c.arrow
+            bow.aim(direction)
+            let space = self.getSpace(bow)
+            self.remove(bow, space)
+            self.add(bow, space)
+          } else if (!bow.arrow.moving) {
+            let arrow = bow.arrow
+            arrow.aim(bow.facing.word)
+            arrow.startMoving(function () {
               arrow.moving = true
-              if (!$('.' + arrow.id)[0]) {
-                let bowId = $('.' + c.id)[0].id
-                let dest = self.getTd(arrow.facing.y, arrow.facing.x, bowId)
+              if (!self.getSpace(arrow)) {
+                let dest = self.getRelativeSpace(arrow.facing, self.getSpace(bow))
                 self.add(arrow, dest)
               } else {
-                self.move(arrow.id, arrow.facing.vector())
+                self.move(arrow, arrow.facing)
               }
             })
           }
@@ -104,17 +104,16 @@ function Board () {
     this.endGame('<p style="color: #ff2222">The ' + name + ' has killed you. You lose!</p>')
   }
 
-  this.getTd = function (dirHor, dirVert, fromId) {
-    if (!(Number.isInteger(dirHor) && Number.isInteger(dirVert))) return console.error('Bad dirHor/dirVert integer:', dirHor + '/' + dirVert)
-    if (typeof fromId !== 'string') return console.error('Id is not a string:', fromId)
-    let rowCol = fromId.split('_')
-    return document.getElementById((parseInt(rowCol[0]) + dirVert) + '_' + (parseInt(rowCol[1]) + dirHor))
+  this.getRelativeSpace = function (direction, fromSpace) {
+    let vector = Direction.makeVector(direction)
+    let rowCol = fromSpace.id.split('_')
+    return document.getElementById((parseInt(rowCol[0]) + vector[0]) + '_' + (parseInt(rowCol[1]) + vector[1]))
   }
 
-  this.changeBackground = function (td, character) {
-    let transform = character.colorRelativeSquares(hexColor(td.style.background))
+  this.changeBackground = function (space, character) {
+    let transform = character.colorRelativeSquares(hexColor(space.style.background))
     transform.squares.forEach(s => {
-      let newTd = this.getTd(s[0], s[1], td.id)
+      let newTd = this.getRelativeSpace(s, space)
       if (newTd) newTd.style.background = transform.transformColor(hexColor(newTd.style.background))
     })
   }
@@ -181,33 +180,27 @@ function Board () {
     return self.characters[charId]
   }
 
-  this.wordToNums = function (direction) {
-    if (typeof direction !== 'string') return direction
-
-    // Expected to return: [dirHor, dirVert]
-    switch (direction) {
-      case 'up':
-        return [0, -1]
-      case 'down':
-        return [0, 1]
-      case 'left':
-        return [-1, 0]
-      case 'right':
-        return [1, 0]
-      default:
-        console.error('Bad direction keyword:', direction)
-    }
+  this.getSpace = function (character) {
+    return $('.' + character.id)[0]
   }
 
-  this.move = function (id, direction) {
-    let character = self.characters[id]
-    let currentId = $('.' + character.id)[0].id
-    let dirs = this.wordToNums(direction)
-    let dest = this.getTd(dirs[0], dirs[1], currentId)
+  // TODO hand in id not character?
+  this.move = function (character, direction) {
+    let vector = direction
+    if (direction.constructor.name === 'Direction') vector = direction.vector()
+    else if (typeof vector === 'string') vector = Direction.convertToVector(direction)
+    else if (!Array.isArray(direction)) return console.error('Bad direction:', direction)
 
-    let added = this.add(character, dest)
+    let char = character
+    if (typeof character === 'string') char = self.characters[character]
+    if (!char || char.constructor.name !== 'Character') return console.error('Invalid character or character id:', character)
+
+    let currentSpace = this.getSpace(char)
+    let dest = this.getRelativeSpace(direction, currentSpace)
+
+    let added = this.add(char, dest)
     if (added) {
-      this.remove(character, '#' + currentId)
+      this.remove(char, currentSpace)
       if (this.hasWon()) this.win()
     }
   }

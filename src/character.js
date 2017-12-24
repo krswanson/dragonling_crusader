@@ -31,7 +31,7 @@ function Character (id, image, startIndex, isPlayer, frequency) {
   }
 
   this.colorRelativeSquares = function (landingOnColor) {
-    return { squares: [[0, 0]], transformColor: function () { return self.transformColor(landingOnColor) } }
+    return { squares: [new Direction([0, 0])], transformColor: function () { return self.transformColor(landingOnColor) } }
   }
 
   this.addInvalidColor = function (color) {
