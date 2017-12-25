@@ -64,7 +64,16 @@ function Board () {
     return $('#dragon_board td.' + character.id)[0]
   }
 
-  this.clearAnimation = function () {
+  this.addAnimation = function (character) {
+    this.getSpace(character).className += ' animate'
+  }
+
+  this.clearAnimation = function (character) {
+    if (!character || typeof character.id !== 'string') return console.error('Bad character:', character)
+    $('.' + character.id).removeClass('animate')
+  }
+
+  this.clearAllAnimation = function () {
     $('.animate').removeClass('animate')
   }
 

@@ -11,6 +11,14 @@ function Game (levels) {
   this.board = new Board()
   this.state = 'unset' // playing, won, lost, paused
 
+  this.getCurrentPlayer = function () {
+    let id = $('.player-button.selected')[0].value
+    if (id) return self.board.characters[id]
+
+    console.error('Could not get current player id from element:', $('.player-button.selected')[0])
+    return null
+  }
+
   this.destroyArrow = function (character) {
     if (character.id.includes('arrow')) {
       character.stopMoving()
@@ -88,7 +96,7 @@ function Game (levels) {
       if (c.id.includes('knight') || c.id.includes('wizard')) {
         c.startMoving(function () {
           let direction = typicalMove(c)
-          self.move(c.id, direction)
+          self.move(c, direction)
         })
       } else if (c.id.includes('bow') && !c.id.includes('arrow')) {
         let bow = c
@@ -140,7 +148,7 @@ function Game (levels) {
 
   this.endGame = function (message) {
     this.stopBadGuys()
-    self.board.clearAnimation()
+    self.board.clearAllAnimation()
     let wonDiv = $('#endgame-message')[0]
     wonDiv.innerHTML = message
     wonDiv.style.display = 'block'
@@ -195,10 +203,6 @@ function Game (levels) {
     return self.state === 'playing'
   }
 
-  this.getCurrentPlayer = function () {
-    return $('.player-button.selected')[0].value
-  }
-
   this.moveCurrentPlayer = function (direction) {
     self.move(this.getCurrentPlayer(), direction)
   }
@@ -231,26 +235,32 @@ function Game (levels) {
 
     self.state = 'playing'
     self.curLvId = this.levelIndex(levelKey)
+    self.board.setup(level.baseColors, level.characters)
+    this.startBadGuys()
     $('#level-number')[0].innerHTML = levelKey
     $('#level-description')[0].innerHTML = level.description
     level.getCharacters()
       .filter(c => { return c.isPlayer })
       .forEach((c, i) => {
+        if (i !== 0) self.board.clearAnimation(c)
         let b = document.createElement('BUTTON')
         b.className = 'player-button ' + c.type + '-player' + (i === 0 ? ' selected' : '')
         b.innerText = c.name
         b.value = c.id
         b.addEventListener('click', () => {
+          if (b === $('.player0-button.selected')[0]) return
+
+          let oldChar = self.getCurrentPlayer()
           b.className += ' selected'
           b.parentNode.childNodes.forEach(el => {
-              if (el !== b) el.classList.remove('selected')
+            if (el !== b) el.classList.remove('selected')
           })
+          let newChar = self.getCurrentPlayer()
+          self.board.clearAnimation(oldChar)
+          self.board.addAnimation(newChar)
         })
         $('#player-buttons').append(b)
       })
-
-    self.board.setup(level.baseColors, level.characters)
-    this.startBadGuys()
   }
 
   this.selectLevel = function (key) {
