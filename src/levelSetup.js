@@ -141,10 +141,10 @@ setToColor(indexes, lv.baseColors, water, lv.goalColors, null)
 
 lv.addKnight(1, 3)
 lv.getKnights()[0].addInvalidColor(water)
-lv.addCharacter(new Bow('3_3', [[-1, -1], [-1, 1], [1, -1]]))
+lv.addCharacter(new Bow('3_3', ['upLeft', 'upRight', 'downLeft']))
 lv.addCharacter(new Bow('3_4', ['upLeft', 'upRight']))
-lv.addCharacter(new Bow('3_5', [[-1, -1]]))
-lv.addCharacter(new Bow('4_3', [[-1, -1]]))
+lv.addCharacter(new Bow('3_5', ['upLeft']))
+lv.addCharacter(new Bow('4_3', ['upLeft']))
 lv.addCharacter(new FireDragon(fireGrass))
 lv.description = 'You\'ve reached the castle at last! Hmm, but if they have bowman on the walls like this you are going to need something other than dragonlings... May as well set the surrounding crops on fire while you\'re here though.'
 levels['Level 8'] = lv

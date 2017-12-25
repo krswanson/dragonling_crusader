@@ -1,12 +1,10 @@
 /* global $ */
 
 const levels = require('./levelSetup.js')
-const Board = require('./board.js')
 const Game = require('./game.js')
 
 let closed = true
-let board = new Board()
-let game = new Game(levels, board)
+let game = new Game(levels)
 
 game.levelKeys().forEach(function (key, i) {
   let option = document.createElement('OPTION')
@@ -49,9 +47,9 @@ function arrowkeys (event, direction, editing) {
     event.preventDefault()
     let d = (direction === 'up' || direction === 'left') ? 'back' : 'forward'
     changeInputText(d)
-  } else if (board.isPlaying()) {
+  } else if (game.isPlaying()) {
     event.preventDefault()
-    board.moveCurrentPlayer(direction)
+    game.moveCurrentPlayer(direction)
   }
 }
 

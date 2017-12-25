@@ -12,10 +12,6 @@ function Board () {
   self.goalColors = null
   self.state = 'unset' // playing, won, lost, paused
 
-  this.isPlaying = function () {
-    return self.state === 'playing'
-  }
-
   function typicalMove (character) {
     let freq = character.baseFreq
     character.setFrequency(Math.random() * freq + freq / 2)
@@ -203,14 +199,6 @@ function Board () {
       this.remove(char, currentSpace)
       if (this.hasWon()) this.win()
     }
-  }
-
-  this.getCurrentPlayer = function () {
-    return self.characters['dragon_1']
-  }
-
-  this.moveCurrentPlayer = function (direction) {
-    this.move(this.getCurrentPlayer().id, direction)
   }
 
   this.setup = function (levelData) {

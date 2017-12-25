@@ -1,10 +1,12 @@
 /* global $ */
 
-function Game (levels, board) {
+const Board = require('./board.js')
+
+function Game (levels) {
   let self = this
   this.levels = levels
   this.currentLevelIndex = 0
-  this.board = board
+  this.board = new Board()
 
   this.levelKeys = function () { return Object.keys(self.levels) }
 
@@ -33,6 +35,18 @@ function Game (levels, board) {
 
   this.validLevel = function (key) {
     return (self.levelIndex(key) !== null) || (self.levelName(key) !== null)
+  }
+
+  this.isPlaying = function () {
+    return self.board.state === 'playing'
+  }
+
+  this.getCurrentPlayer = function () {
+    return self.board.characters['dragon_1']
+  }
+
+  this.moveCurrentPlayer = function (direction) {
+    self.board.move(this.getCurrentPlayer().id, direction)
   }
 
   this.winGame = function () {
