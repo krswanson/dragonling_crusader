@@ -4,6 +4,7 @@ const hexColor = require('./hexColor.js')
 function Character (id, image, startIndex, isPlayer, frequency) {
   let self = this
   this.id = id
+  this.name = id
   this.image = null
   this.setImage = function (image) {
     this.image = (image && image.length === 1 ? [image[0], image[0]] : image)

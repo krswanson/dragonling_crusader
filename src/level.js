@@ -2,6 +2,16 @@ let Dragon = require('./dragon.js')
 let Knight = require('./knight.js')
 let Wizard = require('./wizard.js')
 
+function getIdAndNum (id) {
+  let underscore = id.lastIndexOf('_')
+  let num = Number.parseInt(id.substr(underscore + 1, id.length))
+  if (Number.isInteger(num)) {
+    return [id.substr(0, underscore + 1), num]
+  } else {
+    return [id + '_', 0]
+  }
+}
+
 function Level (lv = {}) {
   let self = this
   this.baseColors = lv.baseColors ? lv.baseColors.map(arr => { return arr.slice() }) : [['']]
@@ -24,21 +34,11 @@ function Level (lv = {}) {
     self.goalColors = this.filledArray(goalColor, rows, cols)
   }
 
-  this.getIdAndNum = function (id) {
-    let underscore = id.lastIndexOf('_')
-    let num = Number.parseInt(id.substr(underscore + 1, id.length))
-    if (Number.isInteger(num)) {
-      return [id.substr(0, underscore + 1), num]
-    } else {
-      return [id + '_', 0]
-    }
-  }
-
   this.addCharacter = function (character) {
     let ids = Object.keys(self.characters).filter(id => {
-      return this.getIdAndNum(id)[0] === this.getIdAndNum(character.id)[0]
+      return getIdAndNum(id)[0] === getIdAndNum(character.id)[0]
     })
-    character.setId(this.getIdAndNum(character.id)[0] + (ids.length + 1))
+    character.setId(getIdAndNum(character.id)[0] + (ids.length + 1))
 
     if (character.arrow) self.addCharacter(character.arrow)
     if (character.startIndexColor) {
@@ -83,5 +83,6 @@ function Level (lv = {}) {
     return ids.map(id => { return self.characters[id] })
   }
 }
+Level.getIdAndNum = getIdAndNum
 
 module.exports = Level

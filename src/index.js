@@ -58,12 +58,12 @@ $(document).on('change', 'select', function () {
   closed = !closed
 })
 document.getElementById('restart-level').addEventListener('click', function () {
-  game.selectLevel(game.currentLevel())
+  game.selectLevel(game.currentLevelName())
 })
 document.getElementById('next-level').addEventListener('click', function () {
   setSelect(game.currentLevelName())
   updateSelectText('#level-select')
-  game.selectLevel(game.currentLevel() + 1)
+  game.selectLevel(game.currentLevelIndex() + 1)
 })
 document.getElementById('level-select').addEventListener('click', function () {
   updateSelectText(this)
@@ -115,4 +115,4 @@ document.addEventListener('keydown', function (event) {
   }
 })
 
-game.selectLevel(game.currentLevel())
+game.selectLevel(game.currentLevelName())
