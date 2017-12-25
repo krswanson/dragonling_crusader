@@ -7,6 +7,7 @@ function Game (levels) {
   let self = this
   this.levels = levels
   this.curLvId = 0
+  this.currentPlayer = null
   this.board = new Board()
   this.state = 'unset' // playing, won, lost, paused
 
@@ -195,7 +196,7 @@ function Game (levels) {
   }
 
   this.getCurrentPlayer = function () {
-    return self.board.characters['dragon_1']
+    return $('.player-button.selected')[0].value
   }
 
   this.moveCurrentPlayer = function (direction) {
@@ -214,6 +215,7 @@ function Game (levels) {
     $('#level-description')[0].innerHTML = ''
     $('#next-level')[0].style.display = 'none'
     $('#endgame-message')[0].style.display = 'none'
+    $('.player-button').remove()
     self.stopBadGuys()
     let characters = self.board.characters
     Object.keys(characters).forEach(key => {
@@ -231,13 +233,21 @@ function Game (levels) {
     self.curLvId = this.levelIndex(levelKey)
     $('#level-number')[0].innerHTML = levelKey
     $('#level-description')[0].innerHTML = level.description
-    // TODO by player-characters not buttons
-    $('.player-button').each((i, b) => {
-      b.className = ''
-      let dragon = level.getDragons()[i]
-      b.className = 'player-button ' + dragon.type + '-player' + (i === 0 ? ' selected' : '')
-      b.innerHTML = dragon.name
-    })
+    level.getCharacters()
+      .filter(c => { return c.isPlayer })
+      .forEach((c, i) => {
+        let b = document.createElement('BUTTON')
+        b.className = 'player-button ' + c.type + '-player' + (i === 0 ? ' selected' : '')
+        b.innerText = c.name
+        b.value = c.id
+        b.addEventListener('click', () => {
+          b.className += ' selected'
+          b.parentNode.childNodes.forEach(el => {
+              if (el !== b) el.classList.remove('selected')
+          })
+        })
+        $('#player-buttons').append(b)
+      })
 
     self.board.setup(level.baseColors, level.characters)
     this.startBadGuys()

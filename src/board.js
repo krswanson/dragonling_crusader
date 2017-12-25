@@ -61,7 +61,7 @@ function Board () {
   }
 
   this.getSpace = function (character) {
-    return $('.' + character.id)[0]
+    return $('#dragon_board td.' + character.id)[0]
   }
 
   this.clearAnimation = function () {
