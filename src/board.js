@@ -107,7 +107,7 @@ function Board () {
   this.getRelativeSpace = function (direction, fromSpace) {
     let vector = Direction.makeVector(direction)
     let rowCol = fromSpace.id.split('_')
-    return document.getElementById((parseInt(rowCol[0]) + vector[0]) + '_' + (parseInt(rowCol[1]) + vector[1]))
+    return document.getElementById((parseInt(rowCol[0]) - vector[1]) + '_' + (parseInt(rowCol[1]) + vector[0]))
   }
 
   this.changeBackground = function (space, character) {

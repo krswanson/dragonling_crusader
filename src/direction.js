@@ -3,13 +3,14 @@ const keywords = [['upLeft', 'up', 'upRight'],
     ['downLeft', 'down', 'downRight']]
 
 function convertToWord (vector) {
-  return keywords[vector[0] + 1][vector[1] + 1]
+  if (!Array.isArray(vector) || vector.length !== 2) return console.error('Bad vector:', vector)
+  return keywords[1 - vector[1]][vector[0] + 1]
 }
 
 function convertToVector (word) {
   for (let i = 0; i < keywords.length; i++) {
     for (let j = 0; j < keywords[i].length; j++) {
-      if (keywords[i][j] === word) return [i - 1, j - 1]
+      if (keywords[i][j] === word) return [j - 1, 1 - i]
     }
   }
   console.error('Bad direction keyword:', word)
