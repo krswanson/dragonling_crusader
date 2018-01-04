@@ -2,6 +2,7 @@
 
 const Board = require('./board.js')
 const Direction = require('./direction.js')
+const setButtonType = require('./setButtonType.js')
 
 function Game (levels) {
   let self = this
@@ -242,18 +243,25 @@ function Game (levels) {
     level.getCharacters()
       .filter(c => { return c.isPlayer })
       .forEach((c, i) => {
-        if (i !== 0) self.board.clearAnimation(c)
+        let selected = i === 0
+        if (!selected) self.board.clearAnimation(c)
         let b = document.createElement('BUTTON')
-        b.className = 'player-button ' + c.type + '-player' + (i === 0 ? ' selected' : '')
+        b.className = 'player-button ' + c.type + '-player' + (selected ? ' selected' : '')
+        setButtonType(b, c.type, selected)
         b.innerText = c.name
         b.value = c.id
         b.addEventListener('click', () => {
-          if (b === $('.player0-button.selected')[0]) return
+          if (b.className.includes('selected')) return
 
           let oldChar = self.getCurrentPlayer()
-          b.className += ' selected'
           b.parentNode.childNodes.forEach(el => {
-            if (el !== b) el.classList.remove('selected')
+            let selected = el === b
+            setButtonType(el, self.board.characters[el.value].type, selected)
+            if (selected) {
+              el.classList.add('selected')
+            } else {
+              el.classList.remove('selected')
+            }
           })
           let newChar = self.getCurrentPlayer()
           self.board.clearAnimation(oldChar)

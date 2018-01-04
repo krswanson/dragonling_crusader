@@ -1,5 +1,6 @@
 const Character = require('./character.js')
 const Arrow = require('./arrow.js')
+const hexColor = require('./hexColor.js')
 
 function Bow (startIndex,
               canFace = [[-1, -1], [1, -1], [1, 1], [-1, 1]],
@@ -24,7 +25,7 @@ function Bow (startIndex,
   }
 
   this.validSpace = function (element) {
-    let elColor = element.style.background
+    let elColor = hexColor(element.style.background)
     return (elColor === self.wallColor || elColor === '')
   }
 

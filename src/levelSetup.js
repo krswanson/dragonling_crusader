@@ -149,12 +149,16 @@ lv.addCharacter(new FireDragon(fireGrass))
 lv.description = 'You\'ve reached the castle at last! Hmm, but if they have bowman on the walls like this you are going to need something other than dragonlings... May as well set the surrounding crops on fire while you\'re here though.'
 levels['Level 8'] = lv
 
+const SeaSerpent = require('./seaSerpent.js')
+
 lv = new Level()
 lv.setMapColors(5, 7, grass, ice)
 lv.addCharacter(new IceDragon(iceDirt))
 let fd = new FireDragon(fireGrass)
 fd.startIndex = '0_6'
 lv.addCharacter(fd)
+let ss = new SeaSerpent(water, '2_3')
+lv.addCharacter(ss)
 lv.description = ''
 levels['Level 9'] = lv
 

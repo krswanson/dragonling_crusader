@@ -13,13 +13,15 @@ Enemies
 	other dragons
 	elves
 
-Dragon image with filled color?
+Dragon image change directions
+
+Subclasses of character (bow and seaSerpent share invalidSpace func)
 
 Decorate header with dragon/knight images
 
 Can only select PREVIOUS levels/Keep track of levels ever won with cookies?
 
-Other levels?--bad guys mirror you, rescue other dragons, fire color onto adjacent square?
+Other levels?--bad guys mirror you, rescue other dragons, blast fire
 Holes in board/multiple boards?
 
 Be able to create levels in UI?
