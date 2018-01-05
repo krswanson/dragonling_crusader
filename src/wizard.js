@@ -3,7 +3,7 @@ const Character = require('./character.js')
 function Wizard (color, startIndex) {
   Character.apply(this, [
     'wizard',
-    ['images/wizard_yellow_64px.png'],
+    ['images/wizard_yellow_left_64px.png'],
     startIndex,
     false, // not player
     2000 // move frequency
