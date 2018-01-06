@@ -35,12 +35,20 @@ function Board () {
     return true
   }
 
+  function imageHTML (character) {
+    return '<img src="' + character.getBackImage() + '"/><img class="top" src="' + character.getForeImage() + '"/>'
+  }
+
+  this.updateImage = function (character) {
+    this.getSpace(character).innerHTML = imageHTML(character)
+  }
+
   this.add = function (character, space) {
     if (!this.validateSpace(space)) return false
-    space.innerHTML = '<img src="' + character.image[1] + '"/><img class="top" src="' + character.image[0] + '"/>'
-    space.style.padding = '6px 6px 6px 6px'
     this.changeBackground(space, character)
     $(space).addClass(character.id).addClass('animate')
+    space.innerHTML = imageHTML(character)
+    space.style.padding = '6px 6px 6px 6px'
     return true
   }
 

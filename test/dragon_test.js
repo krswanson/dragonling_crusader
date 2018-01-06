@@ -14,7 +14,7 @@ describe('Dragon', () => {
   })
 
   it('creates a dragon with certain Character properties', () => {
-    expect(dragon).to.have.property('image')
+    expect(dragon).to.have.property('images')
     expect(dragon).to.have.property('id')
     expect(dragon).to.have.property('startIndex')
     expect(dragon.isPlayer).to.be.true

@@ -1,21 +1,16 @@
 const Direction = require('./direction.js')
 const hexColor = require('./hexColor.js')
+const Images = require('./images.js')
 
-function Character (id, image, startIndex, isPlayer, frequency) {
+function Character (id, imagePaths, startIndex, isPlayer, frequency) {
+  if (!imagePaths) imagePaths = new Array(3)
   let self = this
   this.id = id
   this.name = id
-  this.image = null
-  this.setImage = function (image) {
-    this.image = (image && image.length === 1 ? [image[0], image[0]] : image)
-  }
-  this.setImage(image)
-  this.startFacing = new Direction('right')
-  this.facing = new Direction('right')
-  this.setStartFacing = function (dir) {
-    this.startFacing.set(dir)
-    this.facing.set(dir)
-  }
+  this.images = new Images(imagePaths[0] || '', imagePaths[1] || '', imagePaths[2] || '')
+  this.startFacing = new Direction(isPlayer ? 'right' : 'left')
+  this.facingOptions = [new Direction('right'), new Direction('left')]
+  this.facing = new Direction(self.startFacing)
   this.startIndex = startIndex
   this.isPlayer = isPlayer
   this.invalidColors = []
@@ -41,6 +36,39 @@ function Character (id, image, startIndex, isPlayer, frequency) {
 
   this.validSpace = function (element) {
     return !this.invalidColors.includes(hexColor(element.style.background))
+  }
+
+  this.setStartFacing = function (dir) {
+    this.startFacing.set(dir)
+    this.facing.set(dir)
+  }
+
+  this.setFacingOptions = function (options) {
+    self.facingOptions = []
+    options.forEach(d => {
+      self.facingOptions.push(new Direction(d))
+    })
+  }
+
+  this.canFace = function (dir) {
+    let word = Direction.makeWord(dir)
+    return self.facingOptions.find(f => {
+      return word === f.word
+    })
+  }
+
+  this.face = function (newDir) {
+    if (!this.canFace(newDir)) return false
+    self.facing.set(newDir)
+    return true
+  }
+
+  this.getForeImage = function () {
+    return self.images.getFore(self.facing.word)
+  }
+
+  this.getBackImage = function () {
+    return self.images.getBack(self.facing.word)
   }
 
   this.move = function () {}

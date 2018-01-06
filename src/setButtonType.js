@@ -46,7 +46,6 @@ function setButtonType (button, type, selected) {
   }
   let top = selected ? types[1] : types[0]
   let bottom = selected ? types[0] : types[1]
-  console.log(top, bottom, selected, button)
   setButton(button, top, bottom)
 }
 

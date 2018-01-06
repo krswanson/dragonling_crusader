@@ -9,7 +9,7 @@ describe('Knight', () => {
   })
 
   it('creates a knight with certain Character properties', () => {
-    expect(knight).to.have.property('image')
+    expect(knight).to.have.property('images')
     expect(knight).to.have.property('id')
     expect(knight).to.have.property('startIndex')
     expect(knight.transformColor('my color')).to.equal('my color')

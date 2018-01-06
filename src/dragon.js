@@ -4,7 +4,7 @@ const Character = require('./character.js')
 function Dragon (mapping, color, type, startIndex, name) {
   Character.apply(this, [
     'dragon',
-    ['images/dragon_' + type + '_64px.png', 'images/dragon_' + type + '2_64px.png'],
+    ['images/64px/dragon/' + type, 'fore', 'back'],
     startIndex,
     true, // is player
     null // no move frequency

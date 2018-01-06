@@ -5,19 +5,20 @@ const hexColor = require('./hexColor.js')
 function Bow (startIndex,
               canFace = [[-1, -1], [1, -1], [1, 1], [-1, 1]],
               wallColor = 'gray') {
-  let facing = 'upLeft'
   Character.apply(this, [
     'bowman',
-    ['images/bow_' + facing + '_64px.png'],
+    ['images/64px/bow'],
     startIndex,
     false, // not player
     2000 // move frequency
   ])
   let self = this
   this.wallColor = wallColor
-  this.canFace = canFace
+  this.setFacingOptions(canFace)
+  this.setStartFacing('up_left')
   this.arrow = new Arrow(null)
   this.arrow.id = 'arrow_' + self.id
+  this.arrow.setFacingOptions(canFace)
 
   this.setId = function (newId) {
     self.id = newId
@@ -29,17 +30,15 @@ function Bow (startIndex,
     return (elColor === self.wallColor || elColor === '')
   }
 
-  this.aim = function (newAim) {
-    self.facing.set(newAim)
-    self.setImage(['images/bow_' + self.facing.word + '_64px.png'])
-  }
+  // this.aim = function (newAim) {
+  //   self.facing.set(newAim)
+  //   self.setImage(['images/bow_' + self.facing.word + '_64px.png'])
+  // }
 
-  this.setStartFacing = function (dir) {
-    self.aim(dir)
-    Bow.prototype.setStartFacing.call(this, dir)
-  }
-
-  this.setStartFacing(facing)
+  // this.setStartFacing = function (dir) {
+  //   self.aim(dir)
+  //   Bow.prototype.setStartFacing.call(this, dir)
+  // }
 }
 Bow.prototype = new Character()
 

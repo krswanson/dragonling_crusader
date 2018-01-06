@@ -66,8 +66,11 @@ function Game (levels) {
     if (!character || character.constructor.name !== 'Character') return console.error('Invalid character or character id:', originalChar)
 
     let currentSpace = self.board.getSpace(character)
-    let vector = Direction.makeVector(direction)
-    let dest = self.board.getRelativeSpace(vector, currentSpace)
+    let dir = new Direction(direction)
+    let dest = self.board.getRelativeSpace(dir.vector(), currentSpace)
+
+    character.face(dir)
+    self.board.updateImage(character)
 
     let added = self.add(character, dest)
     if (added) {
@@ -76,16 +79,10 @@ function Game (levels) {
     }
   }
 
-  this.updatingFacing = function (character) {
-    let space = self.board.getSpace(character)
-    self.board.remove(character, space)
-    self.board.add(character, space)
-  }
-
   function typicalMove (character) {
     let freq = character.baseFreq
     character.setFrequency(Math.random() * freq + freq / 2)
-    // TODO character.canFace
+    // TODO: can move?
     let dirs = ['up', 'down', 'left', 'right']
     return dirs[Math.floor(Math.random() * 4)]
   }
@@ -105,13 +102,13 @@ function Game (levels) {
           typicalMove(bow)
           let shoot = Math.random() > 0.5
           if (!shoot) {
-            let options = bow.canFace
+            let options = bow.facingOptions
             let direction = options[Math.floor(Math.random() * options.length)]
-            bow.aim(direction)
-            self.updatingFacing(bow)
+            bow.face(direction)
+            self.board.updateImage(bow)
           } else if (!bow.arrow.moving) {
             let arrow = bow.arrow
-            arrow.aim(bow.facing.word)
+            arrow.face(bow.facing.word)
             arrow.startMoving(function () {
               arrow.moving = true
               if (!self.board.getSpace(arrow)) {

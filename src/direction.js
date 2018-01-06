@@ -1,6 +1,6 @@
-const keywords = [['upLeft', 'up', 'upRight'],
+const keywords = [['up_left', 'up', 'up_right'],
     ['left', 'none', 'right'],
-    ['downLeft', 'down', 'downRight']]
+    ['down_left', 'down', 'down_right']]
 
 function convertToWord (vector) {
   if (!Array.isArray(vector) || vector.length !== 2) return console.error('Bad vector:', vector)
@@ -15,6 +15,21 @@ function convertToVector (word) {
   }
   console.error('Bad direction keyword:', word)
   return []
+}
+
+function makeWord (direction) {
+  if (direction.constructor.name === 'Direction') return direction.word
+  else if (Array.isArray(direction) && direction.length === 2) convertToWord(direction)
+  else if (typeof direction === 'string') {
+    let good = keywords.find(arr => { return arr.includes(direction) })
+    if (good) return direction
+
+    console.error('Bad direction keyword:', direction)
+    return ''
+  }
+
+  console.error('Could not make direction keyword from:', direction)
+  return ''
 }
 
 function makeVector (direction) {
@@ -37,7 +52,11 @@ function Direction (d) {
   }
 
   this.set = function (direction) {
-    if (typeof direction === 'string') {
+    if (direction.constructor.name === 'Direction') {
+      self.word = direction.word
+      self.x = direction.x
+      self.y = direction.y
+    } else if (typeof direction === 'string') {
       self.word = direction
       let vector = convertToVector(direction)
       self.x = vector[0]
@@ -57,6 +76,7 @@ function Direction (d) {
 Direction.keywords = keywords
 Direction.convertToWord = convertToWord
 Direction.convertToVector = convertToVector
+Direction.makeWord = makeWord
 Direction.makeVector = makeVector
 
 module.exports = Direction
