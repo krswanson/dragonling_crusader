@@ -46,7 +46,8 @@ function Board () {
   this.add = function (character, space) {
     if (!this.validateSpace(space)) return false
     this.changeBackground(space, character)
-    $(space).addClass(character.id).addClass('animate')
+    space.classList.add(character.id)
+    space.classList.add('animate')
     space.innerHTML = imageHTML(character)
     space.style.padding = '6px 6px 6px 6px'
     return true
@@ -56,7 +57,8 @@ function Board () {
     if (!this.validateSpace(space)) return false
     space.innerHTML = ''
     space.style.padding = '40px 40px 40px 40px'
-    $(space).removeClass(character.id).removeClass('animate')
+    space.classList.remove(character.id)
+    space.classList.remove('animate')
     return true
   }
 

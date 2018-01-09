@@ -1,0 +1,15 @@
+
+describe('Game', () => {  
+  it('adds the level description')
+  it('can move characters')
+  it('does not move a character when it tries to move off the board')
+  it('prevents characters from moving onto colors that are invalid for them')
+  it('removes the player character when a non-player character moves onto it')
+  it('removes the player character when it moves onto a non-player character')
+  it('does not let non-player characters move onto a space already occupied by a non-player character')
+  it('does not let player characters move onto a space already occupied by a player character')
+  it('can determine when the player has won')
+  it('can determine when the player has lost')
+  it('stops the player characters when the game is over')
+  it('stops the non-player characters when the game is over')
+})
