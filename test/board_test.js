@@ -11,6 +11,9 @@ let board = new Board()
       true, // is player
       null) // no move frequency)
 let validateSpaceStub = sinon.stub(board, 'validateSpace')
+let transformColorStub = sinon.stub(c1, 'transformColor').returns('pink')
+let space = null
+let getRelativeSpaceStub = null
 let getSpaceStub = null
 let fakeElement = null
 
@@ -23,15 +26,21 @@ describe('Board', () => {
     style: {padding: '', background: 'orange'}}
     getSpaceStub.returns(fakeElement)
     validateSpaceStub.returns(true)
+    space = {style: {background: 'green'}}
+    getRelativeSpaceStub = sinon.stub(board, 'getRelativeSpace').returns(space)
   })
 
   it('sets up the board')
 
   it('can fully delete the board from the DOM')
   
-  it('can be reused with no side effects after the board is delete')
+  it('can be reused with no side effects after the board is deleted')
 
-  it('can change the background of a space')
+  it('can change the background of a space', () => {
+    board.changeBackground(fakeElement, c1)
+    expect(space.style.background).to.equal('pink')
+    expect(getRelativeSpaceStub.called).to.be.true
+  })
 
   it('can add a character to a space', () => {
     let stub = sinon.stub(board, 'changeBackground')
@@ -41,6 +50,7 @@ describe('Board', () => {
     expect(fakeElement.innerHTML.includes('<img')).to.be.true
     expect(fakeElement.innerHTML.
       includes('images/64px/sea_serpent')).to.be.true
+    stub.restore()
   })
 
   it('can remove a character from a space', () => {
@@ -60,6 +70,7 @@ describe('Board', () => {
 
   afterEach(() => {
     validateSpaceStub.reset()
+    getRelativeSpaceStub.restore()
     getSpaceStub.restore()
   })
 })
