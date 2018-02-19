@@ -1,3 +1,5 @@
+let color = require('./colors.js')
+
 // From: https://stackoverflow.com/questions/15071062/using-javascript-to-edit-css-gradient
 function getCssValuePrefix () {
   let prefix = '' // default to standard syntax
@@ -32,10 +34,10 @@ function setButtonType (button, type, selected) {
   let types = new Array(2)
   switch (type) {
     case 'fire':
-      types = ['orange', '#443300']
+      types = [color.FIRE, '#443300']
       break
     case 'ice':
-      types = ['#AACCFF', '#223344']
+      types = [color.ICE, '#223344']
       break
     case 'water':
       // square is set to: '#1155dd'

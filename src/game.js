@@ -3,6 +3,7 @@
 const Board = require('./board.js')
 const Direction = require('./direction.js')
 const setButtonType = require('./setButtonType.js')
+const color = require('./colors.js')
 
 function Game (levels) {
   let self = this
@@ -154,7 +155,7 @@ function Game (levels) {
 
   this.win = function () {
     self.state = 'won'
-    this.endGame('<p style="color: #11ee11">You win!</p>')
+    this.endGame('<p style="color: ' + color.GREEN + '">You win!</p>')
     self.board.flash()
     $('#next-level')[0].style.display = 'block'
   }
@@ -208,7 +209,7 @@ function Game (levels) {
   this.winGame = function () {
     self.clearCurrentLevel()
     let message = $('#level-description')[0]
-    message.innerHTML = '<p style="color: #11ee11">Your dragonlings have conquered!<br>You beat the game!</p>'
+    message.innerHTML = '<p style="color: ' + color.GREEN + '">Your dragonlings have conquered!<br>You beat the game!</p>'
     // TODO place with all colors declared
   }
 
