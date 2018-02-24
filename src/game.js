@@ -47,12 +47,12 @@ function Game (levels) {
         return false
       } else {
         if (destChar.isPlayer) { // Bad guy lands on player
-          this.lose(character)
+          this.lose(destChar, character)
           self.board.remove(destChar, dest)
           self.board.add(character, dest)
           return true
         } else { // Player landed on bad guy
-          this.lose(destChar)
+          this.lose(character, destChar)
           return true // Let calling function know to remove from current space
         }
       }
@@ -134,12 +134,15 @@ function Game (levels) {
   }
 
   this.hasWon = function () {
-    let goalColors = self.currentLevel().goalColors
+    let goals = self.currentLevel().goalColors
     for (let i = 0; i < self.board.rows; i++) {
       for (let j = 0; j < self.board.cols; j++) {
         let color = self.board.getColor(i, j)
-        let goal = goalColors[i][j]
-        if (goal && color !== goal) return false
+        let char = self.board.getCharacterByIndex(i, j)
+        let goalColor = goals[i][j].color
+        let goalChar = goals[i][j].char
+        if (goalColor && color !== goalColor) return false
+        if (goalChar && char !== goalChar) return false
       }
     }
     return true
@@ -160,9 +163,9 @@ function Game (levels) {
     $('#next-level')[0].style.display = 'block'
   }
 
-  this.lose = function (byChar) {
+  this.lose = function (killedChar, byChar) {
     self.state = 'lost'
-    this.endGame('<p style="color: #ff2222">The ' + byChar.name + ' has killed you. You lose!</p>')
+    this.endGame('<p style="color: #ff2222">The ' + byChar.name + ' has killed your ' + killedChar.name + '. You lose!</p>')
   }
 
   this.levelKeys = function () { return Object.keys(self.levels) }
@@ -210,7 +213,6 @@ function Game (levels) {
     self.clearCurrentLevel()
     let message = $('#level-description')[0]
     message.innerHTML = '<p style="color: ' + color.GREEN + '">Your dragonlings have conquered!<br>You beat the game!</p>'
-    // TODO place with all colors declared
   }
 
   this.clearCurrentLevel = function () {

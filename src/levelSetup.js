@@ -36,13 +36,6 @@ function setInvalidColor (chars, color) {
   Object.keys(chars).forEach(key => { chars[key].addInvalidColor(color) })
 }
 
-function setToColor (indexes, arr1, color1, arr2, color2) {
-  indexes.forEach(i => {
-    arr1[i[0]][i[1]] = color1
-    if (arr2) arr2[i[0]][i[1]] = color2
-  })
-}
-
 let lv = new Level()
 lv.setMapColors(4, 4, color.GRASS, color.FIRE)
 lv.addKnight(2, 2)
@@ -60,7 +53,7 @@ levels['Level 2'] = lv
 lv = new Level()
 lv.setMapColors(4, 4, color.WET_GRASS, color.ICE)
 let indexes = [[2, 0], [2, 1], [3, 1]]
-setToColor(indexes, lv.baseColors, color.WATER, lv.goalColors, color.FROZEN_WATER)
+lv.setIndexesColors(indexes, color.WATER, color.FROZEN_WATER)
 
 lv.addKnight(1, 1)
 setInvalidColor(lv.getKnights(), color.WATER)
@@ -72,8 +65,7 @@ lv = new Level()
 lv.setMapColors(4, 4, color.WIZARDRY, color.ICE)
 lv.addKnight(1, 1)
 lv.addCharacter(new IceDragon(iceMapping))
-lv.goalColors[2][2] = color.WALL
-lv.baseColors[2][2] = color.WALL
+lv.setIndexesColors([[2, 2]], color.WALL, color.WALL)
 setInvalidColor(lv.characters, color.WALL)
 lv.description = 'Hmm, this field\'s grass looks strange. Did they do something to it? And is that an abondoned watchtower?'
 levels['Level 4'] = lv
@@ -90,8 +82,8 @@ lv = new Level()
 lv.setMapColors(5, 5, color.GRASS, color.ICE)
 lv.addWizard(color.WIZARDRY, 2, 2)
 lv.addCharacter(new IceDragon(iceMapping))
-lv.baseColors[0][2] = color.WIZARDRY
-lv.baseColors[1][2] = color.WIZARDRY
+lv.setBaseColor(0, 2, color.WIZARDRY)
+lv.setBaseColor(1, 2, color.WIZARDRY)
 lv.description = 'Aha! This strangely-colored grass is a wizard\'s work!'
 levels['Level 6'] = lv
 
@@ -112,19 +104,19 @@ dragon.colorRelativeSquares = function (landingOnColor) {
   }
 }
 lv.addCharacter(dragon)
-lv.baseColors[3][2] = color.WIZARDRY
-lv.baseColors[4][2] = color.WIZARDRY
+lv.setBaseColor(3, 2, color.WIZARDRY)
+lv.setBaseColor(4, 2, color.WIZARDRY)
 lv.description = 'Okay, send in the fire dragonling this time to see if fire is any better against this wizard\'s magic...'
 levels['Level 7'] = lv
 
 lv = new Level()
 lv.setMapColors(5, 6, color.GRASS, color.FIRE)
 indexes = [[3, 3], [3, 4], [3, 5], [4, 3]]
-setToColor(indexes, lv.baseColors, color.WALL, lv.goalColors, null)
+lv.setIndexesColors(indexes, color.WALL, color.WALL)
 indexes = [[4, 4], [4, 5]]
-setToColor(indexes, lv.baseColors, color.DIRT, lv.goalColors, null)
+lv.setIndexesColors(indexes, color.DIRT, color.DIRT)
 indexes = [[4, 2], [3, 2], [2, 2], [2, 3], [2, 4], [2, 5]]
-setToColor(indexes, lv.baseColors, color.WATER, lv.goalColors, null)
+lv.setIndexesColors(indexes, color.WATER, null)
 
 lv.addKnight(1, 3)
 lv.getKnights()[0].addInvalidColor(color.WATER)
@@ -139,14 +131,15 @@ levels['Level 8'] = lv
 const SeaSerpent = require('./seaSerpent.js')
 
 lv = new Level()
-lv.setMapColors(5, 7, color.GRASS, color.ICE)
-lv.addCharacter(new IceDragon(iceMapping))
-let fd = new FireDragon(fireMapping)
-fd.startIndex = '0_6'
-lv.addCharacter(fd)
-let ss = new SeaSerpent(color.WATER, '2_3')
-lv.addCharacter(ss)
-lv.description = ''
+lv.setMapColors(5, 7, color.GRASS, null)
+lv.addKnight(2, 3)
+setInvalidColor(lv.characters, color.WATER)
+lv.addCharacter(new FireDragon(fireMapping, '4_4'))
+lv.addCharacter(new IceDragon(iceMapping, '0_1'))
+lv.addCharacter(new SeaSerpent(color.WATER, '0_0'))
+lv.setIndexesColors([[1, 0]], color.WATER, null)
+lv.setGoalChar(4, 6, lv.getDragons()[2])
+lv.description = 'Excellent, here is your ally the sea serpent. The castle is to the bottom right. Get him down there and he will be able to help deal with the archers!'
 levels['Level 9'] = lv
 
 module.exports = levels

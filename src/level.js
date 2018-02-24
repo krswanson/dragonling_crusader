@@ -14,8 +14,8 @@ function getIdAndNum (id) {
 
 function Level (lv = {}) {
   let self = this
-  this.baseColors = lv.baseColors ? lv.baseColors.map(arr => { return arr.slice() }) : [['']]
-  this.goalColors = lv.goalColors ? lv.goalColors.map(arr => { return arr.slice() }) : [['']]
+  this.baseColors = lv.baseColors ? lv.baseColors.map(arr => { return arr.slice() }) : [[ {} ]]
+  this.goalColors = lv.goalColors ? lv.goalColors.map(arr => { return arr.slice() }) : [[ {} ]]
   this.characters = {}
   this.description = lv.description || ''
 
@@ -23,7 +23,7 @@ function Level (lv = {}) {
     let arr2d = []
     for (let i = 0; i < rows; i++) {
       let arr = new Array(cols)
-      arr.fill(color)
+      arr = arr.fill().map(a => { return {color: color, char: null} })
       arr2d.push(arr)
     }
     return arr2d
@@ -32,6 +32,25 @@ function Level (lv = {}) {
   this.setMapColors = function (rows, cols, baseColor, goalColor) {
     self.baseColors = this.filledArray(baseColor, rows, cols)
     self.goalColors = this.filledArray(goalColor, rows, cols)
+  }
+
+  this.setIndexesColors = function (indexes, baseColor, goalColor) {
+    indexes.forEach(i => {
+      self.setBaseColor(i[0], i[1], baseColor)
+      self.setGoalColor(i[0], i[1], goalColor)
+    })
+  }
+
+  this.setBaseColor = function (row, col, color) {
+    self.baseColors[row][col].color = color
+  }
+
+  this.setGoalColor = function (row, col, color) {
+    self.goalColors[row][col].color = color
+  }
+
+  this.setGoalChar = function (row, col, charId) {
+    self.goalColors[row][col].char = charId
   }
 
   this.addCharacter = function (character) {
@@ -43,7 +62,7 @@ function Level (lv = {}) {
     if (character.arrow) self.addCharacter(character.arrow)
     if (character.startIndexColor) {
       let rowCol = character.startIndex.split('_')
-      self.baseColors[rowCol[0]][rowCol[1]] = character.startIndexColor
+      self.setBaseColor(rowCol[0], rowCol[1], character.startIndexColor)
     }
     self.characters[character.id] = character
   }

@@ -6,7 +6,7 @@ function FireDragon (mapping, startIndex = '0_0') {
     'orange',
     'fire',
     startIndex,
-    'Fire Dragonling'
+    'fire dragonling'
   ])
 }
 FireDragon.prototype = new Dragon()

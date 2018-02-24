@@ -15,6 +15,10 @@ function Board () {
     return document.getElementById((parseInt(rowCol[0]) - vector[1]) + '_' + (parseInt(rowCol[1]) + vector[0]))
   }
 
+  this.getCharacterByIndex = function (row, col) {
+    return self.getCharacter($('#' + row + '_' + col)[0])
+  }
+
   this.getColor = function (row, col) {
     return hexColor($('#' + row + '_' + col)[0].style.background)
   }
@@ -114,7 +118,7 @@ function Board () {
           let c = self.characters[key]
           if (c.startIndex === td.id) self.add(c, td)
         })
-        td.style.background = baseColors[i][j]
+        td.style.background = baseColors[i][j].color
         tr.appendChild(td)
       }
       tr.appendChild(td)

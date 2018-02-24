@@ -2,7 +2,7 @@
 const Character = require('./character.js')
 const hexColor = require('./hexColor.js')
 
-function SeaSerpent (color, startIndex) {
+function SeaSerpent (color, startIndex = '0_0') {
   // Image: #009944 #007733 #3377FF
   Character.apply(this, [
     'dragon',
@@ -15,7 +15,7 @@ function SeaSerpent (color, startIndex) {
   this.color = color
   this.startIndexColor = color
   this.type = 'water'
-  this.name = 'Sea Serpent'
+  this.name = 'sea serpent'
 
   this.validSpace = function (element) {
     let elColor = hexColor(element.style.background)

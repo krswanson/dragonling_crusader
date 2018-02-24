@@ -42,7 +42,7 @@ describe('Level', () => {
     level.setMapColors(4, 5, '#aabbcc', 'gray')
     expect(level.baseColors.length).to.equal(4)
     expect(level.baseColors[0].length).to.equal(5)
-    level.baseColors.forEach(r => {r.forEach(c => { expect(c).to.equal('#aabbcc')})})
+    level.baseColors.forEach(r => {r.forEach(o => { expect(o.color).to.equal('#aabbcc')})})
   })
 
   // TODO goal conditions  

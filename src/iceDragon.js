@@ -6,7 +6,7 @@ function IceDragon (mapping, startIndex = '0_0') {
     '#aaccff',
     'ice',
     startIndex,
-    'Ice Dragonling'
+    'ice dragonling'
   ])
 }
 IceDragon.prototype = new Dragon()
