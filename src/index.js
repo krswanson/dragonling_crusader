@@ -6,13 +6,21 @@ const Game = require('./game.js')
 let closed = true
 let game = new Game(levels)
 
-game.levelKeys().forEach(function (key, i) {
-  let option = document.createElement('OPTION')
-  option.value = key
-  option.innerHTML = key
-  let select = document.getElementById('level-select')
-  if (i === 0) select.value = key
-  select.appendChild(option)
+function setupLevelOption (lv) {
+  let comLv = window.sessionStorage.getItem('level-completed')
+  if (comLv && game.levelIndex(comLv) >= game.levelIndex(lv)) {
+    let option = document.createElement('OPTION')
+    option.value = lv
+    option.innerHTML = lv
+    let select = document.getElementById('level-select')
+    select.value = lv
+    select.size++
+    select.appendChild(option)
+  }
+}
+
+game.levelKeys().forEach(function (lv) {
+  setupLevelOption(lv)
 })
 
 function inputClick (input) {
@@ -30,6 +38,8 @@ function changeInputText (direction) {
   let key = oldText ? newIndex : 0
   if (key < 0) key = 0
   if (key >= game.numLevels()) key = game.numLevels() - 1
+  let max = window.sessionStorage.getItem('level-completed')
+  if (!max || key > game.levelIndex(max)) return
   let newText = game.levelName(key)
   setSelect(newText)
   $('#previous-level-input').val(newText)
@@ -57,25 +67,42 @@ $(document).on('change', 'select', function () {
   setSelect(this.value)
   closed = !closed
 })
+
 document.getElementById('restart-level').addEventListener('click', function () {
   game.selectLevel(game.currentLevelName())
 })
+
 document.getElementById('next-level').addEventListener('click', function () {
-  setSelect(game.currentLevelName())
-  updateSelectText('#level-select')
+  let comLv = window.sessionStorage.getItem('level-completed')
+  if (!comLv || game.levelIndex(comLv) < game.currentLevelIndex()) {
+    window.sessionStorage.setItem('level-completed', game.currentLevelName())
+    setupLevelOption(game.currentLevelName())
+  } else {
+    setSelect(game.currentLevelName())
+    updateSelectText('#level-select')
+  }
   game.selectLevel(game.currentLevelIndex() + 1)
 })
+
 document.getElementById('level-select').addEventListener('click', function () {
   updateSelectText(this)
 })
+
 document.getElementById('level-select-button').addEventListener('click', function () {
+  function respondToBadInput () {
+    $('#previous-level-input').val('')
+    // TOTDO error message
+  }
   let input = $('#previous-level-input')[0].value || $('#level-select')[0].value
   if (game.validLevel(input)) {
+    let lvComId = game.levelIndex(window.sessionStorage.getItem('level-completed'))
+    let inputLvId = game.levelIndex(input)
+    if (lvComId < inputLvId) return respondToBadInput()
+
     game.selectLevel(input)
     if (!closed) inputClick('#previous-level-input')
   } else {
-    $('#previous-level-input').val('')
-    // TOTDO error message
+    respondToBadInput()
   }
 })
 
