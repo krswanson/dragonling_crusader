@@ -142,4 +142,26 @@ lv.setGoalChar(4, 6, lv.getDragons()[2])
 lv.description = 'Excellent, here is your ally the sea serpent. The castle is to the bottom right. Get him down there and he will be able to help deal with the archers!'
 levels['Level 9'] = lv
 
+lv = new Level()
+lv.setMapColors(6, 6, color.GRASS, null)
+indexes = [[4, 0], [4, 1], [4, 4], [4, 5]]
+lv.setIndexesColors(indexes, color.WALL, color.WALL)
+indexes = [[4, 2], [4, 3], [5, 0], [5, 1], [5, 2], [5, 3], [5, 4], [5, 5]]
+lv.setIndexesColors(indexes, color.DIRT, color.FIRE)
+indexes = [[3, 0], [3, 1], [3, 2], [3, 3], [3, 4], [3, 5]]
+lv.setIndexesColors(indexes, color.WATER, null)
+lv.addCharacter(new Bow('4_0', ['up_right']))
+for (let i = 1; i < 5; i++) {
+//  lv.addCharacter(new Bow('4_' + i, ['up_left', 'up_right']))
+}
+lv.addCharacter(new Bow('4_5', ['up_left']))
+lv.getCharacters()
+  .filter(c => { return !c.id.includes('arrow') })
+  .forEach((c, i) => { if (i % 2 === 0) c.setStartFacing('up_right') })
+lv.addCharacter(new FireDragon(fireMapping, '1_0'))
+lv.addCharacter(new IceDragon(iceMapping, '0_1'))
+lv.addCharacter(new SeaSerpent(color.WATER, '0_0'))
+lv.description = 'Back at the castle! You will need to get your fire dragonling inside. Now, in order to deal with the archers, we need to get the sea serpent close to the walls...'
+levels['Level 10'] = lv
+
 module.exports = levels

@@ -121,8 +121,10 @@ function Board () {
         td.style.background = baseColors[i][j].color
         tr.appendChild(td)
       }
-      tr.appendChild(td)
       table.appendChild(tr)
+
+      // TODO better way to deal with how row with all-images gets compressed
+      tr.style.height = '83px'
     }
     document.getElementById('board').appendChild(table)
   }
