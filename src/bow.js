@@ -1,6 +1,5 @@
 const Character = require('./character.js')
 const Arrow = require('./arrow.js')
-const hexColor = require('./hexColor.js')
 
 function Bow (startIndex,
               canFace = [[-1, -1], [1, -1], [1, 1], [-1, 1]],
@@ -24,21 +23,6 @@ function Bow (startIndex,
     self.id = newId
     this.arrow.id = 'arrow_' + self.id
   }
-
-  this.validSpace = function (element) {
-    let elColor = hexColor(element.style.background)
-    return (elColor === self.wallColor || elColor === '')
-  }
-
-  // this.aim = function (newAim) {
-  //   self.facing.set(newAim)
-  //   self.setImage(['images/bow_' + self.facing.word + '_64px.png'])
-  // }
-
-  // this.setStartFacing = function (dir) {
-  //   self.aim(dir)
-  //   Bow.prototype.setStartFacing.call(this, dir)
-  // }
 }
 Bow.prototype = new Character()
 

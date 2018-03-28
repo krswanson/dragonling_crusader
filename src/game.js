@@ -29,6 +29,31 @@ function Game (levels) {
     }
   }
 
+  function scareBowman (dest) {
+    // TODO currently assumes only down
+    let bowSpace = self.board.getRelativeSpace('down', dest)
+    console.log('below', bowSpace)
+    let bow = self.board.getCharacter(bowSpace)
+    console.log('bow', bow)
+    if (bow && bow.name === 'bowman') {
+      bow.stopMoving()
+      let count = 0
+      bow.startMoving(function () {
+        console.log('in new startMoving')
+        if (count === 0) {
+          console.log('in count 0', count, bow)
+
+          self.move(bow, 'down')
+          count++
+        } else {
+          console.log('in count 1')
+          self.board.remove(bow)
+          bow.stopMoving()
+        }
+      })
+    }
+  }
+
   this.add = function (character, dest) {
     if (!dest) { // Off edge of board
       self.destroyArrow(character)
@@ -58,7 +83,9 @@ function Game (levels) {
       }
     }
     // Empty space, add normally
-    return self.board.add(character, dest)
+    let added = self.board.add(character, dest)
+    if (added && character.name === 'sea serpent') scareBowman(dest)
+    return added
   }
 
   this.move = function (character, direction) {
@@ -97,7 +124,7 @@ function Game (levels) {
           let direction = typicalMove(c)
           self.move(c, direction)
         })
-      } else if (c.id.includes('bow') && !c.id.includes('arrow')) {
+      } else if (c.name === 'bowman') {
         let bow = c
         bow.startMoving(function () {
           typicalMove(bow)

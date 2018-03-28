@@ -33,7 +33,7 @@ function Board () {
 
   this.validateSpace = function (space) {
     if (!$(space)[0] || typeof space !== 'object') {
-      console.error('Can\'t add characterto space, bad element object:', space)
+      console.error('Can\'t add character to space, bad element object:', space)
       return false
     }
     return true
@@ -57,7 +57,8 @@ function Board () {
     return true
   }
 
-  this.remove = function (character, space) {
+  this.remove = function (character, space = null) {
+    if (!space) space = self.getSpace(character)
     if (!this.validateSpace(space)) return false
     space.innerHTML = ''
     space.style.padding = '40px 40px 40px 40px'
