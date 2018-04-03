@@ -24,8 +24,10 @@ game.levelKeys().forEach(function (lv) {
 })
 
 function inputClick (input) {
-  closed = !closed
-  $(input).closest('div').find('select').slideToggle(110)
+  if (window.sessionStorage.getItem('level-completed')) {
+    closed = !closed
+    $(input).closest('div').find('select').slideToggle(110)
+  }
 }
 
 function updateSelectText (element) {
@@ -64,8 +66,10 @@ function arrowkeys (event, direction, editing) {
 }
 
 $(document).on('change', 'select', function () {
-  setSelect(this.value)
-  closed = !closed
+  if (window.sessionStorage.getItem('level-completed')) {
+    setSelect(this.value)
+    closed = !closed
+  }
 })
 
 document.getElementById('restart-level').addEventListener('click', function () {
