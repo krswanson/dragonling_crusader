@@ -1,8 +1,8 @@
 # Dragonling Crusader
 
-A browser game written in JavaScript
+A browser game written in JavaScript.  Live site: https://dragonling-crusader.herokuapp.com/
 
-## Install and run
+## Install and run locally
 
 ```sh
 cd dragonling_crusader
