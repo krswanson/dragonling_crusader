@@ -3,13 +3,17 @@
   "version": "1.0.0",
   "description": "Browser game",
   "main": "index.js",
+  "engines": {
+    "node": "8.10.0"
+  },
   "scripts": {
     "build": "gulp build",
     "devList": "forever list",
     "devStart": "forever start --id 'server' app.js && gulp watch",
     "devStop": "forever stop 'server' && npm run devList",
     "start": "node app.js",
-    "test": "gulp test"
+    "test": "gulp test",
+    "heroku-postbuild": "npm run build"
   },
   "repository": {
     "type": "git",
