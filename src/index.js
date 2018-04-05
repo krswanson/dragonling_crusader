@@ -6,12 +6,24 @@ const Game = require('./game.js')
 let closed = true
 let game = new Game(levels)
 
+function startLevel (name) {
+  $('#previous-level-div .error-message').text('')
+  $('#previous-level-input').val('')
+  game.selectLevel(name)
+}
+
 function setupLevelOption (lv) {
   let comLv = window.sessionStorage.getItem('level-completed')
   if (comLv && game.levelIndex(comLv) >= game.levelIndex(lv)) {
     let option = document.createElement('OPTION')
     option.value = lv
     option.innerHTML = lv
+    option.addEventListener('click', function () {
+      if (window.sessionStorage.getItem('level-completed')) {
+        setSelect(this.value)
+        closed = !closed
+      }
+    })
     let select = document.getElementById('level-select')
     select.value = lv
     select.size++
@@ -65,15 +77,8 @@ function arrowkeys (event, direction, editing) {
   }
 }
 
-$(document).on('change', 'select', function () {
-  if (window.sessionStorage.getItem('level-completed')) {
-    setSelect(this.value)
-    closed = !closed
-  }
-})
-
 document.getElementById('restart-level').addEventListener('click', function () {
-  game.selectLevel(game.currentLevelName())
+  startLevel(game.currentLevelName())
 })
 
 document.getElementById('next-level').addEventListener('click', function () {
@@ -81,11 +86,8 @@ document.getElementById('next-level').addEventListener('click', function () {
   if (!comLv || game.levelIndex(comLv) < game.currentLevelIndex()) {
     window.sessionStorage.setItem('level-completed', game.currentLevelName())
     setupLevelOption(game.currentLevelName())
-  } else {
-    setSelect(game.currentLevelName())
-    updateSelectText('#level-select')
   }
-  game.selectLevel(game.currentLevelIndex() + 1)
+  startLevel(game.currentLevelIndex() + 1)
 })
 
 document.getElementById('level-select').addEventListener('click', function () {
@@ -93,20 +95,21 @@ document.getElementById('level-select').addEventListener('click', function () {
 })
 
 document.getElementById('level-select-button').addEventListener('click', function () {
-  function respondToBadInput () {
-    $('#previous-level-input').val('')
-    // TOTDO error message
+  function respondToBadInput (message) {
+    $('#previous-level-div .error-message').text(message)
   }
+  if (!closed) inputClick('#previous-level-input')
   let input = $('#previous-level-input')[0].value || $('#level-select')[0].value
   if (game.validLevel(input)) {
     let lvComId = game.levelIndex(window.sessionStorage.getItem('level-completed'))
     let inputLvId = game.levelIndex(input)
-    if (lvComId < inputLvId) return respondToBadInput()
-
-    game.selectLevel(input)
-    if (!closed) inputClick('#previous-level-input')
+    if (lvComId < inputLvId) {
+      return respondToBadInput('Have not beaten selected level')
+    }
+    startLevel(input)
   } else {
-    respondToBadInput()
+    let message = input === '' ? 'No level selected' : 'Invalid level name'
+    respondToBadInput(message)
   }
 })
 
@@ -146,4 +149,4 @@ document.addEventListener('keydown', function (event) {
   }
 })
 
-game.selectLevel(game.currentLevelName())
+startLevel(game.currentLevelName())
