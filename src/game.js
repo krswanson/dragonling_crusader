@@ -35,6 +35,8 @@ function Game (levels) {
     let bow = self.board.getCharacter(bowSpace)
     if (bow && bow.name === 'bowman') {
       bow.stopMoving()
+      bow.face('down_right', 'override')
+      self.board.updateImage(bow)
       let count = 0
       bow.startMoving(function () {
         if (count === 0) {

@@ -57,8 +57,8 @@ function Character (id, imagePaths, startIndex, isPlayer, frequency) {
     })
   }
 
-  this.face = function (newDir) {
-    if (!this.canFace(newDir)) return false
+  this.face = function (newDir, override = false) {
+    if (!override && !this.canFace(newDir)) return false
     self.facing.set(newDir)
     return true
   }
