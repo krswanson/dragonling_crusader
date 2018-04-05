@@ -151,13 +151,15 @@ lv.setIndexesColors(indexes, color.DIRT, color.FIRE)
 indexes = [[3, 0], [3, 1], [3, 2], [3, 3], [3, 4], [3, 5]]
 lv.setIndexesColors(indexes, color.WATER, null)
 lv.addCharacter(new Bow('4_0', ['up_right']))
-for (let i = 1; i < 5; i++) {
-//  lv.addCharacter(new Bow('4_' + i, ['up_left', 'up_right']))
-}
+lv.addCharacter(new Bow('4_2', ['up_left', 'up_right']))
+lv.addCharacter(new Bow('4_3', ['up_left', 'up_right']))
 lv.addCharacter(new Bow('4_5', ['up_left']))
 lv.getCharacters()
   .filter(c => { return !c.id.includes('arrow') })
-  .forEach((c, i) => { if (i % 2 === 0) c.setStartFacing('up_right') })
+  .forEach((c, i) => {
+    c.setFrequency(Math.random() * c.baseFreq + c.baseFreq)
+    if (i % 2 === 0) c.setStartFacing('up_right')
+  })
 lv.addCharacter(new FireDragon(fireMapping, '1_0'))
 lv.addCharacter(new IceDragon(iceMapping, '0_1'))
 lv.addCharacter(new SeaSerpent(color.WATER, '0_0'))
