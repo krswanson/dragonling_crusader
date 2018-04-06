@@ -23,10 +23,10 @@ describe('Board', () => {
     getSpaceStub = sinon.stub(board, 'getSpace')
     fakeElement = {innerHTML: 'something',
     classList: {add: sinon.stub(), remove: sinon.stub()},
-    style: {padding: '', background: 'orange'}}
+    style: {padding: '', backgroundColor: 'orange'}}
     getSpaceStub.returns(fakeElement)
     validateSpaceStub.returns(true)
-    space = {style: {background: 'green'}}
+    space = {style: {backgroundColor: 'green'}}
     getRelativeSpaceStub = sinon.stub(board, 'getRelativeSpace').returns(space)
   })
 
@@ -38,7 +38,7 @@ describe('Board', () => {
 
   it('can change the background of a space', () => {
     board.changeBackground(fakeElement, c1)
-    expect(space.style.background).to.equal('pink')
+    expect(space.style.backgroundColor).to.equal('pink')
     expect(getRelativeSpaceStub.called).to.be.true
   })
 

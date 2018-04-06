@@ -20,14 +20,14 @@ function Board () {
   }
 
   this.getColor = function (row, col) {
-    return hexColor($('#' + row + '_' + col)[0].style.background)
+    return hexColor($('#' + row + '_' + col)[0].style.backgroundColor)
   }
 
   this.changeBackground = function (space, character) {
-    let transform = character.colorRelativeSquares(hexColor(space.style.background))
+    let transform = character.colorRelativeSquares(hexColor(space.style.backgroundColor))
     transform.squares.forEach(s => {
       let newTd = this.getRelativeSpace(s, space)
-      if (newTd) newTd.style.background = transform.transformColor(hexColor(newTd.style.background))
+      if (newTd) newTd.style.backgroundColor = transform.transformColor(hexColor(newTd.style.backgroundColor))
     })
   }
 
@@ -119,7 +119,7 @@ function Board () {
           let c = self.characters[key]
           if (c.startIndex === td.id) self.add(c, td)
         })
-        td.style.background = baseColors[i][j].color
+        td.style.backgroundColor = baseColors[i][j].color
         tr.appendChild(td)
       }
       table.appendChild(tr)
