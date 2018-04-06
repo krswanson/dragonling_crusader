@@ -13,13 +13,11 @@ Enemies
 	other dragons
 	elves
 
-Dragon image change directions
+ie no arrow functions (remove or transpiler?)
 
-Subclasses of character (bow and seaSerpent share invalidSpace func)
+Resizing (other html file with sidebar at top for mobile?)
 
 Decorate header with dragon/knight images
-
-Can only select PREVIOUS levels/Keep track of levels ever won with cookies?
 
 Other levels?--bad guys mirror you, rescue other dragons, blast fire
 Holes in board/multiple boards?

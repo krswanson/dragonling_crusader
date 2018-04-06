@@ -6,6 +6,21 @@ const Game = require('./game.js')
 let closed = true
 let game = new Game(levels)
 
+// From: https://stackoverflow.com/questions/9847580/how-to-detect-safari-chrome-ie-firefox-and-opera-browser
+let isIE = !!document.documentMode
+
+// Edge 20+
+let isEdge = !isIE && !!window.StyleMedia
+
+// Firefox 1.0+
+let isFirefox = typeof InstallTrigger !== 'undefined'
+
+if (isEdge || isFirefox) {
+  let select = document.getElementById('level-select')
+  select.style.position = 'relative'
+  if (isFirefox) select.style.marginTop = '-20px'
+}
+
 function startLevel (name) {
   $('#previous-level-div .error-message').text('')
   $('#previous-level-input').val('')
@@ -15,6 +30,7 @@ function startLevel (name) {
 function setupLevelOption (lv) {
   let comLv = window.sessionStorage.getItem('level-completed')
   if (comLv && game.levelIndex(comLv) >= game.levelIndex(lv)) {
+    let select = document.getElementById('level-select')
     let option = document.createElement('OPTION')
     option.value = lv
     option.innerHTML = lv
@@ -24,10 +40,16 @@ function setupLevelOption (lv) {
         closed = !closed
       }
     })
-    let select = document.getElementById('level-select')
     select.value = lv
     select.size++
     select.appendChild(option)
+    if (select.size <= 6) {
+      select.style.height = (34 * (select.size - 1)) + 'px'
+      select.style.overflow = 'hidden'
+    } else {
+      select.style.overflow = ''
+      select.style.height = 34 * 5
+    }
   }
 }
 
@@ -38,7 +60,7 @@ game.levelKeys().forEach(function (lv) {
 function inputClick (input) {
   if (window.sessionStorage.getItem('level-completed')) {
     closed = !closed
-    $(input).closest('div').find('select').slideToggle(110)
+    $(input).closest('div').find('select').slideToggle(isFirefox ? 0 : 320)
   }
 }
 
