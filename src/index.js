@@ -2,143 +2,35 @@
 
 const levels = require('./levelSetup.js')
 const Game = require('./game.js')
+const LevelSelect = require('./levelSelect.js')
 
-let closed = true
 let game = new Game(levels)
-
-// From: https://stackoverflow.com/questions/9847580/how-to-detect-safari-chrome-ie-firefox-and-opera-browser
-let isIE = !!document.documentMode
-
-// Edge 20+
-let isEdge = !isIE && !!window.StyleMedia
-
-// Firefox 1.0+
-let isFirefox = typeof InstallTrigger !== 'undefined'
-
-if (isEdge || isFirefox) {
-  let select = document.getElementById('level-select')
-  select.style.position = 'relative'
-  if (isFirefox) select.style.marginTop = '-20px'
-}
-
-function startLevel (name) {
-  $('#previous-level-div .error-message').text('')
-  $('#previous-level-input').val('')
-  game.selectLevel(name)
-}
-
-function setupLevelOption (lv) {
-  let comLv = window.sessionStorage.getItem('level-completed')
-  if (comLv && game.levelIndex(comLv) >= game.levelIndex(lv)) {
-    let select = document.getElementById('level-select')
-    let option = document.createElement('OPTION')
-    option.value = lv
-    option.innerHTML = lv
-    option.addEventListener('click', function () {
-      if (window.sessionStorage.getItem('level-completed')) {
-        setSelect(this.value)
-        closed = !closed
-      }
-    })
-    select.value = lv
-    select.size++
-    select.appendChild(option)
-    if (select.size <= 6) {
-      select.style.height = (34 * (select.size - 1)) + 'px'
-      select.style.overflow = 'hidden'
-    } else {
-      select.style.overflow = ''
-      select.style.height = 34 * 5
-    }
-  }
-}
-
-game.levelKeys().forEach(function (lv) {
-  setupLevelOption(lv)
-})
-
-function inputClick (input) {
-  if (window.sessionStorage.getItem('level-completed')) {
-    closed = !closed
-    $(input).closest('div').find('select').slideToggle(isFirefox ? 0 : 320)
-  }
-}
-
-function updateSelectText (element) {
-  $(element).hide().closest('div').find('input').val($(element).find('option:selected').text())
-}
-
-function changeInputText (direction) {
-  let oldText = $('#level-select').find('option:selected').val()
-  let newIndex = game.levelIndex(oldText) + (direction === 'back' ? -1 : 1)
-  let key = oldText ? newIndex : 0
-  if (key < 0) key = 0
-  if (key >= game.numLevels()) key = game.numLevels() - 1
-  let max = window.sessionStorage.getItem('level-completed')
-  if (!max || key > game.levelIndex(max)) return
-  let newText = game.levelName(key)
-  setSelect(newText)
-  $('#previous-level-input').val(newText)
-}
-
-function setSelect (levelKey) {
-  $('#level-select')[0].value = levelKey
-  $('option[value="' + levelKey + '"]', document)
-  .attr('selected', true).siblings()
-  .removeAttr('selected')
-}
-
-function arrowkeys (event, direction, editing) {
-  if (editing) {
-    event.preventDefault()
-    let d = (direction === 'up' || direction === 'left') ? 'back' : 'forward'
-    changeInputText(d)
-  } else if (game.isPlaying()) {
-    event.preventDefault()
-    game.moveCurrentPlayer(direction)
-  }
-}
+let levelSelect = new LevelSelect(game)
+levelSelect.setup()
 
 document.getElementById('restart-level').addEventListener('click', function () {
-  startLevel(game.currentLevelName())
+  levelSelect.startLevel(game.currentLevelName())
 })
 
 document.getElementById('next-level').addEventListener('click', function () {
   let comLv = window.sessionStorage.getItem('level-completed')
   if (!comLv || game.levelIndex(comLv) < game.currentLevelIndex()) {
     window.sessionStorage.setItem('level-completed', game.currentLevelName())
-    setupLevelOption(game.currentLevelName())
+    levelSelect.setupLevelOption(game.currentLevelName())
   }
-  startLevel(game.currentLevelIndex() + 1)
+  levelSelect.startLevel(game.currentLevelIndex() + 1)
 })
 
-document.getElementById('level-select').addEventListener('click', function () {
-  updateSelectText(this)
-})
-
-document.getElementById('level-select-button').addEventListener('click', function () {
-  function respondToBadInput (message) {
-    $('#previous-level-div .error-message').text(message)
+function arrowkeys (event, direction, editing) {
+  if (editing) {
+    event.preventDefault()
+    let d = (direction === 'up' || direction === 'left') ? 'back' : 'forward'
+    levelSelect.changeInputText(d)
+  } else if (game.isPlaying()) {
+    event.preventDefault()
+    game.moveCurrentPlayer(direction)
   }
-  if (!closed) inputClick('#previous-level-input')
-  let input = $('#previous-level-input')[0].value || $('#level-select')[0].value
-  if (game.validLevel(input)) {
-    let lvComId = game.levelIndex(window.sessionStorage.getItem('level-completed'))
-    let inputLvId = game.levelIndex(input)
-    if (lvComId < inputLvId) {
-      return respondToBadInput('Have not beaten selected level')
-    }
-    startLevel(input)
-  } else {
-    let message = input === '' ? 'No level selected' : 'Invalid level name'
-    respondToBadInput(message)
-  }
-})
-
-let prevLevelInput = document.getElementById('previous-level-input')
-prevLevelInput.addEventListener('click', function () {
-  inputClick(this)
-})
+}
 
 document.addEventListener('keydown', function (event) {
   let inputBox = $('#previous-level-input')
@@ -147,10 +39,7 @@ document.addEventListener('keydown', function (event) {
     case 13:
       if (editing) {
         event.preventDefault()
-        if (!closed) inputClick(inputBox)
-        let newText = inputBox.val()
-        if (game.levelIndex(newText) >= 0) setSelect(newText)
-        document.getElementById('level-select-button').click()
+        levelSelect.clickSubmit()
         inputBox.blur()
       }
       break
@@ -171,4 +60,4 @@ document.addEventListener('keydown', function (event) {
   }
 })
 
-startLevel(game.currentLevelName())
+levelSelect.startLevel(game.currentLevelName())
