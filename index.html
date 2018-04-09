@@ -16,7 +16,6 @@
 			<div id="side-bar">
 				<div>
 					<h2 id="level-number">Level 1</h2>
-					<button id="restart-level" class="level-button" type="button">Restart Level</button>
 					<hr>
 					<div id="current-character-div">
 						<h3>Current Character</h3>
@@ -47,8 +46,13 @@
 				<div id="level-info">
 					<p id="level-description"></p>
 					<p id="endgame-message"></p>
+				</div>
+				<div id='button-overlay-div'>
+					<button id="start-level" class="level-button" type="button">Start Level</button>
+					<button id="restart-level" class="level-button"  type="button">Restart Level</button>
 					<button id="next-level" class="level-button"  type="button">Next Level</button>
 				</div>
+				<div id="board-screen"></div>
 				<div id='board'></div>
 			</div>
 			<script src="dist/index.js"></script>

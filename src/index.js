@@ -4,11 +4,20 @@ const levels = require('./levelSetup.js')
 const Game = require('./game.js')
 const LevelSelect = require('./levelSelect.js')
 
+// TDOD function with this and levelSelect.levelSetup ?
+document.querySelectorAll('#level-content .level-button')
+      .forEach(b => { b.style.display = 'none' })
+
 let game = new Game(levels)
 let levelSelect = new LevelSelect(game)
 levelSelect.setup()
 
+document.getElementById('start-level').addEventListener('click', function () {
+  levelSelect.startLevel(game.currentLevelName())
+})
+
 document.getElementById('restart-level').addEventListener('click', function () {
+  levelSelect.setupLevel(game.currentLevelIndex(), 'restart')
   levelSelect.startLevel(game.currentLevelName())
 })
 
@@ -18,7 +27,7 @@ document.getElementById('next-level').addEventListener('click', function () {
     window.sessionStorage.setItem('level-completed', game.currentLevelName())
     levelSelect.setupLevelOption(game.currentLevelName())
   }
-  levelSelect.startLevel(game.currentLevelIndex() + 1)
+  levelSelect.setupLevel(game.currentLevelIndex() + 1)
 })
 
 function arrowkeys (event, direction, editing) {
@@ -60,4 +69,4 @@ document.addEventListener('keydown', function (event) {
   }
 })
 
-levelSelect.startLevel(game.currentLevelName())
+levelSelect.setupLevel(game.currentLevelName())

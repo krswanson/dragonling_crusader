@@ -177,18 +177,22 @@ function Game (levels) {
     let wonDiv = $('#endgame-message')[0]
     wonDiv.innerHTML = message
     wonDiv.style.display = 'block'
+    let screen = $('#board-screen')[0]
+    screen.style.display = 'block'
+    screen.style.height = (self.board.rows * 83 + 30) + 'px'
   }
 
   this.win = function () {
     self.state = 'won'
     this.endGame('<p style="color: ' + color.GREEN + '">You win!</p>')
     self.board.flash()
-    $('#next-level')[0].style.display = 'block'
+    $('#next-level')[0].style.display = 'inline-block'
   }
 
   this.lose = function (killedChar, byChar) {
     self.state = 'lost'
     this.endGame('<p style="color: #ff2222">The ' + byChar.name + ' has killed your ' + killedChar.name + '. You lose!</p>')
+    document.getElementById('restart-level').style.display = 'inline-block'
   }
 
   this.levelKeys = function () { return Object.keys(self.levels) }
@@ -253,26 +257,44 @@ function Game (levels) {
     self.board.delete()
   }
 
-  this.startLevel = function (levelKey) {
-    self.clearCurrentLevel()
+  this.displayPlayerButtons = function (levelKey) {
     let level = self.levels[levelKey]
-
-    self.state = 'playing'
-    self.curLvId = this.levelIndex(levelKey)
-    self.board.setup(level.baseColors, level.characters)
-    this.startBadGuys()
-    $('#level-number')[0].innerHTML = levelKey
-    $('#level-description')[0].innerHTML = level.description
     level.getCharacters()
       .filter(c => { return c.isPlayer })
       .forEach((c, i) => {
         let selected = i === 0
-        if (!selected) self.board.clearAnimation(c)
+        self.board.clearAnimation(c)
         let b = document.createElement('BUTTON')
         b.className = 'player-button ' + c.type + '-player' + (selected ? ' selected' : '')
         setButtonType(b, c.type, selected)
         b.innerText = c.name
         b.value = c.id
+        $('#player-buttons').append(b)
+      })
+  }
+
+  this.setupLevel = function (levelKey) {
+    self.clearCurrentLevel()
+    let level = self.levels[levelKey]
+    self.state = 'pre-start'
+    self.curLvId = this.levelIndex(levelKey)
+    self.board.setup(level.baseColors, level.characters)
+    $('#level-number')[0].innerHTML = levelKey
+    $('#level-description')[0].innerHTML = level.description
+    self.displayPlayerButtons(levelKey)
+  }
+
+  // Assumes setupLevel
+  this.startLevel = function (levelKey) {
+    self.state = 'playing'
+    this.startBadGuys()
+    let level = self.levels[levelKey]
+    level.getCharacters()
+      .filter(c => { return c.isPlayer })
+      .forEach((c, i) => {
+        let b = document.getElementsByClassName(c.type + '-player')[0]
+        if (b.className.includes('selected')) self.board.addAnimation(c)
+
         b.addEventListener('click', () => {
           if (b.className.includes('selected')) return
 
@@ -290,7 +312,6 @@ function Game (levels) {
           self.board.clearAnimation(oldChar)
           self.board.addAnimation(newChar)
         })
-        $('#player-buttons').append(b)
       })
   }
 
@@ -305,7 +326,7 @@ function Game (levels) {
         return console.error('Problem loading level. Bad key:', givenKey)
       }
     }
-    this.startLevel(key)
+    this.setupLevel(key)
   }
 }
 

@@ -20,11 +20,28 @@ function levelSelect (game) {
     if (isFirefox) select.style.marginTop = '-20px'
   }
 
-  this.startLevel = function (name) {
+  this.clearSelect = function () {
     $('#previous-level-div .error-message').text('')
     $('#previous-level-input').val('')
     $('#level-select').val('')
+  }
+
+  this.setupLevel = function (name, restart = false) {
+    self.clearSelect()
     self.game.selectLevel(name)
+    document.getElementById('start-level').style.display = restart ? 'none' : 'inline-block'
+    document.getElementById('restart-level').style.display = 'none'
+    let screen = document.getElementById('board-screen')
+    screen.style.display = 'block'
+    screen.style.height = (game.board.rows * 83 + 30) + 'px'
+  }
+
+  this.startLevel = function (name) {
+    self.clearSelect()
+    document.getElementById('board-screen').style.display = 'none'
+    document.querySelectorAll('#level-content .level-button')
+      .forEach(b => { b.style.display = 'none' })
+    self.game.startLevel(name)
   }
 
   this.setupLevelOption = function (lv) {
@@ -117,7 +134,7 @@ function levelSelect (game) {
         if (lvComId < inputLvId) {
           return respondToBadInput('Have not beaten selected level')
         }
-        self.startLevel(input)
+        self.setupLevel(input)
       } else {
         let message = input === '' ? 'No level selected' : 'Invalid level name'
         respondToBadInput(message)
