@@ -171,7 +171,7 @@ footer {
 	-moz-box-shadow: 0; 
 }
 
-.animate > .top {
+.animate .top {
 	animation: fade 3s infinite;
 }
 
@@ -179,15 +179,6 @@ footer {
     20% {
         opacity: 0.5;
     }
-}
-
-td > img {
-	position: absolute;
-	margin-top: -32px;
-	-webkit-transition: opacity 1s ease-in-out;
-	-moz-transition: opacity 1s ease-in-out;
-	-o-transition: opacity 1s ease-in-out;
-	transition: opacity 1s ease-in-out;
 }
 
 #level-select-button {
@@ -307,10 +298,23 @@ td > img {
 }
 
 table, td {
+	width: fit-content;
 	border: solid black @border;
 	border-collapse: collapse;
 	padding: 40px;
 	background: white;
+	div {
+		min-height: 68px;
+		min-width: 68px;
+	}
+}
+
+td img {
+	position: absolute;
+	-webkit-transition: opacity 1s ease-in-out;
+	-moz-transition: opacity 1s ease-in-out;
+	-o-transition: opacity 1s ease-in-out;
+	transition: opacity 1s ease-in-out;
 }
 
 .flash {

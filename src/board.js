@@ -44,7 +44,7 @@ function Board () {
   }
 
   function imageHTML (character) {
-    return '<img src="' + character.getBackImage() + '"/><img class="top" src="' + character.getForeImage() + '"/>'
+    return '<div><img src="' + character.getBackImage() + '"/><img class="top" src="' + character.getForeImage() + '"/></div>'
   }
 
   this.updateImage = function (character) {
@@ -127,9 +127,6 @@ function Board () {
         tr.appendChild(td)
       }
       table.appendChild(tr)
-
-      // TODO better way to deal with how row with all-images gets compressed
-      tr.style.height = '83px'
     }
     document.getElementById('board').appendChild(table)
   }
