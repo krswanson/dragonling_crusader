@@ -44,7 +44,7 @@ function Board () {
   }
 
   function imageHTML (character) {
-    return '<div><img src="' + character.getBackImage() + '"/><img class="top" src="' + character.getForeImage() + '"/></div>'
+    return '<div style="min-height: 68px; min-width: 68px;"><img src="' + character.getBackImage() + '"/><img class="top" src="' + character.getForeImage() + '"/></div>'
   }
 
   this.updateImage = function (character) {
