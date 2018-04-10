@@ -1,8 +1,9 @@
+
 /* global $ */
 
 const Board = require('./board.js')
 const Direction = require('./direction.js')
-const setButtonType = require('./setButtonType.js')
+const PlayerButtons = require('./playerButtons')
 const color = require('./colors.js')
 
 function Game (levels) {
@@ -257,20 +258,34 @@ function Game (levels) {
     self.board.delete()
   }
 
-  this.displayPlayerButtons = function (levelKey) {
-    let level = self.levels[levelKey]
-    level.getCharacters()
-      .filter(c => { return c.isPlayer })
-      .forEach((c, i) => {
-        let selected = i === 0
-        self.board.clearAnimation(c)
-        let b = document.createElement('BUTTON')
-        b.className = 'player-button ' + c.type + '-player' + (selected ? ' selected' : '')
-        setButtonType(b, c.type, selected)
-        b.innerText = c.name
-        b.value = c.id
-        $('#player-buttons').append(b)
-      })
+  // this.getPlayerButton = function (character) {
+  //   return document.getElementsByClassName(character.type + '-player')[0]
+  // }
+
+  // this.displayPlayerButtons = function (levelKey) {
+  //  let level = self.levels[levelKey]
+  //   level.characters()
+  //     .filter(c => { return c.isPlayer })
+  //     .forEach((c, i) => {
+  //       self.board.clearAnimation(c)
+  //       self.displayButton(c, i === 0)
+  //     })
+  // }
+
+  this.setCurrentPlayer = function (newChar) {
+    let oldChar = self.getCurrentPlayer()
+    let b = PlayerButtons.getButton(newChar)
+    b.parentNode.childNodes.forEach(el => {
+      let selected = el === b
+      PlayerButtons.setButtonType(el, self.board.characters[el.value].type, selected)
+      if (selected) {
+        el.classList.add('selected')
+      } else {
+        el.classList.remove('selected')
+      }
+    })
+    self.board.clearAnimation(oldChar)
+    self.board.addAnimation(newChar)
   }
 
   this.setupLevel = function (levelKey) {
@@ -279,9 +294,10 @@ function Game (levels) {
     self.state = 'pre-start'
     self.curLvId = this.levelIndex(levelKey)
     self.board.setup(level.baseColors, level.characters)
+    level.getCharacters().forEach(c => { self.board.clearAnimation(c) })
     $('#level-number')[0].innerHTML = levelKey
     $('#level-description')[0].innerHTML = level.description
-    self.displayPlayerButtons(levelKey)
+    PlayerButtons.displayPlayerButtons(level.getCharacters())
   }
 
   // Assumes setupLevel
@@ -292,27 +308,22 @@ function Game (levels) {
     level.getCharacters()
       .filter(c => { return c.isPlayer })
       .forEach((c, i) => {
-        let b = document.getElementsByClassName(c.type + '-player')[0]
+        let b = PlayerButtons.getButton(c)
         if (b.className.includes('selected')) self.board.addAnimation(c)
 
         b.addEventListener('click', () => {
           if (b.className.includes('selected')) return
-
-          let oldChar = self.getCurrentPlayer()
-          b.parentNode.childNodes.forEach(el => {
-            let selected = el === b
-            setButtonType(el, self.board.characters[el.value].type, selected)
-            if (selected) {
-              el.classList.add('selected')
-            } else {
-              el.classList.remove('selected')
-            }
-          })
-          let newChar = self.getCurrentPlayer()
-          self.board.clearAnimation(oldChar)
-          self.board.addAnimation(newChar)
+          self.setCurrentPlayer(c)
         })
       })
+
+    self.board.getAllSpaces().forEach(s => {
+      s.addEventListener('click', () => {
+        let c = self.board.getCharacter(s)
+        if (!c || !c.isPlayer) return
+        self.setCurrentPlayer(c)
+      })
+    })
   }
 
   this.selectLevel = function (key) {

@@ -9,6 +9,10 @@ function Board () {
   self.cols = 0
   self.characters = {}
 
+  this.getAllSpaces = function () {
+    return document.querySelectorAll('#dragon_board td')
+  }
+
   this.getRelativeSpace = function (direction, fromSpace) {
     let vector = Direction.makeVector(direction)
     let rowCol = fromSpace.id.split('_')
