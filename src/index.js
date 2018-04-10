@@ -27,7 +27,11 @@ document.getElementById('next-level').addEventListener('click', function () {
     window.sessionStorage.setItem('level-completed', game.currentLevelName())
     levelSelect.setupLevelOption(game.currentLevelName())
   }
-  levelSelect.setupLevel(game.currentLevelIndex() + 1)
+  if (game.numLevels() > game.currentLevelIndex() + 1) { // Not yet final level
+    levelSelect.setupLevel(game.currentLevelIndex() + 1)
+  } else {
+    game.winGame()
+  }
 })
 
 function arrowkeys (event, direction, editing) {
