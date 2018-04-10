@@ -35,7 +35,7 @@ function Character (id, imagePaths, startIndex, isPlayer, frequency) {
   }
 
   this.validSpace = function (element) {
-    return !this.invalidColors.includes(hexColor(element.style.background))
+    return !this.invalidColors.includes(hexColor(element.style.backgroundColor))
   }
 
   this.setStartFacing = function (dir) {

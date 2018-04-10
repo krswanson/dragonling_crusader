@@ -18,7 +18,7 @@ function SeaSerpent (color, startIndex = '0_0') {
   this.name = 'sea serpent'
 
   this.validSpace = function (element) {
-    let elColor = hexColor(element.style.background)
+    let elColor = hexColor(element.style.backgroundColor)
     return (elColor === self.color || elColor === '')
   }
 }

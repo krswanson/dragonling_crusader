@@ -1,4 +1,5 @@
 const Character = require('./character.js')
+const COLOR = require('./colors.js')
 
 function Wizard (color, startIndex) {
   Character.apply(this, [
@@ -12,6 +13,7 @@ function Wizard (color, startIndex) {
   let self = this
   this.color = color
   this.startIndexColor = color
+  this.invalidColors = [COLOR.WATER, COLOR.WALL]
   this.percent = 0.5 // how often it changes the color of its space
 
   this.transformColor = function (color) {

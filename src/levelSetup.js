@@ -32,10 +32,6 @@ let iceMapping = {
   '#6699ee': color.WATER
 }
 
-function setInvalidColor (chars, color) {
-  Object.keys(chars).forEach(key => { chars[key].addInvalidColor(color) })
-}
-
 let lv = new Level()
 lv.setMapColors(4, 4, color.GRASS, color.FIRE)
 lv.addKnight(2, 2)
@@ -56,7 +52,6 @@ let indexes = [[2, 0], [2, 1], [3, 1]]
 lv.setIndexesColors(indexes, color.WATER, color.FROZEN_WATER)
 
 lv.addKnight(1, 1)
-setInvalidColor(lv.getKnights(), color.WATER)
 lv.addCharacter(new IceDragon(iceMapping))
 lv.description = 'Aha, new plan! Your ice dragonling reinforcements have arrived. It will be easy to freeze even a water-laden field. And hey, that\'s probably the river they got the water from!'
 levels['Level 3'] = lv
@@ -66,7 +61,6 @@ lv.setMapColors(4, 4, color.WIZARDRY, color.ICE)
 lv.addKnight(1, 1)
 lv.addCharacter(new IceDragon(iceMapping))
 lv.setIndexesColors([[2, 2]], color.WALL, color.WALL)
-setInvalidColor(lv.characters, color.WALL)
 lv.description = 'Hmm, this field\'s grass looks strange. Did they do something to it? And is that an abondoned watchtower?'
 levels['Level 4'] = lv
 
@@ -133,7 +127,6 @@ const SeaSerpent = require('./seaSerpent.js')
 lv = new Level()
 lv.setMapColors(5, 7, color.GRASS, null)
 lv.addKnight(2, 3)
-setInvalidColor(lv.characters, color.WATER)
 lv.addCharacter(new FireDragon(fireMapping, '4_4'))
 lv.addCharacter(new IceDragon(iceMapping, '0_1'))
 lv.addCharacter(new SeaSerpent(color.WATER, '0_0'))

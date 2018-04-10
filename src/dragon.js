@@ -1,5 +1,6 @@
 // A dragon of a certain color with color mappings
 const Character = require('./character.js')
+const COLOR = require('./colors.js')
 
 function Dragon (mapping, color, type, startIndex, name) {
   Character.apply(this, [
@@ -13,6 +14,7 @@ function Dragon (mapping, color, type, startIndex, name) {
   this.mapping = mapping
   this.color = color
   this.startIndexColor = color
+  this.invalidColors = [COLOR.WALL]
   this.type = type
   this.name = name
 

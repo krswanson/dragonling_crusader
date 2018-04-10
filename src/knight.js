@@ -1,4 +1,5 @@
 const Character = require('./character.js')
+const COLOR = require('./colors.js')
 
 function Knight (startIndex) {
   Character.apply(this, [
@@ -8,6 +9,7 @@ function Knight (startIndex) {
     false, // not player
     2200 // move frequency
   ])
+  this.invalidColors = [COLOR.WATER, COLOR.WALL]
 }
 Knight.prototype = new Character()
 

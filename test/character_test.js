@@ -23,8 +23,8 @@ describe('Character', () => {
   })
 
   it('can be given inValidColors', () => {
-    expect(char.validSpace({ style: { background: 'pink' } })).to.be.true
+    expect(char.validSpace({ style: { backgroundColor: 'pink' } })).to.be.true
     char.addInvalidColor('pink')
-    expect(char.validSpace({ style: { background: 'pink' } })).to.be.false
+    expect(char.validSpace({ style: { backgroundColor: 'pink' } })).to.be.false
   })
 })
