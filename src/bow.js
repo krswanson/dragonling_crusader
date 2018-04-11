@@ -5,7 +5,7 @@ function Bow (startIndex,
               canFace = [[-1, -1], [1, -1], [1, 1], [-1, 1]],
               wallColor = 'gray') {
   Character.apply(this, [
-    'bowman',
+    'archer',
     ['images/64px/bow'],
     startIndex,
     false, // not player

@@ -31,12 +31,13 @@ function Game (levels) {
     }
   }
 
-  function scareBowman (dest) {
+  function scareArcher (dest) {
     // TODO currently assumes only down
     let bowSpace = self.board.getRelativeSpace('down', dest)
     let bow = self.board.getCharacter(bowSpace)
-    if (bow && bow.name === 'bowman') {
+    if (bow && bow.name === 'archer') {
       bow.stopMoving()
+      if (!bow.arrow.moving) bow.arrow.stopMoving() // If func set but not added to board
       bow.face('down_right', 'override')
       self.board.updateImage(bow)
       let count = 0
@@ -82,7 +83,7 @@ function Game (levels) {
     }
     // Empty space, add normally
     let added = self.board.add(character, dest)
-    if (added && character.name === 'sea serpent') scareBowman(dest)
+    if (added && character.name === 'sea serpent') scareArcher(dest)
     return added
   }
 
@@ -122,7 +123,7 @@ function Game (levels) {
           let direction = typicalMove(c)
           self.move(c, direction)
         })
-      } else if (c.name === 'bowman') {
+      } else if (c.name === 'archer') {
         let bow = c
         bow.startMoving(function () {
           typicalMove(bow)

@@ -130,7 +130,7 @@ lv.addCharacter(new Bow('3_4', ['up_left', 'up_right']))
 lv.addCharacter(new Bow('3_5', ['up_left']))
 lv.addCharacter(new Bow('4_3', ['up_left']))
 lv.addCharacter(new FireDragon(fireMapping))
-lv.description = 'You\'ve reached the castle at last! Hmm, but if they have bowman on the walls like this you are going to need something other than dragonlings... May as well set the surrounding crops on fire while you\'re here though.'
+lv.description = 'You\'ve reached the castle at last! Hmm, but if they have archers on the walls like this you are going to need something other than dragonlings... May as well set the surrounding crops on fire while you\'re here though.'
 lv.objective = '<p>Make all the ' + makeObjective('grass', color.GRASS) + ' squares ' + makeObjective('fire', color.FIRE) + '</p>'
 levels['Level 8'] = lv
 
