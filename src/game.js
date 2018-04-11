@@ -4,6 +4,7 @@
 const Board = require('./board.js')
 const Direction = require('./direction.js')
 const PlayerButtons = require('./playerButtons')
+const LevelInfo = require('./levelInfo')
 const color = require('./colors.js')
 
 function Game (levels) {
@@ -182,9 +183,7 @@ function Game (levels) {
     self.stopBadGuys()
     self.disablePlayerButtons()
     self.board.clearAllAnimation()
-    let wonDiv = $('#endgame-message')[0]
-    wonDiv.innerHTML = message
-    wonDiv.style.display = 'block'
+    LevelInfo.setEndgameDiv(message)
     let screen = $('#board-screen')[0]
     screen.style.display = 'block'
     screen.style.height = (self.board.rows * 83 + 30) + 'px'
@@ -250,15 +249,13 @@ function Game (levels) {
 
   this.winGame = function () {
     self.disablePlayerButtons()
-    let message = $('#level-description')[0]
-    message.innerHTML = '<p style="color: ' + color.GREEN + '">Your dragonlings have conquered!<br>You beat the game!</p>'
+    LevelInfo.set('<p style="color: ' + color.GREEN + '">Your dragonlings have conquered!<br>You beat the game!</p>')
   }
 
   this.clearCurrentLevel = function () {
     self.state = 'unset'
-    $('#level-description')[0].innerHTML = ''
+    LevelInfo.set('')
     $('#next-level')[0].style.display = 'none'
-    $('#endgame-message')[0].style.display = 'none'
     $('.player-button').remove()
     self.stopBadGuys()
     let characters = self.board.characters
@@ -293,7 +290,7 @@ function Game (levels) {
     self.board.setup(level.baseColors, level.characters)
     level.getCharacters().forEach(c => { self.board.clearAnimation(c) })
     $('#level-number')[0].innerHTML = levelKey
-    $('#level-description')[0].innerHTML = level.description
+    LevelInfo.set(level.description, level.objective)
     PlayerButtons.displayPlayerButtons(level.getCharacters())
   }
 

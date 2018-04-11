@@ -32,11 +32,16 @@ let iceMapping = {
   '#6699ee': color.WATER
 }
 
+function makeObjective (type, color) {
+  return '<span style="color:' + color + '">' + type + '</span>'
+}
+
 let lv = new Level()
 lv.setMapColors(4, 4, color.GRASS, color.FIRE)
 lv.addKnight(2, 2)
 lv.addCharacter(new FireDragon(fireMapping))
-lv.description = 'Your dragonlings start their conquest on a grassy field.  This lands\' knights seem fond of it for some reason, so obviously you must take it away from them! Send this fire dragonling to take it over.'
+lv.description = 'Your dragonlings start their conquest on a grassy field.  This lands\' knights seem fond of it for some reason, so obviously you must take it away from them! Use the arrow keys to send this fire dragonling to take it over.'
+lv.objective = makeObjective('fire', color.FIRE)
 levels['Level 1'] = lv
 
 lv = new Level(lv)
@@ -44,6 +49,7 @@ lv.setMapColors(4, 4, color.WET_GRASS, color.FIRE)
 lv.addKnight(2, 2)
 lv.addCharacter(new FireDragon(fireMapping))
 lv.description = 'The enemy has found a way to deter your progress. Looks like they have thrown water on this field. Might need to sear the grass down to dirt before the fire will take.'
+lv.objective = makeObjective('fire', color.FIRE)
 levels['Level 2'] = lv
 
 lv = new Level()
@@ -54,6 +60,7 @@ lv.setIndexesColors(indexes, color.WATER, color.FROZEN_WATER)
 lv.addKnight(1, 1)
 lv.addCharacter(new IceDragon(iceMapping))
 lv.description = 'Aha, new plan! Your ice dragonling reinforcements have arrived. It will be easy to freeze even a water-laden field. And hey, that\'s probably the river they got the water from!'
+lv.objective = makeObjective('ice', color.ICE) + ' and ' + makeObjective('frozen water', color.FROZEN_WATER)
 levels['Level 3'] = lv
 
 lv = new Level()
@@ -62,6 +69,7 @@ lv.addKnight(1, 1)
 lv.addCharacter(new IceDragon(iceMapping))
 lv.setIndexesColors([[2, 2]], color.WALL, color.WALL)
 lv.description = 'Hmm, this field\'s grass looks strange. Did they do something to it? And is that an abondoned watchtower?'
+lv.objective = makeObjective('ice', color.ICE)
 levels['Level 4'] = lv
 
 lv = new Level()
@@ -70,6 +78,7 @@ lv.addKnight(2, 4)
 lv.addKnight(4, 2)
 lv.addCharacter(new IceDragon(iceMapping))
 lv.description = 'Two knights now! What are they defending? The castle is still a ways off.'
+lv.objective = makeObjective('ice', color.ICE)
 levels['Level 5'] = lv
 
 lv = new Level()
@@ -79,6 +88,7 @@ lv.addCharacter(new IceDragon(iceMapping))
 lv.setBaseColor(0, 2, color.WIZARDRY)
 lv.setBaseColor(1, 2, color.WIZARDRY)
 lv.description = 'Aha! This strangely-colored grass is a wizard\'s work!'
+lv.objective = makeObjective('ice', color.ICE)
 levels['Level 6'] = lv
 
 lv = new Level()
@@ -101,6 +111,7 @@ lv.addCharacter(dragon)
 lv.setBaseColor(3, 2, color.WIZARDRY)
 lv.setBaseColor(4, 2, color.WIZARDRY)
 lv.description = 'Okay, send in the fire dragonling this time to see if fire is any better against this wizard\'s magic...'
+lv.objective = makeObjective('fire', color.FIRE)
 levels['Level 7'] = lv
 
 lv = new Level()
@@ -120,6 +131,7 @@ lv.addCharacter(new Bow('3_5', ['up_left']))
 lv.addCharacter(new Bow('4_3', ['up_left']))
 lv.addCharacter(new FireDragon(fireMapping))
 lv.description = 'You\'ve reached the castle at last! Hmm, but if they have bowman on the walls like this you are going to need something other than dragonlings... May as well set the surrounding crops on fire while you\'re here though.'
+lv.objective = '<p>Make all the ' + makeObjective('grass', color.GRASS) + ' squares ' + makeObjective('fire', color.FIRE) + '</p>'
 levels['Level 8'] = lv
 
 const SeaSerpent = require('./seaSerpent.js')
@@ -132,7 +144,8 @@ lv.addCharacter(new IceDragon(iceMapping, '0_1'))
 lv.addCharacter(new SeaSerpent(color.WATER, '0_0'))
 lv.setIndexesColors([[1, 0]], color.WATER, null)
 lv.setGoalChar(4, 6, lv.getDragons()[2])
-lv.description = 'Excellent, here is your ally the sea serpent. The castle is to the bottom right. Get him down there and he will be able to help deal with the archers!'
+lv.description = 'Excellent, here is your ally the sea serpent. You can switch between characters either with the buttons on the right or by clicking on the character you want to control.<br>The castle is to the bottom right. Get the sea serpent down there and he will be able to help deal with the archers!'
+lv.objective = '<p>Get the ' + makeObjective('sea serpent', color.WATER) + ' to the bottom-right square</p>'
 levels['Level 9'] = lv
 
 lv = new Level()
@@ -157,6 +170,7 @@ lv.addCharacter(new FireDragon(fireMapping, '1_0'))
 lv.addCharacter(new IceDragon(iceMapping, '0_1'))
 lv.addCharacter(new SeaSerpent(color.WATER, '0_0'))
 lv.description = 'Back at the castle! You will need to get your fire dragonling inside. Now, in order to deal with the archers, we need to get the sea serpent close to the walls...'
+lv.objective = '<p style="padding: 0 30px">Make all the ' + makeObjective('dirt', color.DIRT) + ' squares in the castle ' + makeObjective('fire', color.FIRE) + ' by scaring the ' + makeObjective('archers', color.WALL) + ' with the ' + makeObjective('sea serpent', color.WATER) + '</p>'
 levels['Level 10'] = lv
 
 module.exports = levels
