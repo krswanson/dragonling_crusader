@@ -87,6 +87,10 @@ function Level (lv = {}) {
     return ids.map(id => { return self.characters[id] })
   }
 
+  this.getPlayers = function () {
+    return self.getCharacters().filter(c => { return c.isPlayer })
+  }
+
   this.getDragons = function () {
     let ids = Object.keys(self.characters).filter(id => { return id.includes('dragon') })
     return ids.map(id => { return self.characters[id] })

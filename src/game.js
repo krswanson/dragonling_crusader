@@ -172,8 +172,15 @@ function Game (levels) {
     return true
   }
 
+  this.disablePlayerButtons = function () {
+    self.currentLevel().getPlayers().forEach(p => {
+      PlayerButtons.getButton(p).removeEventListener('click', p.buttonFunc)
+    })
+  }
+
   this.endGame = function (message) {
-    this.stopBadGuys()
+    self.stopBadGuys()
+    self.disablePlayerButtons()
     self.board.clearAllAnimation()
     let wonDiv = $('#endgame-message')[0]
     wonDiv.innerHTML = message
@@ -185,9 +192,13 @@ function Game (levels) {
 
   this.win = function () {
     self.state = 'won'
-    this.endGame('<p style="color: ' + color.GREEN + '">You win!</p>')
     self.board.flash()
-    $('#next-level')[0].style.display = 'inline-block'
+    if (self.numLevels() > self.currentLevelIndex() + 1) { // Not yet final level
+      self.endGame('<p style="color: ' + color.GREEN + '">You win!</p>')
+      $('#next-level')[0].style.display = 'inline-block'
+    } else {
+      self.winGame()
+    }
   }
 
   this.lose = function (killedChar, byChar) {
@@ -238,7 +249,7 @@ function Game (levels) {
   }
 
   this.winGame = function () {
-    self.clearCurrentLevel()
+    self.disablePlayerButtons()
     let message = $('#level-description')[0]
     message.innerHTML = '<p style="color: ' + color.GREEN + '">Your dragonlings have conquered!<br>You beat the game!</p>'
   }
@@ -257,20 +268,6 @@ function Game (levels) {
     })
     self.board.delete()
   }
-
-  // this.getPlayerButton = function (character) {
-  //   return document.getElementsByClassName(character.type + '-player')[0]
-  // }
-
-  // this.displayPlayerButtons = function (levelKey) {
-  //  let level = self.levels[levelKey]
-  //   level.characters()
-  //     .filter(c => { return c.isPlayer })
-  //     .forEach((c, i) => {
-  //       self.board.clearAnimation(c)
-  //       self.displayButton(c, i === 0)
-  //     })
-  // }
 
   this.setCurrentPlayer = function (newChar) {
     let oldChar = self.getCurrentPlayer()
@@ -305,17 +302,15 @@ function Game (levels) {
     self.state = 'playing'
     this.startBadGuys()
     let level = self.levels[levelKey]
-    level.getCharacters()
-      .filter(c => { return c.isPlayer })
-      .forEach((c, i) => {
-        let b = PlayerButtons.getButton(c)
-        if (b.className.includes('selected')) self.board.addAnimation(c)
-
-        b.addEventListener('click', () => {
-          if (b.className.includes('selected')) return
-          self.setCurrentPlayer(c)
-        })
-      })
+    level.getPlayers().forEach((c, i) => {
+      let b = PlayerButtons.getButton(c)
+      if (b.className.includes('selected')) self.board.addAnimation(c)
+      c.buttonFunc = function () {
+        if (b.className.includes('selected')) return
+        self.setCurrentPlayer(c)
+      }
+      b.addEventListener('click', c.buttonFunc)
+    })
 
     self.board.getAllSpaces().forEach(s => {
       s.addEventListener('click', () => {
@@ -329,13 +324,8 @@ function Game (levels) {
   this.selectLevel = function (key) {
     let givenKey = key
     if (Number.isInteger(key)) key = self.levelName(key)
-    if (!key) {
-      if (givenKey >= self.numLevels()) {
-        self.board.delete()
-        return self.winGame()
-      } else {
-        return console.error('Problem loading level. Bad key:', givenKey)
-      }
+    if (!key || self.levelName(key)) {
+      return console.error('Problem loading level. Bad key:', givenKey)
     }
     this.setupLevel(key)
   }
