@@ -40,7 +40,7 @@ let lv = new Level()
 lv.setMapColors(4, 4, color.GRASS, color.FIRE)
 lv.addKnight(2, 2)
 lv.addCharacter(new FireDragon(fireMapping))
-lv.description = 'Your dragonlings start their conquest on a grassy field.  This lands\' knights seem fond of it for some reason, so obviously you must take it away from them! Use the arrow keys to send this fire dragonling to take it over.'
+lv.description = 'Your dragonlings start their conquest on a grassy field.  This lands\' knights seem fond of it for some reason, so obviously you must take it away from them! Use the arrow keys to send this fire dragonling to take it over. Moving back onto a fire square with put out the fire, but if you move onto the dirt it will catch fire again.'
 lv.objective = makeObjective('fire', color.FIRE)
 levels['Level 1'] = lv
 
