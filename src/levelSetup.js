@@ -11,8 +11,8 @@ let levels = {}
 let fireMapping = {
   '#44aa11': color.FIRE,
   'orange': color.DIRT,
-  '#11aa55': color.DIRT,
-  '#995533': color.FIRE,
+  '#11aa66': color.DIRT,
+  '#997744': color.FIRE,
   '#eeee33': color.BLACKENED,
   '#443322': color.FIRE,
   '#1155dd': color.DIRT,
@@ -21,11 +21,11 @@ let fireMapping = {
 }
 
 let iceMapping = {
-  '#11aa55': color.ICE,
+  '#11aa66': color.ICE,
   '#aaccff': color.DIRT,
   '#44aa11': color.DIRT,
   '#eeee33': color.DIRT,
-  '#995533': color.ICE,
+  '#997744': color.ICE,
   '#1155DD': color.ICE,
   'orange': color.WATER,
   '#1155dd': color.FROZEN_WATER,
@@ -46,6 +46,9 @@ levels['Level 1'] = lv
 
 lv = new Level(lv)
 lv.setMapColors(4, 4, color.WET_GRASS, color.FIRE)
+lv.setBaseColor(0, 1, color.GRASS)
+lv.setBaseColor(0, 2, color.GRASS)
+lv.setBaseColor(0, 3, color.GRASS)
 lv.addKnight(2, 2)
 lv.addCharacter(new FireDragon(fireMapping))
 lv.description = 'The enemy has found a way to deter your progress. Looks like they have thrown water on this field. Might need to sear the grass down to dirt before the fire will take.'

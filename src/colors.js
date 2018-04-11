@@ -1,7 +1,7 @@
 // Terrain
 const GRASS = '#44aa11'
-const WET_GRASS = '#11aa55'
-const DIRT = '#995533'
+const WET_GRASS = '#11aa66'
+const DIRT = '#997744'
 const FIRE = 'orange'
 const ICE = '#aaccff'
 const WATER = '#1155dd'
