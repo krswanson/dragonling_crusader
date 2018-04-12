@@ -235,10 +235,6 @@ footer {
     -webkit-appearance: none;
     font-size: 150%;
 
-    &:hover {
-		background: @bright-green;
-	}
-
 	&::placeholder {
 		color: @words;
 		opacity: 1; /* Firefox */
@@ -246,6 +242,19 @@ footer {
 
 	&::-ms-input-placeholder { /* Internet Explorer 10-11 */
 		color: @words;
+	}
+
+
+    &:hover {
+		background: @bright-green;
+
+		&::placeholder {
+		    color: white;
+		}
+
+		&::-ms-input-placeholder {
+		    color: white;
+		}
 	}
 }
 
