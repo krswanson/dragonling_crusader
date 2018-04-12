@@ -238,6 +238,15 @@ footer {
     &:hover {
 		background: @bright-green;
 	}
+
+	&::placeholder {
+		color: @words;
+		opacity: 1; /* Firefox */
+	}
+
+	&::-ms-input-placeholder { /* Internet Explorer 10-11 */
+		color: @words;
+	}
 }
 
 .select-box option {
