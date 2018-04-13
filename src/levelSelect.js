@@ -33,7 +33,7 @@ function levelSelect (game) {
     document.getElementById('restart-level').style.display = 'none'
     let screen = document.getElementById('board-screen')
     screen.style.display = 'block'
-    screen.style.height = (game.board.rows * 83 + 30) + 'px'
+    screen.style.height = (game.board.rows * (window.matchMedia('only screen and (max-width: 768px)').matches ? 45 : 83) + 30) + 'px'
   }
 
   this.startLevel = function (name) {

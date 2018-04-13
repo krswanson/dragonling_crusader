@@ -95,7 +95,6 @@ function Game (levels) {
     let currentSpace = self.board.getSpace(character)
     let dir = new Direction(direction)
     let dest = self.board.getRelativeSpace(dir.vector(), currentSpace)
-
     character.face(dir)
     self.board.updateImage(character)
 
@@ -187,7 +186,8 @@ function Game (levels) {
     LevelInfo.setEndgameDiv(message)
     let screen = $('#board-screen')[0]
     screen.style.display = 'block'
-    screen.style.height = (self.board.rows * 83 + 30) + 'px'
+    let h = window.matchMedia('only screen and (max-width: 768x)').matches ? 45 : 83
+    screen.style.height = (self.board.rows * h + 30) + 'px'
   }
 
   this.win = function () {

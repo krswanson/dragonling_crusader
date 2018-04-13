@@ -43,12 +43,19 @@ function Board () {
     return true
   }
 
-  function imageHTML (character) {
-    return '<div style="min-height: 68px; min-width: 68px;"><img src="' + character.getBackImage() + '"/><img class="top" src="' + character.getForeImage() + '"/></div>'
+  this.isPhoneScreen = function () {
+    return window.matchMedia('only screen and (max-width: 786px)').matches
+  }
+
+  this.imageHTML = function (character) {
+    let isPhone = this.isPhoneScreen()
+    let dim = isPhone ? '36px' : '68px'
+    let attr = (isPhone ? 'max' : 'min')
+    return `<div style="${attr}-height: ${dim}; ${attr}-width: ${dim}"><img src="${character.getBackImage()}"/><img class="top" src="${character.getForeImage()}"/></div>`
   }
 
   this.updateImage = function (character) {
-    this.getSpace(character).innerHTML = imageHTML(character)
+    this.getSpace(character).innerHTML = this.imageHTML(character)
   }
 
   this.add = function (character, space) {
@@ -56,8 +63,8 @@ function Board () {
     this.changeBackground(space, character)
     space.classList.add(character.id)
     space.classList.add('animate')
-    space.innerHTML = imageHTML(character)
-    space.style.padding = '6px 6px 6px 6px'
+    space.innerHTML = this.imageHTML(character)
+    space.style.padding = this.isPhoneScreen() ? '3px 3px 3px 3px' : '6px 6px 6px 6px'
     return true
   }
 
@@ -65,7 +72,7 @@ function Board () {
     if (!space) space = self.getSpace(character)
     if (!this.validateSpace(space)) return false
     space.innerHTML = ''
-    space.style.padding = '40px 40px 40px 40px'
+    space.style.padding = this.isPhoneScreen() ? '21px 21px 21px 21px' : '40px 40px 40px 40px'
     space.classList.remove(character.id)
     space.classList.remove('animate')
     return true

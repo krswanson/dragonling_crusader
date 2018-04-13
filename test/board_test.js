@@ -12,6 +12,8 @@ let board = new Board()
       null) // no move frequency)
 let validateSpaceStub = sinon.stub(board, 'validateSpace')
 let transformColorStub = sinon.stub(c1, 'transformColor').returns('pink')
+// TODO check imageHTML() does different things if phone screen is true
+let isPhoneScreenStub = sinon.stub(board, 'isPhoneScreen').returns(false)
 let space = null
 let getRelativeSpaceStub = null
 let getSpaceStub = null
