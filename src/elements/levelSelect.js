@@ -77,7 +77,7 @@ function levelSelect (game) {
   this.inputClick = function (input) {
     if (window.sessionStorage.getItem('level-completed')) {
       self.closed = !self.closed
-      $(input).closest('div').find('select').slideToggle(isFirefox ? 0 : 320)
+      $('#level-select').slideToggle(isFirefox ? 0 : 320)
     }
   }
 
