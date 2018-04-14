@@ -1,8 +1,8 @@
 // import { expect } from 'chai'
 import { expect } from 'chai'
 import sinon from 'sinon'
-import Board from '../src/board.js'
-import Character from '../src/character'
+import Board from '../src/elements/board.js'
+import Character from '../src/characters/character.js'
 
 let board = new Board()
     let c1 = new Character('dragon',

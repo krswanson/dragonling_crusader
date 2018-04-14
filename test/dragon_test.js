@@ -1,5 +1,5 @@
 import { expect } from 'chai'
-import Dragon from '../src/dragon.js'
+import Dragon from '../src/characters/dragon.js'
 
 let mapping = { 'green': 'orange', 'orange': 'green' }
 let color = 'orange'

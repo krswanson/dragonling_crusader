@@ -1,6 +1,6 @@
 import { expect } from 'chai'
 import sinon from 'sinon'
-import Direction from '../src/direction.js'
+import Direction from '../src/helpers/direction.js'
 
 const words = ['up', 'down', 'left', 'right', 'up_left', 'up_right', 'down_left', 'down_right']
 const vectors = [[0, 1], [0, -1], [-1, 0], [1, 0], [-1, 1], [1, 1], [-1, -1], [1, -1]]

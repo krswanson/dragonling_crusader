@@ -1,7 +1,7 @@
 /* global $ */
 
-const hexColor = require('./hexColor.js')
-const Direction = require('./direction.js')
+const hexColor = require('../helpers/hexColor.js')
+const Direction = require('../helpers/direction.js')
 
 function Board () {
   let self = this

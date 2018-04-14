@@ -1,5 +1,5 @@
 const Character = require('./character.js')
-const COLOR = require('./colors.js')
+const COLOR = require('../colors.js')
 
 function Wizard (color, startIndex) {
   Character.apply(this, [

@@ -1,11 +1,13 @@
 
 // Any hex colors must be in lowercase, such as #aabbcc
 const color = require('./colors.js')
-const Direction = require('./direction.js')
+const Direction = require('./helpers/direction.js')
 const Level = require('./level.js')
-const FireDragon = require('./fireDragon.js')
-const IceDragon = require('./iceDragon.js')
-const Bow = require('./bow.js')
+const FireDragon = require('./characters/fireDragon.js')
+const IceDragon = require('./characters/iceDragon.js')
+const SeaSerpent = require('./characters/seaSerpent.js')
+const Bow = require('./characters/bow.js')
+
 let levels = {}
 
 let fireMapping = {
@@ -136,8 +138,6 @@ lv.addCharacter(new FireDragon(fireMapping))
 lv.description = 'You\'ve reached the castle at last! Hmm, but if they have archers on the walls like this you are going to need something other than dragonlings... May as well set the surrounding crops on fire while you\'re here though.'
 lv.objective = '<p>Make all the ' + makeObjective('grass', color.GRASS) + ' squares ' + makeObjective('fire', color.FIRE) + '</p>'
 levels['Level 8'] = lv
-
-const SeaSerpent = require('./seaSerpent.js')
 
 lv = new Level()
 lv.setMapColors(5, 7, color.GRASS, null)

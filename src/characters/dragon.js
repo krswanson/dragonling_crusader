@@ -1,6 +1,6 @@
 // A dragon of a certain color with color mappings
 const Character = require('./character.js')
-const COLOR = require('./colors.js')
+const COLOR = require('../colors.js')
 
 function Dragon (mapping, color, type, startIndex, name) {
   Character.apply(this, [

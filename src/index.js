@@ -2,7 +2,7 @@
 
 const levels = require('./levelSetup.js')
 const Game = require('./game.js')
-const LevelSelect = require('./levelSelect.js')
+const LevelSelect = require('./elements/levelSelect.js')
 
 // TDOD function with this and levelSelect.levelSetup ?
 document.querySelectorAll('#level-content .level-button')

@@ -1,10 +1,10 @@
 
 /* global $ */
 
-const Board = require('./board.js')
-const Direction = require('./direction.js')
-const PlayerButtons = require('./playerButtons')
-const LevelInfo = require('./levelInfo')
+const Board = require('./elements/board.js')
+const Direction = require('./helpers/direction.js')
+const PlayerButtons = require('./elements/playerButtons.js')
+const LevelInfo = require('./elements/levelInfo.js')
 const color = require('./colors.js')
 
 function Game (levels) {
@@ -13,7 +13,7 @@ function Game (levels) {
   this.curLvId = 0
   this.currentPlayer = null
   this.board = new Board()
-  this.state = 'unset' // playing, won, lost, paused
+  this.state = 'unset' // pre-start, playing, won, lost
 
   this.getCurrentPlayer = function () {
     let id = $('.player-button.selected')[0].value

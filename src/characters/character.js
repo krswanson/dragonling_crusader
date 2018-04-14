@@ -1,6 +1,6 @@
-const Direction = require('./direction.js')
-const hexColor = require('./hexColor.js')
-const Images = require('./images.js')
+const Direction = require('../helpers/direction.js')
+const hexColor = require('../helpers/hexColor.js')
+const Images = require('../helpers/images.js')
 
 function Character (id, imagePaths, startIndex, isPlayer, frequency) {
   if (!imagePaths) imagePaths = new Array(3)

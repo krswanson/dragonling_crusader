@@ -1,6 +1,6 @@
 // A dragon of a certain color with color mappings
 const Character = require('./character.js')
-const hexColor = require('./hexColor.js')
+const hexColor = require('../helpers/hexColor.js')
 
 function SeaSerpent (color, startIndex = '0_0') {
   // Image: #009944 #007733 #3377FF

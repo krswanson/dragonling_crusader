@@ -1,4 +1,4 @@
-let color = require('./colors.js')
+let color = require('../colors.js')
 
 // From: https://stackoverflow.com/questions/15071062/using-javascript-to-edit-css-gradient
 function getCssValuePrefix () {

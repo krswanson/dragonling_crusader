@@ -1,6 +1,6 @@
-let Dragon = require('./dragon.js')
-let Knight = require('./knight.js')
-let Wizard = require('./wizard.js')
+let Dragon = require('./characters/dragon.js')
+let Knight = require('./characters/knight.js')
+let Wizard = require('./characters/wizard.js')
 
 function getIdAndNum (id) {
   let underscore = id.lastIndexOf('_')

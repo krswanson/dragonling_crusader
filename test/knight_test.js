@@ -1,5 +1,5 @@
 import { expect } from 'chai'
-import Knight from '../src/knight.js'
+import Knight from '../src/characters/knight.js'
 
 let knight = null
 
