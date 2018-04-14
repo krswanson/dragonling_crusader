@@ -19,6 +19,18 @@ function Board () {
     return document.getElementById((parseInt(rowCol[0]) - vector[1]) + '_' + (parseInt(rowCol[1]) + vector[0]))
   }
 
+  this.directionOfSpace = function (character, space) {
+    let charSpace = self.getSpace(character)
+    for (let i = 0; i < Direction.keywords.length; i++) {
+      for (let j = 0; j < Direction.keywords[i].length; j++) {
+        let d = Direction.keywords[i][j]
+        let testSpace = self.getRelativeSpace(d, charSpace)
+        if (testSpace && space.id === testSpace.id) return d
+      }
+    }
+    return null
+  }
+
   this.getCharacterByIndex = function (row, col) {
     return self.getCharacter($('#' + row + '_' + col)[0])
   }

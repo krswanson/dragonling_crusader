@@ -313,8 +313,14 @@ function Game (levels) {
     self.board.getAllSpaces().forEach(s => {
       s.addEventListener('click', () => {
         let c = self.board.getCharacter(s)
-        if (!c || !c.isPlayer) return
-        self.setCurrentPlayer(c)
+        if (!c || !c.isPlayer) { // Attempt to move player
+          let direction = self.board.directionOfSpace(self.getCurrentPlayer(), s)
+          if (['left', 'right', 'up', 'down'].includes(direction)) { // Space is next to current player
+            self.moveCurrentPlayer(direction)
+          }
+        } else { // is player
+          self.setCurrentPlayer(c)
+        }
       })
     })
   }
