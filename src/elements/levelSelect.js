@@ -5,6 +5,8 @@ function levelSelect (game) {
   this.closed = true
   this.game = game
 
+  let isPhone = window.matchMedia('only screen and (max-width: 786px)').matches
+
   // From: https://stackoverflow.com/questions/9847580/how-to-detect-safari-chrome-ie-firefox-and-opera-browser
   let isIE = !!document.documentMode
 
@@ -66,7 +68,9 @@ function levelSelect (game) {
       select.appendChild(option)
       if (select.size <= 6) {
         select.style.height = (34 * (select.size - 1)) + 'px'
-        select.style.overflow = 'hidden'
+        if (!isPhone) {
+          select.style.overflow = 'hidden'
+        }
       } else {
         select.style.overflow = ''
         select.style.height = 34 * 5
